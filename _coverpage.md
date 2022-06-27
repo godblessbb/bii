@@ -4,11 +4,11 @@
 
 <center><img src=" ../IMG_0205.PNG " width="25%"></center>
 
-## 🥦 香又脆的菜花 🥦
+# 🥦 香又脆的菜花 🥦
 
 
-- 简介：一个胖子，不纠结的选择困难症患者，互联网街溜子，美食家和诗人。谈过两场恋爱，已婚。
-- 精通 Python, English，普通话，山东话（胶东方言）
-- 身高182，体重0.1吨，膀大腰圆
-- 爱好是三国杀，走街串巷逗猫遛狗
+## **是一个社会 “闲达” 的起居注和食货志**
+- 记录生活、学习和一切
 
+[GitHub](https://github.com/godblessbb)
+[Weibo](https://weibo.com/bicaihua)
