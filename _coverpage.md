@@ -2,7 +2,7 @@
 <!-- 封面 -->
 
 
-<center><img src=" ../IMG_0205.PNG " width="15%"></center>
+<center><img src=" ../IMG_0205.PNG " width="30%"></center>
 
 ## 🥦 香又脆的菜花 🥦
 
