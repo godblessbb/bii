@@ -5,5 +5,4 @@
 
 - [**微博合辑（2012-2022）**](weibo.md)
 
-- [**学习笔记**](_study/README.md)
-	- [docsify + github 五分钟搭建一个博客网站](_study/docsify.md)
+- [**学习笔记**](_study/docsify.md)
