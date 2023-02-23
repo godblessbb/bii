@@ -62,6 +62,19 @@ docsify是一个神奇的文档网站生成工具，页面内容使用markdown�
 ### 3.美化
 
 #### 3.1侧边栏
+通过在window.$docsify中设置loadSidebar为true，会使用默认的_sidebar.md
+
+<!-- index.html -->
+
+<script>
+  window.$docsify = {
+    ...
+    loadSidebar: true,
+    subMaxLevel: 2,
+    ...
+  }
+</script>
+
 #### 3.2封面
 #### 3.3README.MD
 
