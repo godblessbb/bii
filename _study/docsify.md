@@ -33,7 +33,7 @@ docsify是一个神奇的文档网站生成工具，页面内容使用markdown�
 #### 2.1安装docsify
 
 一旦安装好node.js，接下来只需要执行下面命令就可以很方便地安装docsify：
-      npm i docsify-cli -g
+      ```npm i docsify-cli -g```
 
 
 #### 2.2初始化
