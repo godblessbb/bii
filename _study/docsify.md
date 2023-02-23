@@ -41,13 +41,13 @@ docsify是一个神奇的文档网站生成工具，页面内容使用markdown�
 
 收到安装成功的提示接下来你需要使用以下命令在本地初始化docsify：
 
-      <pre><code>```docsify init <docs_dir>```</code></pre>
+      <pre><code>docsify init <docs_dir></code></pre>
 
 其中<docs_dir>是你的文档目录，这将会在你的当前目录下创建一个名为<docs_dir>的文件夹，并将其作为docsify站点的根目录。此外，这个命令还将在该目录中生成一些必要的文件，包括index.html、README.md和_config.yml等。
 
 如果你希望站点根目录下的文件不仅限于文档，则可以使用以下命令初始化：
 
-      <pre><code>```docsify init <docs_dir> --no-ssr```</code></pre>
+      <pre><code>docsify init <docs_dir> --no-ssr</code></pre>
       
 这将创建一个简单的HTML文件，其中包含一些默认的样式和配置，但不会生成任何文档页面。
 
