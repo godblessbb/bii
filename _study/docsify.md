@@ -73,7 +73,7 @@ docsify是一个神奇的文档网站生成工具，页面内容使用markdown�
   }
 </script>
 
-### 更多查看这里
+## 更多查看这里
 
 写着写着写烂尾了，发现有很多文章写的更好，美化和安装方面的操作可以参照这篇文章
 [docsify的配置+全插件列表](https://xhhdd.cc/index.php/archives/80/comment-page-1)  
