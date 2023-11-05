@@ -69,13 +69,13 @@ hwdsl2/ipsec-vpn-server
 #### 1.4VPN状态切换和查看
 
 经过上面的操作，VPN的服务器端就已经搭建成功了。以下几个指令可以查看服务器的运行状态并可以在服务器端自由打开或关闭VPN。
-查看VPN连接信息使用以下命令：
+- 查看VPN连接信息使用以下命令：
 ```docker logs -f ipsec-vpn-server```
-查看客户端连接情况使用以下命令：
+- 查看客户端连接情况使用以下命令：
 ```docker exec -it ipsec-vpn-server ipsec whack --trafficstatus```
-停止VPN服务使用以下命令：
+- 停止VPN服务使用以下命令：
 ```docker stop ipsec-vpn-server```
-重启VPN服务使用以下命令：
+- 重启VPN服务使用以下命令：
 ```docker start ipsec-vpn-server```
 
 
