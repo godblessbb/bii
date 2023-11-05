@@ -73,10 +73,8 @@ docsify是一个神奇的文档网站生成工具，页面内容使用markdown�
   }
 </script>
 
-#### 3.2封面
-#### 3.3README.MD
+### 更多查看这里
 
-### 4.部署到gayhub
-#### 4.1创建仓库
-#### 4.2用Github Pages建立站点
-#### 4.3绑定域名
+写着写着写烂尾了，发现有很多文章写的更好，美化和安装方面的操作可以参照这篇文章
+[docsify的配置+全插件列表](https://xhhdd.cc/index.php/archives/80/comment-page-1)  
+至于部署到Gayhub的操作，也很简单，懂得都懂（不负责任地跑开
