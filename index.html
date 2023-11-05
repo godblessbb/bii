@@ -14,6 +14,11 @@
   <div id="app">加载中...</div>
   <script>
     window.$docsify = {
+      toc: {
+	    scope: '.markdown-section',
+	    headings: 'h1, h2, h3, h4, h5, h6',
+	    title: 'Table of Contents',
+	  },
       name: '菜花の部落格',
       repo: '',
 	  coverpage: true,
@@ -27,11 +32,6 @@
 	    nextText: '下一章节',
 	    crossChapter: true,
 	    crossChapterText: true,
-	  },
-	 toc: {
-	    scope: '.markdown-section',
-	    headings: 'h1, h2, h3, h4, h5, h6',
-	    title: 'Table of Contents',
 	  }
     }
   </script>
