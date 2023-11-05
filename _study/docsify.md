@@ -82,3 +82,5 @@ docsify是一个神奇的文档网站生成工具，页面内容使用markdown�
 #### 4.1创建仓库
 #### 4.2用Github Pages建立站点
 #### 4.3绑定域名
+
+<script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
