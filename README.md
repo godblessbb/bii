@@ -34,4 +34,4 @@
 ## 学习笔记
 
 [Docsify + Github 五分钟搭建一个博客网站](_study/docsify.md)
-[如何在一分钟之内搭建一个VPN](vpn.md)
+[如何在一分钟之内搭建一个VPN](study/vpn.md)
