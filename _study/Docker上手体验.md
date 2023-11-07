@@ -64,13 +64,11 @@ TELEGRAM_TOKEN=123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
 import os
 import telebot
 
-# 从环境变量获取 API 密钥
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
-# ... 其余的代码 ...
 ```
 
 至此你的项目文件夹里应该包含四个文件：Python 脚本，Dockerfile，requirements.txt和 .dockerignore 文件、环境变量文件。
