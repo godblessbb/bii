@@ -51,7 +51,8 @@ requests
 
 ### 第三步：创建env.list环境变量
 使用一个 env.list 文件来定义环境变量，这个文件也应该放在 Docker 构建上下文中，通常是与 Dockerfile 处在同一个目录。在运行容器时，可以使用 ```--env-file``` 选项指定环境变量文件。  
-这个 env.list 文件应该包含环境变量的键值对，每行一个，例如：
+这个 env.list 文件应该包含环境变量的键值对，每行一个，例如：  
+ 
 ```
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxx
 TELEGRAM_TOKEN=123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
@@ -60,11 +61,13 @@ TELEGRAM_TOKEN=123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
 - 请确保不要将 env.list 文件提交到公共代码仓库中，因为它包含敏感信息。如果需要在公共空间托管代码，你应该在 .gitignore 文件中添加 env.list 来避免将其推送到远程仓库。
 - 注意键值对的等号前后不要留有空格，不然会报错。
 - 如果您选择使用 env.list 文件或者 Docker 的环境变量功能来传递 API 密钥，您应该确保不在 main.py 文件中硬编码这些密钥。相反，您应该修改 main.py 来从环境变量中读取这些密钥。像下面这样：
+
 ```
 import os
 import telebot
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
