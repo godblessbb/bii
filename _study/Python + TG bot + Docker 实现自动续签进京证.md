@@ -28,7 +28,8 @@ FBI Warning：虽然国家机构官网反爬能力约等于没有，不建议将
 
 ## 编写 Python 脚本
 
-接下来，上脚本：
+接下来，上脚本：  
+
 、、、
 import sys
 import json
@@ -125,7 +126,8 @@ class AutoRenewTrafficPermit(object):
             print("审核通过(待生效),无需重新申请")
         else:
             self.autoRenew(payload)
-AutoRenewTrafficPermit().main()
+AutoRenewTrafficPermit().main()  
+
 、、、
 
 
