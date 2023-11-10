@@ -126,6 +126,8 @@ class AutoRenewTrafficPermit(object):
             print("审核通过(待生效),无需重新申请")
         else:
             self.autoRenew(payload)
+、、、
+
 AutoRenewTrafficPermit().main()  
 
 、、、
