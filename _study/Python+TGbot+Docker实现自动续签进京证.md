@@ -37,22 +37,22 @@ from datetime import datetime,timedelta
 class AutoRenewTrafficPermit(object):
     def __init__(self):
         # 初始地址，防止恶意访问，请求地址不提供，需要的自行抓包
-        url = ' '
+        url = ''
         # 查询状态接口
         self.state_url = f"https://{url}/pro/applyRecordController/stateList"
         # 办理续签接口
         self.inster_apply_record_url = f"https://{url}/pro/applyRecordController/insertApplyRecord"
         # 访问凭证，通过抓包在请求头信息 Authorization 字段
-        self.auth = ' '
+        self.auth = ''
         # 续签接口数据只展示部分说明，其他的需要自行抓包研究
         # 车主姓名
-        user_name = ' '
+        user_name = ''
         # 车主身份证号
-        id_num = ' '
+        id_num = ''
         # 车牌号
-        plate_num = ' '
+        plate_num = ''
         # 进京地址
-        address = ' '
+        address = ''
         # 以申请明天开始为例
         tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
         self.payload = {
