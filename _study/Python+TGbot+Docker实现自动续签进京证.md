@@ -79,7 +79,6 @@ class AutoRenewTrafficPermit(object):
             "jjlkmc" : "其他道路",
             "xxdz" : address
         }
-
     def request(self, url, payload):
         headers = {
             "Authorization": self.auth,
