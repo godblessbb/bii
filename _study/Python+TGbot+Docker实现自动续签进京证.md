@@ -21,10 +21,11 @@ FBI Warning：虽然国家机构官网反爬能力约等于没有，不建议将
 
 ## 抓包
 
+、、、
 由于我们的脚本将会在服务器上模拟你自己登陆北京交警 app 并填表的全过程，所以我们首先要获取到这两个关键信息即目标站的 URL 以及我们作为用户本身的登录令牌。这里介绍的抓包工具是[iOS 平台抓包工具 Stream 教程](https://cloud.tencent.com/developer/article/1858102)，点击链接可以看到从安装到抓包的详细教程，不做赘述。  
 
 当我们打开北京交警应用以后，同一时间调起 Stream，你会看到若干个同北京交警相关的进程。从中很容易就能找到一个包含gov的地址，记住这个url地址，然后访问凭证，获取头信息里的 Authorization 字段，这是你的登录令牌。为了防范恶意使用，这里不贴获取的具体过程。
-
+、、、
 
 ## 编写 Python 脚本
 
@@ -36,7 +37,6 @@ import sys
 import json
 import requests
 from datetime import datetime,timedelta
-'''
 class AutoRenewTrafficPermit(object):
     def __init__(self):
         # 初始地址，防止恶意访问，请求地址不提供，需要的自行抓包
