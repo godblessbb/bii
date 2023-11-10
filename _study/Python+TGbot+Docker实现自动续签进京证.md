@@ -36,6 +36,7 @@ import sys
 import json
 import requests
 from datetime import datetime,timedelta
+'''
 class AutoRenewTrafficPermit(object):
     def __init__(self):
         # 初始地址，防止恶意访问，请求地址不提供，需要的自行抓包
