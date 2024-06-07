@@ -10,3 +10,5 @@
   - [如何在一分钟之内搭建一个VPN](_study/vpn.md)
   - [Docker 上手体验，使用 Docker 运行你的 Python 脚本](_study/Docker上手体验.md)
   - [Python + TG bot + Docker 实现自动续签进京证](_study/Python+TGbot+Docker实现自动续签进京证.md)
+- **随笔杂文**
+  - [《无名之辈》观后：一场悲凉的烟花散场](_works/《无名之辈》观后：一场悲凉的烟花散场.md)
