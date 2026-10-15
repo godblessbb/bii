@@ -10,138 +10,1179 @@
       gtag('config', 'G-Y5CXD1W4K6');
     </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中心翻转的SVG沙漏计时器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>沙漏计时器 · 香又脆的菜花</title>
+    <meta name="description" content="一只会翻转的沙漏：选一段时长，专注到沙子漏完。">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#060807" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#e7eae2" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <script>
+      // 语言尽早定下来，避免首屏闪一下中文再变英文
+      (function () {
+        var q = /[?&]lang=(zh|en)/i.exec(location.search), l = q && q[1].toLowerCase();
+        if (!l) { try { l = localStorage.getItem('datode-lang'); } catch (e) {} }
+        if (!l) l = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+        document.documentElement.lang = l === 'en' ? 'en' : 'zh-CN';
+      })();
+    </script>
     <style>
-        body {
-            background-color: #CD0074;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Helvetica, Arial, sans-serif;
+      /* 沙漏 · 暗室里的一件器物
+         和首页同一套色：近黑苔藓底 + 菜花绿；沙子是菜花的花粉黄，在暗处自己发一点光。
+         亮色：灰绿粉笔底 + 叶绿墨，沙子换成赭黄。 */
+      :root {
+        --bg: #060807;
+        --bg-2: #0c110e;
+        --ink: #e8efe4;
+        --ink-2: #9aa79c;
+        --ink-3: #5f6b62;
+        --line: rgba(232, 239, 228, 0.13);
+        --line-2: rgba(232, 239, 228, 0.28);
+        --acc: #c4ff3a;
+        --acc-ink: #0b1205;
+        --acc-2: #ff6a3d;
+        --sand-hi: #fff1a6;
+        --sand: #f4c534;
+        --sand-lo: #b9780f;
+        --glow: rgba(244, 197, 52, 0.30);
+        --glass: rgba(232, 239, 228, 0.55);
+        --glass-fill: rgba(232, 239, 228, 0.035);
+        --cap: #141a16;
+        --cap-hi: rgba(232, 239, 228, 0.22);
+        --rod: rgba(232, 239, 228, 0.32);
+        --spot: rgba(196, 255, 58, 0.07);
+
+        --f-sans: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --f-num: "SF Pro Display", "Inter Display", "Helvetica Neue", "Segoe UI Variable Display", "Segoe UI", Roboto, system-ui, sans-serif;
+        --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        --gut: clamp(16px, 4vw, 64px);
+        --ease: cubic-bezier(.2, .8, .2, 1);
+        color-scheme: dark;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #e7eae2;
+          --bg-2: #f3f5ef;
+          --ink: #0e1a12;
+          --ink-2: #48574c;
+          --ink-3: #7d887f;
+          --line: rgba(14, 26, 18, 0.14);
+          --line-2: rgba(14, 26, 18, 0.32);
+          --acc: #1f6b14;
+          --acc-ink: #f3f8ea;
+          --acc-2: #ff5418;
+          --sand-hi: #f7cf5a;
+          --sand: #dc9a17;
+          --sand-lo: #9a5a06;
+          --glow: rgba(220, 154, 23, 0);
+          --glass: rgba(14, 26, 18, 0.6);
+          --glass-fill: rgba(255, 255, 255, 0.35);
+          --cap: #0e1a12;
+          --cap-hi: rgba(255, 255, 255, 0.25);
+          --rod: rgba(14, 26, 18, 0.45);
+          --spot: rgba(255, 255, 255, 0.55);
+          color-scheme: light;
         }
-        .container {
-            text-align: center;
-        }
-        .hourglass-icon {
-            width: 250px;
-            height: 200px;
-            margin: 0 auto 30px;
-            transition: transform 1s;
-        }
-        button {
-            font-size: 16px;
-            padding: 8px 16px;
-            cursor: pointer;
-            background-color: #FFFFFF;
-            border: none;
-            color: #CD0074;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            width: 120px;
-            height: 40px;
-            font-family: Helvetica, Arial, sans-serif;
-        }
-        button:hover {
-            opacity: 0.9;
-        }
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+      body {
+        margin: 0; min-height: 100vh; min-height: 100svh;
+        background:
+          radial-gradient(60% 70% at 30% 50%, var(--spot), transparent 70%),
+          var(--bg);
+        color: var(--ink);
+        font-family: var(--f-sans);
+        font-size: 16px; line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        transition: background-color .6s var(--ease);
+      }
+      button, input { font: inherit; color: inherit; }
+      button { cursor: pointer; }
+      a { color: inherit; }
+      ::selection { background: var(--acc); color: var(--acc-ink); }
+      :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+      .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      [hidden] { display: none !important; }
+
+      .app { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+
+      /* ---------- 顶栏 ---------- */
+      .bar {
+        display: flex; align-items: center; gap: 12px;
+        padding: max(14px, env(safe-area-inset-top)) var(--gut) 14px;
+        position: relative; z-index: 3;
+      }
+      .back {
+        display: inline-flex; align-items: center; gap: 10px;
+        text-decoration: none; font-weight: 700; letter-spacing: .02em; white-space: nowrap;
+        min-width: 0;
+      }
+      .back span { overflow: hidden; text-overflow: ellipsis; }
+      .orb {
+        width: 18px; height: 18px; border-radius: 50%; flex: none;
+        background: radial-gradient(circle at 35% 30%, #f4ffd6, var(--acc) 45%, color-mix(in srgb, var(--acc) 30%, var(--bg)) 100%);
+        box-shadow: 0 0 16px color-mix(in srgb, var(--acc) 50%, transparent);
+      }
+      .bar-r { margin-left: auto; display: flex; gap: 8px; flex: none; }
+      .pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 34px; padding: 0 12px; border-radius: 999px;
+        background: transparent; border: 1px solid var(--line-2);
+        font: 500 12px/1 var(--f-mono); letter-spacing: .04em; color: var(--ink-2);
+        transition: color .2s, border-color .2s, background-color .2s;
+      }
+      .pill:hover { color: var(--ink); border-color: var(--ink-2); }
+      .pill svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .pill[aria-pressed="false"] .on, .pill[aria-pressed="true"] .off { display: none; }
+
+      /* ---------- 主体 ---------- */
+      .main {
+        flex: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+        align-items: center;
+        gap: clamp(16px, 3vw, 80px);
+        padding: 0 var(--gut) clamp(16px, 3vh, 48px);
+        width: 100%; max-width: 2200px; margin: 0 auto;
+      }
+      .stage {
+        position: relative;
+        height: min(calc(100svh - 120px), 1400px);
+        min-height: 420px;
+      }
+      .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      .stage-hit {
+        position: absolute; inset: 6% 18%; border: 0; background: transparent; border-radius: 40%;
+        cursor: default;
+      }
+      .stage-hit[data-live="1"] { cursor: pointer; }
+
+      .panel { position: relative; z-index: 2; max-width: 760px; min-width: 0; }
+      .eyebrow {
+        display: flex; align-items: center; gap: 12px; margin: 0 0 clamp(10px, 2vh, 28px);
+        font: 500 clamp(11px, .75vw, 15px)/1.2 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+      }
+      .eyebrow b { color: var(--acc); font-weight: 500; }
+      .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+      h1 {
+        margin: 0; font-weight: 700; letter-spacing: .01em;
+        font-size: clamp(18px, 1.5vw, 32px); line-height: 1.25;
+      }
+      h1 small { display: block; margin-top: 4px; font-weight: 400; font-size: .62em; color: var(--ink-2); letter-spacing: .02em; }
+
+      .readout {
+        margin: clamp(10px, 2.4vh, 36px) 0 0;
+        font-family: var(--f-num);
+        font-weight: 200;
+        font-size: clamp(76px, 10.2vw, 260px);
+        line-height: .86;
+        letter-spacing: -.045em;
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: "tnum" 1, "ss01" 1;
+        white-space: nowrap;
+        transition: color .5s var(--ease);
+      }
+      .readout.is-long { font-size: clamp(60px, 7.6vw, 200px); }
+      .readout .sep { opacity: .55; margin: 0 .01em; }
+      [data-status="paused"] .readout { color: var(--ink-2); }
+      [data-status="paused"] .readout .sep { animation: blink 1.2s steps(2, jump-none) infinite; }
+      [data-status="done"] .readout { color: var(--acc); }
+      .readout .msg { font-family: var(--f-sans); font-weight: 900; letter-spacing: -.02em; font-size: .62em; line-height: 1.1; }
+      @keyframes blink { 50% { opacity: .12; } }
+
+      .meta {
+        display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px;
+        margin: clamp(12px, 2vh, 26px) 0 0;
+        font: 500 clamp(12px, .8vw, 16px)/1.4 var(--f-mono); color: var(--ink-2); letter-spacing: .04em;
+      }
+      .meta .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); margin-right: 8px; vertical-align: 1px; }
+      [data-status="running"] .meta .dot { background: var(--acc); box-shadow: 0 0 10px var(--acc); }
+      [data-status="paused"] .meta .dot { background: var(--acc-2); }
+      [data-status="done"] .meta .dot { background: var(--acc); }
+      .meta .ends { color: var(--ink-3); }
+
+      .track { position: relative; height: 2px; margin: clamp(16px, 2.6vh, 36px) 0 0; background: var(--line); overflow: hidden; }
+      .track i { position: absolute; inset: 0; background: var(--acc); transform-origin: left; transform: scaleX(0); }
+
+      .label {
+        margin: clamp(18px, 3.2vh, 44px) 0 10px;
+        font: 500 11px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+      }
+      .chips { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+      .chip {
+        position: relative; height: clamp(44px, 3.4vw, 64px); border-radius: 12px;
+        border: 1px solid var(--line-2); background: transparent;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+        font: 400 clamp(17px, 1.15vw, 24px)/1 var(--f-num); font-variant-numeric: tabular-nums;
+        transition: background-color .2s, color .2s, border-color .2s, opacity .2s;
+        min-width: 0;
+      }
+      .chip small { font: 500 9px/1 var(--f-mono); letter-spacing: .1em; color: var(--ink-3); text-transform: uppercase; }
+      .chip:hover { border-color: var(--ink-2); }
+      .chip[aria-checked="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+      .chip[aria-checked="true"] small { color: color-mix(in srgb, var(--bg) 60%, var(--ink)); }
+      .chip.custom { font-size: clamp(13px, .9vw, 17px); font-family: var(--f-sans); }
+      .chip .cv { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 0 4px; }
+      .chips[aria-disabled="true"] .chip { opacity: .35; cursor: not-allowed; }
+
+      .custom-form { display: flex; gap: 6px; margin-top: 8px; }
+      .custom-form input {
+        flex: 1; min-width: 0; height: 46px; padding: 0 14px; border-radius: 12px;
+        background: var(--bg-2); border: 1px solid var(--line-2);
+        font: 400 18px/1 var(--f-num); font-variant-numeric: tabular-nums;
+      }
+      .custom-form input:focus { outline: none; border-color: var(--acc); }
+      .custom-form .hint { display: block; margin-top: 6px; font: 500 11px/1.4 var(--f-mono); color: var(--ink-3); }
+      .custom-wrap.bad input { border-color: var(--acc-2); }
+
+      .ctrls { display: flex; gap: 8px; margin-top: clamp(16px, 2.6vh, 34px); }
+      .btn {
+        height: clamp(52px, 3.8vw, 70px); padding: 0 22px; border-radius: 999px;
+        border: 1px solid var(--line-2); background: transparent;
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+        font-weight: 700; font-size: clamp(15px, .95vw, 19px); letter-spacing: .02em;
+        transition: transform .15s var(--ease), background-color .2s, color .2s, border-color .2s;
+      }
+      .btn:hover { border-color: var(--ink-2); }
+      .btn:active { transform: scale(.97); }
+      .btn svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+      .btn.primary { flex: 1; background: var(--acc); color: var(--acc-ink); border-color: var(--acc); }
+      .btn.primary:hover { filter: brightness(1.06); }
+      .btn.ghost { flex: none; }
+      .btn.ghost svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+      .btn kbd { font: 500 10px/1 var(--f-mono); padding: 3px 5px; border-radius: 4px; border: 1px solid currentColor; opacity: .5; }
+      .btn.ghost .t { display: inline; }
+
+      .keys {
+        margin: clamp(14px, 2.4vh, 30px) 0 0; display: flex; flex-wrap: wrap; gap: 6px 16px;
+        font: 500 11px/1.4 var(--f-mono); color: var(--ink-3); letter-spacing: .04em;
+      }
+      .keys kbd { font: inherit; color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 4px; padding: 1px 5px; margin-right: 4px; }
+      .toast { font: 500 11px/1.4 var(--f-mono); color: var(--acc); min-height: 1.4em; margin: 8px 0 0; }
+
+      /* ---------- 结束 ---------- */
+      .done {
+        position: absolute; left: 50%; bottom: 4%; transform: translate(-50%, 12px);
+        width: min(92%, 440px);
+        padding: 16px 16px 16px 20px; border-radius: 20px;
+        display: flex; align-items: center; gap: 14px;
+        background: color-mix(in srgb, var(--bg) 78%, transparent);
+        -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+        border: 1px solid color-mix(in srgb, var(--acc) 55%, transparent);
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 12%, transparent), 0 20px 60px -20px color-mix(in srgb, var(--acc) 45%, transparent);
+        opacity: 0; pointer-events: none;
+        transition: opacity .45s var(--ease), transform .45s var(--ease);
+        z-index: 2;
+      }
+      [data-status="done"] .done { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+      .done .txt { flex: 1; min-width: 0; }
+      .done strong { display: block; font-size: 18px; line-height: 1.2; color: var(--acc); }
+      .done .txt span { display: block; margin-top: 3px; font: 500 12px/1.4 var(--f-mono); color: var(--ink-2); }
+      .done .btn { height: 46px; padding: 0 16px; font-size: 14px; flex: none; }
+
+      /* 结束时整页亮一下，然后保持一圈淡淡的菜花绿 */
+      .flash { position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0;
+        background: radial-gradient(70% 70% at 30% 50%, color-mix(in srgb, var(--acc) 22%, transparent), transparent 70%);
+        transition: opacity 1.2s var(--ease);
+      }
+      [data-status="done"] .flash { opacity: 1; animation: flash 2.4s var(--ease) 3; }
+      @keyframes flash { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+      /* ---------- 手机 / 窄屏 ---------- */
+      @media (max-width: 860px) {
+        .main { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 0; }
+        .stage { height: min(46svh, 540px); min-height: 300px; }
+        .panel { max-width: none; }
+        .eyebrow { margin-top: 4px; }
+        .readout { font-size: min(26vw, 150px); }
+        .readout.is-long { font-size: min(19vw, 120px); }
+        .keys { display: none; }
+        .btn kbd { display: none; }
+        /* 手机上读数已经是大字「时间到」、主按钮变成「再来一轮」，浮卡会挡住漏满的下半，收起来 */
+        .done { display: none; }
+      }
+      @media (max-width: 420px) {
+        .back .crumb { display: none; }
+        .chips { gap: 5px; }
+        .chip { border-radius: 10px; }
+        .btn.ghost { padding: 0 16px; }
+        .btn.ghost .t { display: none; }
+      }
+      @media (min-width: 861px) and (max-height: 640px) {
+        .stage { min-height: 360px; }
+      }
+      @media (hover: none) { .keys { display: none; } .btn kbd { display: none; } }
+
+      /* 减少动态效果：沙子不流、不翻转、不闪，计时照常 */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+      }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="hourglass-icon" id="hourglassContainer">
-            <svg viewBox="0 0 125 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- Hourglass outline -->
-                <path d="M25 5 H100 L62.5 50 L100 95 H25 L62.5 50 Z" fill="none" stroke="#FFFFFF" stroke-width="2"/>
-                
-                <!-- Sand in top half -->
-                <clipPath id="topClip">
-                    <path d="M25 5 H100 L62.5 50 Z" />
-                </clipPath>
-                <path id="topSand" d="M25 5 H100 L62.5 50 Z" fill="#FFFFFF" clip-path="url(#topClip)">
-                    <animate id="topAnim" attributeName="d" from="M25 5 H100 L62.5 50 Z" to="M25 50 H100 L62.5 50 Z" dur="30s" begin="indefinite" fill="freeze"/>
-                </path>
-                
-                <!-- Sand in bottom half -->
-                <path id="bottomSand" d="M25 95 L100 95 L62.5 95 Z" fill="#FFFFFF">
-                    <animate id="bottomAnim" attributeName="d" from="M25 95 L100 95 L62.5 95 Z" to="M25 95 L100 95 L62.5 50 Z" dur="30s" begin="indefinite" fill="freeze"/>
-                </path>
-                
-                <!-- Top and bottom lines -->
-                <rect x="23" y="3" width="79" height="4" fill="#FFFFFF"/>
-                <rect x="23" y="93" width="79" height="4" fill="#FFFFFF"/>
-            </svg>
+  <div class="app" id="app" data-status="idle">
+    <div class="flash" aria-hidden="true"></div>
+
+    <header class="bar">
+      <a class="back" href="./" data-i18n-title="home">
+        <i class="orb" aria-hidden="true"></i><span><span class="full" data-i18n="brand">香又脆的菜花</span><span class="crumb" data-i18n="toolsCrumb"> / 工具</span></span>
+      </a>
+      <div class="bar-r">
+        <button class="pill" id="soundBtn" type="button" aria-pressed="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="on" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="off" d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
+          <span data-i18n="sound">声音</span>
+        </button>
+        <button class="pill" id="langBtn" type="button" lang="en">EN</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="stage" id="stage">
+        <canvas id="glass" aria-hidden="true"></canvas>
+        <button class="stage-hit" id="stageHit" type="button" tabindex="-1" aria-hidden="true"></button>
+        <div class="done" id="doneCard" role="status">
+          <div class="txt">
+            <strong data-i18n="doneTitle">时间到</strong>
+            <span id="doneSub"></span>
+          </div>
+          <button class="btn primary" id="flipBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v2.2c0 2.6-2.2 4.6-4.3 6.8 2.1 2.2 4.3 4.2 4.3 6.8V21H6v-2.2c0-2.6 2.2-4.6 4.3-6.8C8.2 9.8 6 7.8 6 5.2z"/></svg>
+            <span data-i18n="flip">翻转，再来一轮</span>
+          </button>
         </div>
-        <button id="timerButton">Focus On!</button>
-    </div>
+      </section>
 
-    <script>
-        const button = document.getElementById('timerButton');
-        const topAnim = document.getElementById('topAnim');
-        const bottomAnim = document.getElementById('bottomAnim');
-        const hourglassContainer = document.getElementById('hourglassContainer');
-        let startTime;
-        let timerInterval;
-        let isRunning = false;
-        const maxTime = 30 * 1000; // 30 seconds for demonstration (change to 30 * 60 * 1000 for 30 minutes)
+      <section class="panel" aria-labelledby="ttl">
+        <p class="eyebrow"><span><b>No.05</b> — <span data-i18n="eyebrow">工具 · 沙漏</span></span></p>
+        <h1 id="ttl"><span data-i18n="title">沙漏计时器</span><small data-i18n="subtitle">选一段时长，专注到沙子漏完。</small></h1>
 
-        function startTimer() {
-            startTime = Date.now();
-            isRunning = true;
-            timerInterval = setInterval(updateTimer, 1000);
-            topAnim.beginElement();
-            bottomAnim.beginElement();
-            
-            // Set timeout to flip the hourglass after animation completes
-            setTimeout(flipHourglass, maxTime);
+        <div class="readout" id="readout" role="timer" aria-atomic="true">25:00</div>
+        <div class="meta">
+          <span><i class="dot" aria-hidden="true"></i><span id="statusText">准备好了</span></span>
+          <span class="ends" id="endsText"></span>
+        </div>
+        <div class="track" aria-hidden="true"><i id="trackFill"></i></div>
+
+        <p class="label" id="durLabel" data-i18n="duration">时长 · 分钟</p>
+        <div class="chips" id="chips" role="radiogroup" aria-labelledby="durLabel">
+          <button class="chip" type="button" role="radio" data-min="5" aria-checked="false">5</button>
+          <button class="chip" type="button" role="radio" data-min="15" aria-checked="false">15</button>
+          <button class="chip" type="button" role="radio" data-min="25" aria-checked="true">25</button>
+          <button class="chip" type="button" role="radio" data-min="45" aria-checked="false">45</button>
+          <button class="chip" type="button" role="radio" data-min="60" aria-checked="false">60</button>
+          <button class="chip custom" type="button" role="radio" id="customChip" aria-checked="false" aria-controls="customForm"><span class="cv" data-i18n="custom">自定义</span></button>
+        </div>
+        <form class="custom-form" id="customForm" hidden autocomplete="off">
+          <div class="custom-wrap" id="customWrap" style="flex:1;min-width:0">
+            <label class="sr" for="customIn" data-i18n="customLabel">自定义时长</label>
+            <input id="customIn" type="text" inputmode="decimal" enterkeyhint="done" spellcheck="false" placeholder="40 · 12:30 · 1:30:00" aria-describedby="customHint" style="width:100%">
+            <span class="hint" id="customHint" data-i18n="customHint">输入分钟数，或 mm:ss / h:mm:ss</span>
+          </div>
+          <button class="btn ghost" type="submit" style="height:46px" data-i18n="set">设定</button>
+        </form>
+
+        <div class="ctrls">
+          <button class="btn primary" id="primaryBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true" id="primaryIcon"><path d="M7 4.5v15l12-7.5z"/></svg>
+            <span id="primaryText">开始</span><kbd>Space</kbd>
+          </button>
+          <button class="btn ghost" id="resetBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg>
+            <span class="t" data-i18n="reset">重置</span><span class="sr" data-i18n="reset">重置</span>
+          </button>
+          <button class="btn ghost" id="shareBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3.6-3.6a4 4 0 0 0-5.7-5.7L12.5 5.8"/><path d="M14 10a4 4 0 0 0-5.7 0l-3.6 3.6a4 4 0 0 0 5.7 5.7l1.1-1.1"/></svg>
+            <span class="t" data-i18n="share">链接</span><span class="sr" data-i18n="shareLong">复制带时长的链接</span>
+          </button>
+        </div>
+        <p class="toast" id="toast" aria-live="polite"></p>
+        <p class="keys" id="keys">
+          <span><kbd>Space</kbd><span data-i18n="kSpace">开始 / 暂停</span></span>
+          <span><kbd>R</kbd><span data-i18n="kReset">重置</span></span>
+          <span><kbd>F</kbd><span data-i18n="kFlip">翻转</span></span>
+          <span><kbd>1–5</kbd><span data-i18n="kPreset">选时长</span></span>
+          <span><kbd>C</kbd><span data-i18n="kCustom">自定义</span></span>
+        </p>
+      </section>
+    </main>
+    <p class="sr" id="live" aria-live="assertive"></p>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ======================= 文案 =======================
+    var I18N = {
+      zh: {
+        brand: '香又脆的菜花', toolsCrumb: ' / 工具', home: '回到首页', sound: '声音', eyebrow: '工具 · 沙漏',
+        title: '沙漏计时器', subtitle: '选一段时长，专注到沙子漏完。', duration: '时长 · 分钟', custom: '自定义',
+        customLabel: '自定义时长', customHint: '输入分钟数，或 mm:ss / h:mm:ss', set: '设定', reset: '重置',
+        share: '链接', shareLong: '复制带时长的链接', kSpace: '开始 / 暂停', kReset: '重置', kFlip: '翻转',
+        kPreset: '选时长', kCustom: '自定义', doneTitle: '时间到', flip: '翻转，再来一轮',
+        start: '开始', pause: '暂停', resume: '继续', again: '再来一轮',
+        sIdle: '准备好了', sRunning: '专注中', sPaused: '已暂停', sDone: '时间到',
+        endsAt: '结束于 ', endedAt: '结束于 ', doneSub: function (d) { return '专注了 ' + d + ' · 按 F 或点沙漏翻转'; },
+        upMsg: '时间到',
+        copied: '已复制链接：', copyFail: '复制失败，链接是：', badInput: '没看懂这个时长',
+        tIdle: '沙漏计时器 · 香又脆的菜花', tDone: '⌛ 时间到！· 沙漏',
+        aStart: '开始计时', aPause: '已暂停', aResume: '继续计时', aReset: '已重置', aDone: '时间到',
+        hitStart: '开始计时', hitFlip: '翻转沙漏，再来一轮',
+        soundOn: '声音：开', soundOff: '声音：关', langTo: '切换到英文', minUnit: '分钟', secUnit: '秒'
+      },
+      en: {
+        brand: 'Caihua', toolsCrumb: ' / Tools', home: 'Back to home', sound: 'Sound', eyebrow: 'Tools · Hourglass',
+        title: 'Hourglass timer', subtitle: 'Pick a stretch of time. Focus until the sand runs out.', duration: 'Duration · minutes', custom: 'Custom',
+        customLabel: 'Custom duration', customHint: 'Minutes, or mm:ss / h:mm:ss', set: 'Set', reset: 'Reset',
+        share: 'Link', shareLong: 'Copy a link with this duration', kSpace: 'start / pause', kReset: 'reset', kFlip: 'flip',
+        kPreset: 'presets', kCustom: 'custom', doneTitle: 'Time’s up', flip: 'Flip it, go again',
+        start: 'Start', pause: 'Pause', resume: 'Resume', again: 'Go again',
+        sIdle: 'Ready', sRunning: 'Focusing', sPaused: 'Paused', sDone: 'Time’s up',
+        endsAt: 'ends ', endedAt: 'ended ', doneSub: function (d) { return d + ' of focus · press F or tap the glass'; },
+        upMsg: 'Time’s up',
+        copied: 'Link copied: ', copyFail: 'Copy failed — here it is: ', badInput: 'Couldn’t read that duration',
+        tIdle: 'Hourglass timer · Caihua', tDone: '⌛ Time’s up! · Hourglass',
+        aStart: 'Timer started', aPause: 'Paused', aResume: 'Resumed', aReset: 'Reset', aDone: 'Time’s up',
+        hitStart: 'Start the timer', hitFlip: 'Flip the hourglass and go again',
+        soundOn: 'Sound: on', soundOff: 'Sound: off', langTo: '切换到中文', minUnit: 'min', secUnit: 's'
+      }
+    };
+    var lang = document.documentElement.lang === 'en' ? 'en' : 'zh';
+    function t(k) { return I18N[lang][k]; }
+
+    function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+    var $ = function (id) { return document.getElementById(id); };
+    var app = $('app'), readout = $('readout'), statusText = $('statusText'), endsText = $('endsText'),
+        trackFill = $('trackFill'), chips = $('chips'), customChip = $('customChip'), customForm = $('customForm'),
+        customIn = $('customIn'), customWrap = $('customWrap'), primaryBtn = $('primaryBtn'), primaryText = $('primaryText'),
+        primaryIcon = $('primaryIcon'), resetBtn = $('resetBtn'), shareBtn = $('shareBtn'), toast = $('toast'),
+        flipBtn = $('flipBtn'), doneSub = $('doneSub'), stageHit = $('stageHit'), live = $('live'),
+        soundBtn = $('soundBtn'), langBtn = $('langBtn');
+
+    var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var darkMQ = window.matchMedia('(prefers-color-scheme: dark)');
+    var reduced = reduceMQ.matches;
+
+    // ======================= 计时核心 =======================
+    // 只存「什么时候结束」，剩余时间每次现算：切后台、卡顿、节流都不会累计误差。
+    var PRESETS = [5, 15, 25, 45, 60];
+    var MAX_MS = 24 * 3600 * 1000;
+    var now = function () { return performance.now(); };
+    var S = {
+      status: 'idle',          // idle | running | paused | done
+      durationMs: 25 * 60000,
+      leftMs: 25 * 60000,      // 非运行状态下的剩余
+      endAt: 0                 // 运行状态下的结束时刻（performance.now 时基）
+    };
+    var doneTimer = 0;
+
+    function remaining() {
+      return S.status === 'running' ? Math.max(0, S.endAt - now()) : S.leftMs;
+    }
+    function check() {
+      if (S.status === 'running' && S.endAt - now() <= 0) finish();
+    }
+    function schedule() {
+      clearTimeout(doneTimer);
+      if (S.status === 'running') doneTimer = setTimeout(check, Math.max(0, S.endAt - now()) + 5);
+    }
+
+    function start() {
+      check();
+      if (S.status === 'running') return;
+      if (S.status === 'done') { flip(); return; }
+      var resumed = S.status === 'paused';
+      S.endAt = now() + S.leftMs;
+      S.status = 'running';
+      schedule();
+      announce(resumed ? t('aResume') : t('aStart'));
+      render(true);
+    }
+    function pause() {
+      check();
+      if (S.status !== 'running') return;
+      S.leftMs = Math.max(0, S.endAt - now());
+      S.status = 'paused';
+      clearTimeout(doneTimer);
+      announce(t('aPause'));
+      render(true);
+    }
+    function reset() {
+      clearTimeout(doneTimer);
+      S.status = 'idle';
+      S.leftMs = S.durationMs;
+      flipAnim = null;
+      announce(t('aReset'));
+      render(true);
+    }
+    function toggle() {
+      check();
+      if (S.status === 'running') pause(); else start();
+    }
+    function finish() {
+      clearTimeout(doneTimer);
+      S.status = 'done';
+      S.leftMs = 0;
+      S.endedAtWall = Date.now();
+      doneAt = now();
+      announce(t('aDone'));
+      chime();
+      if (navigator.vibrate) { try { navigator.vibrate([180, 90, 180, 90, 320]); } catch (e) {} }
+      render(true);
+    }
+    // 翻转：沙子全在下面时把沙漏倒过来，同样的时长重新开始
+    function flip() {
+      if (S.status !== 'done') return;
+      S.leftMs = S.durationMs;
+      S.endAt = now() + S.durationMs;
+      S.status = 'running';
+      schedule();
+      if (!reduced) flipAnim = { t0: now(), dur: 1150 };
+      announce(t('aStart'));
+      render(true);
+    }
+    function setDuration(ms, why) {
+      ms = Math.round(Math.min(MAX_MS, Math.max(1000, ms)));
+      clearTimeout(doneTimer);
+      S.durationMs = ms;
+      S.leftMs = ms;
+      S.status = 'idle';
+      flipAnim = null;
+      if (why !== 'url') store('datode-hourglass-ms', String(ms));
+      render(true);
+    }
+
+    // ======================= 格式 =======================
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function clock(ms) {               // 剩余时间：向上取整到秒，结束那一刻正好 00:00
+      var s = Math.ceil(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), ss = s % 60;
+      return h > 0 ? h + ':' + pad(m) + ':' + pad(ss) : pad(m) + ':' + pad(ss);
+    }
+    function human(ms) {
+      var s = Math.round(ms / 1000);
+      if (s % 60 === 0 && s < 3600 * 10) return (s / 60) + ' ' + t('minUnit');
+      return clock(ms);
+    }
+    function compact(ms) {             // 自定义芯片里放得下的写法：40′ / 0:30 / 1:05:00
+      var s = Math.round(ms / 1000);
+      if (s % 60 === 0) return (s / 60) + '′';
+      return s < 3600 ? Math.floor(s / 60) + ':' + pad(s % 60) : clock(ms);
+    }
+    function wall(d) { d = new Date(d); return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+    function parseDur(str) {
+      str = String(str).trim().replace(/：/g, ':');
+      if (!str) return null;
+      if (/^\d+(\.\d+)?$/.test(str)) return parseFloat(str) * 60000;
+      var m = /^(\d+(?:\.\d+)?)\s*(s|sec|秒|m|min|分|分钟|h|hr|小时)$/i.exec(str);
+      if (m) {
+        var u = m[2].toLowerCase(), v = parseFloat(m[1]);
+        return v * (/^(s|sec|秒)$/.test(u) ? 1000 : /^(h|hr|小时)$/.test(u) ? 3600000 : 60000);
+      }
+      var p = str.split(':');
+      if (p.length < 2 || p.length > 3 || p.some(function (x) { return !/^\d+$/.test(x); })) return null;
+      p = p.map(Number);
+      return (p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1]) * 1000;
+    }
+
+    // ======================= 界面 =======================
+    var lastTxt = '', lastTitle = '', lastStatus = '';
+    var ICONS = {
+      play: '<path d="M7 4.5v15l12-7.5z"/>',
+      pause: '<path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z"/>',
+      flip: '<path d="M6 3h12v2.2c0 2.6-2.2 4.6-4.3 6.8 2.1 2.2 4.3 4.2 4.3 6.8V21H6v-2.2c0-2.6 2.2-4.6 4.3-6.8C8.2 9.8 6 7.8 6 5.2z"/>'
+    };
+
+    function render(force) {
+      var st = S.status, left = remaining();
+      if (force || st !== lastStatus) {
+        lastStatus = st;
+        app.setAttribute('data-status', st);
+        var label = st === 'running' ? t('pause') : st === 'paused' ? t('resume') : st === 'done' ? t('again') : t('start');
+        primaryText.textContent = label;
+        primaryIcon.innerHTML = st === 'running' ? ICONS.pause : st === 'done' ? ICONS.flip : ICONS.play;
+        statusText.textContent = t(st === 'running' ? 'sRunning' : st === 'paused' ? 'sPaused' : st === 'done' ? 'sDone' : 'sIdle');
+        chips.setAttribute('aria-disabled', st === 'running' ? 'true' : 'false');
+        var live1 = st === 'idle' || st === 'done';
+        stageHit.setAttribute('data-live', live1 ? '1' : '0');
+        stageHit.setAttribute('aria-label', st === 'done' ? t('hitFlip') : t('hitStart'));
+        doneSub.textContent = t('doneSub')(human(S.durationMs));
+        syncChips();
+        lastTxt = '';
+        wake();
+      }
+      // 读数
+      var txt = st === 'done' ? '' : clock(left);
+      if (txt !== lastTxt || force) {
+        lastTxt = txt;
+        if (st === 'done') {
+          readout.innerHTML = '<span class="msg"></span>';
+          readout.firstChild.textContent = t('upMsg');
+          readout.classList.remove('is-long');
+        } else {
+          readout.innerHTML = txt.split(':').map(function (x) { return '<span>' + x + '</span>'; }).join('<span class="sep">:</span>');
+          readout.classList.toggle('is-long', txt.length > 5);
         }
+        readout.setAttribute('aria-label', st === 'done' ? t('upMsg') : txt);
+        // 结束时刻
+        if (st === 'running') endsText.textContent = t('endsAt') + wall(Date.now() + left);
+        else if (st === 'done') endsText.textContent = t('endedAt') + wall(S.endedAtWall || Date.now());
+        else endsText.textContent = '/ ' + clock(S.durationMs);
+        // 标签页标题
+        var title = st === 'done' ? t('tDone')
+          : st === 'running' ? '▶ ' + txt + ' · ' + t('title')
+          : st === 'paused' ? '❚❚ ' + txt + ' · ' + t('title')
+          : t('tIdle');
+        if (title !== lastTitle) { document.title = title; lastTitle = title; }
+      }
+      trackFill.style.transform = 'scaleX(' + (1 - left / S.durationMs).toFixed(4) + ')';
+    }
 
-        function stopTimer() {
-            clearInterval(timerInterval);
-            isRunning = false;
-        }
+    function syncChips() {
+      var min = S.durationMs / 60000, hit = false;
+      Array.prototype.forEach.call(chips.querySelectorAll('[data-min]'), function (b) {
+        var on = +b.getAttribute('data-min') === min;
+        if (on) hit = true;
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+        b.tabIndex = -1;
+      });
+      customChip.setAttribute('aria-checked', hit ? 'false' : 'true');
+      customChip.querySelector('.cv').textContent = hit ? t('custom') : compact(S.durationMs);
+      (chips.querySelector('[aria-checked="true"]') || customChip).tabIndex = 0;
+    }
 
-        function updateTimer() {
-            const elapsedTime = Date.now() - startTime;
-            if (elapsedTime >= maxTime) {
-                stopTimer();
-                button.textContent = 'Focus On!';
-                return;
-            }
-            const time = new Date(maxTime - elapsedTime);
-            const minutes = time.getUTCMinutes().toString().padStart(2, '0');
-            const seconds = time.getUTCSeconds().toString().padStart(2, '0');
-            button.textContent = `${minutes}:${seconds}`;
-        }
+    function announce(msg) { live.textContent = ''; setTimeout(function () { live.textContent = msg; }, 30); }
+    var toastTimer = 0;
+    function say(msg) { toast.textContent = msg; clearTimeout(toastTimer); toastTimer = setTimeout(function () { toast.textContent = ''; }, 4200); }
 
-        function flipHourglass() {
-            hourglassContainer.style.transform = 'rotate(180deg)';
-            
-            // Reset sand positions after flip animation
-            setTimeout(() => {
-                document.getElementById('topSand').setAttribute('d', 'M25 5 H100 L62.5 50 Z');
-                document.getElementById('bottomSand').setAttribute('d', 'M25 95 L100 95 L62.5 95 Z');
-                hourglassContainer.style.transform = 'rotate(0deg)';
-                
-                // Restart the timer and animations
-                startTimer();
-            }, 1000);
-        }
+    function applyLang() {
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+      Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (el) {
+        var v = t(el.getAttribute('data-i18n'));
+        if (typeof v === 'string') el.textContent = v;
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-title]'), function (el) {
+        el.setAttribute('aria-label', t(el.getAttribute('data-i18n-title')));
+      });
+      langBtn.textContent = lang === 'en' ? '中' : 'EN';
+      langBtn.setAttribute('lang', lang === 'en' ? 'zh-CN' : 'en');
+      langBtn.setAttribute('aria-label', t('langTo'));
+      soundBtn.setAttribute('aria-label', soundOn ? t('soundOn') : t('soundOff'));
+      lastTitle = '';
+      render(true);
+    }
 
-        button.addEventListener('click', () => {
-            if (!isRunning) {
-                startTimer();
-            } else {
-                stopTimer();
-                button.textContent = 'Focus On!';
-                // Reset sand animation
-                document.getElementById('topSand').setAttribute('d', 'M25 5 H100 L62.5 50 Z');
-                document.getElementById('bottomSand').setAttribute('d', 'M25 95 L100 95 L62.5 95 Z');
-                hourglassContainer.style.transform = 'rotate(0deg)';
-            }
+    // ======================= 声音（只在用户点过之后） =======================
+    var actx = null, soundOn = store('datode-hourglass-sound') !== 'off';
+    soundBtn.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+    function unlockAudio() {
+      if (!soundOn) return;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      try {
+        if (!actx) actx = new AC();
+        if (actx.state === 'suspended') actx.resume();
+      } catch (e) { actx = null; }
+    }
+    // 三声玻璃钟：基音 + 不协和泛音，指数衰减。没有用户手势就没有 AudioContext，自然不会响。
+    function chime() {
+      if (!soundOn || !actx || actx.state !== 'running') return;
+      var t0 = actx.currentTime + 0.05, notes = [987.77, 1318.51, 1567.98];
+      var master = actx.createGain();
+      master.gain.value = 0.22;
+      master.connect(actx.destination);
+      notes.forEach(function (f, i) {
+        [[1, 1], [2.76, 0.32], [5.4, 0.12]].forEach(function (pr) {
+          var o = actx.createOscillator(), g = actx.createGain(), at = t0 + i * 0.32;
+          o.type = 'sine';
+          o.frequency.value = f * pr[0];
+          g.gain.setValueAtTime(0.0001, at);
+          g.gain.exponentialRampToValueAtTime(pr[1], at + 0.012);
+          g.gain.exponentialRampToValueAtTime(0.0001, at + 2.2 / pr[0] + 0.5);
+          o.connect(g); g.connect(master);
+          o.start(at); o.stop(at + 3);
         });
-    </script>
+      });
+    }
+
+    // ======================= 沙漏绘制 =======================
+    var cv = $('glass'), ctx = cv.getContext('2d');
+    var W = 0, H = 0, DPR = 1, C = {}, grainPat = null;
+    var flipAnim = null, doneAt = 0, rafId = 0, slowTimer = 0, lastFrame = 0;
+
+    // 玻璃剖面：t ∈ [0,1]，0 在瓶颈、1 在端盖；返回半宽（以球最大半宽为 1）
+    var NECK = 0.045;
+    function prof(t) {
+      var b = Math.pow(Math.sin(Math.PI / 2 * Math.min(1, t / 0.6)), 1.35);
+      var sh = t > 0.78 ? 0.5 + 0.5 * Math.sqrt(Math.max(0, 1 - Math.pow((t - 0.78) / 0.22, 2))) : 1;
+      return NECK + (1 - NECK) * b * sh;
+    }
+    // 预算面积表：沙量按画面上看到的面积算（dA ∝ r·dt），眼睛看到的多少就是剩余时间的多少
+    var N = 800, CUM = new Float64Array(N + 1);
+    (function () { for (var i = 1; i <= N; i++) { CUM[i] = CUM[i - 1] + (prof((i - 1) / N) + prof(i / N)) / 2 / N; } })();
+    var CHAMBER = CUM[N], SAND = CHAMBER * 0.6;
+    function volAt(t) { var x = t * N, i = Math.min(N - 1, Math.floor(x)); return CUM[i] + (CUM[i + 1] - CUM[i]) * (x - i); }
+    function levelFor(v) { // 从瓶颈往上填 v 的体积，液面到哪
+      var lo = 0, hi = 1;
+      for (var k = 0; k < 30; k++) { var m = (lo + hi) / 2; if (volAt(m) < v) lo = m; else hi = m; }
+      return lo;
+    }
+    function levelFromCap(v) { // 从端盖往下填 v，返回距端盖的深度
+      var lo = 0, hi = 1, total = CHAMBER;
+      for (var k = 0; k < 30; k++) { var m = (lo + hi) / 2; if (total - volAt(1 - m) < v) lo = m; else hi = m; }
+      return lo;
+    }
+
+    function readColors() {
+      var cs = getComputedStyle(document.documentElement);
+      ['bg', 'ink', 'ink-2', 'ink-3', 'acc', 'acc-2', 'sand-hi', 'sand', 'sand-lo', 'glow', 'glass', 'glass-fill', 'cap', 'cap-hi', 'rod', 'line'].forEach(function (k) {
+        C[k] = cs.getPropertyValue('--' + k).trim();
+      });
+      C.dark = darkMQ.matches;
+      makeGrain();
+    }
+    function makeGrain() {
+      var g = document.createElement('canvas'), s = 160;
+      g.width = g.height = s;
+      var gx = g.getContext('2d'), img = gx.createImageData(s, s), d = img.data;
+      var seed = 7;
+      function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+      for (var i = 0; i < d.length; i += 4) {
+        var r = rnd(), v = r < 0.5 ? 0 : 255, a = Math.pow(Math.abs(r - 0.5) * 2, 3) * (C.dark ? 120 : 90);
+        d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = a;
+      }
+      gx.putImageData(img, 0, 0);
+      grainPat = ctx.createPattern(g, 'repeat');
+    }
+
+    function resize() {
+      var r = cv.getBoundingClientRect();
+      DPR = Math.min(2.5, window.devicePixelRatio || 1);
+      W = Math.max(1, r.width); H = Math.max(1, r.height);
+      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      draw(now());
+    }
+
+    // 粒子：从瓶颈落下、打在沙堆上溅开
+    var grains = [];
+    function spawn(g) {
+      g.x = (Math.random() - 0.5) * 0.5; g.y = 0; g.vy = 0.15 + Math.random() * 0.25; g.vx = 0; g.hit = false; g.life = 1;
+      g.s = 0.6 + Math.random() * 0.8;
+      return g;
+    }
+    for (var gi = 0; gi < 46; gi++) { var g0 = spawn({}); g0.y = Math.random() * 3; grains.push(g0); }
+
+    function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+    function smooth(a, b, x) { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); }
+
+    function draw(tNow) {
+      var dt = Math.min(0.05, lastFrame ? (tNow - lastFrame) / 1000 : 0.016);
+      lastFrame = tNow;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+
+      // 尺寸：高度为主，窄屏时受宽度约束
+      var HG = Math.min(H * 0.9, W * 1.25);
+      var u = HG / 1000;
+      var cx = W / 2, cy = H * 0.5;
+      var G = 400 * u;            // 每个玻璃泡的高
+      var R = 245 * u;            // 玻璃泡最大半宽
+      var capH = 30 * u, capW = 330 * u;
+
+      var f = S.durationMs ? remaining() / S.durationMs : 1; // 上面还剩多少
+      var running = S.status === 'running';
+
+      // 翻转动画：沙子留在原来的那半（相对玻璃），整个器物绕中心转 180°
+      var ang = 0, fp = null;
+      if (flipAnim) {
+        var p = (tNow - flipAnim.t0) / flipAnim.dur;
+        if (p >= 1) flipAnim = null;
+        else { fp = p; ang = Math.PI * ease(p); }
+      }
+
+      // 地面阴影 / 光晕
+      ctx.save();
+      var floorY = cy + G + capH * 1.2;
+      var sh = ctx.createRadialGradient(cx, floorY, 0, cx, floorY, R * 1.6);
+      sh.addColorStop(0, C.dark ? 'rgba(0,0,0,0.55)' : 'rgba(14,26,18,0.22)');
+      sh.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = sh;
+      ctx.setTransform(DPR, 0, 0, DPR * 0.16, 0, floorY * DPR * 0.84);
+      ctx.beginPath(); ctx.arc(cx, floorY, R * 1.6, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(ang);
+
+      // 沙量：翻转中保持翻之前的分布（上=0, 下=满），翻完再交给计时
+      var fTop, fBot, settle = 1;
+      if (fp !== null) { fTop = 0; fBot = 1; settle = 1 - smooth(0.1, 0.7, fp); }
+      else { fTop = f; fBot = 1 - f; }
+
+      // 玻璃路径
+      function glassPath(inset) {
+        ctx.beginPath();
+        var steps = 90, i, tt, y;
+        for (i = 0; i <= steps; i++) { tt = 1 - i / steps; y = -tt * G; ctx.lineTo(-prof(tt) * R + inset, y); }
+        for (i = 0; i <= steps; i++) { tt = i / steps; y = tt * G; ctx.lineTo(-prof(tt) * R + inset, y); }
+        for (i = 0; i <= steps; i++) { tt = 1 - i / steps; y = tt * G; ctx.lineTo(prof(tt) * R - inset, y); }
+        for (i = 0; i <= steps; i++) { tt = i / steps; y = -tt * G; ctx.lineTo(prof(tt) * R - inset, y); }
+        ctx.closePath();
+      }
+
+      // 沙子的发光（暗色）：随下面的沙子变多而变亮
+      if (C.dark) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        var gl = ctx.createRadialGradient(0, G * 0.75, 0, 0, G * 0.75, Math.min(R * 1.6, W / 2, H / 2));
+        var ga = 0.18 + 0.5 * fBot;
+        gl.addColorStop(0, withA(C.sand, 0.22 * ga));
+        gl.addColorStop(1, withA(C.sand, 0));
+        ctx.fillStyle = gl; ctx.fillRect(-W, -H, W * 2, H * 2);
+        var gt = ctx.createRadialGradient(0, -G * 0.55, 0, 0, -G * 0.55, Math.min(R * 1.3, W / 2));
+        gt.addColorStop(0, withA(C.sand, 0.12 * fTop));
+        gt.addColorStop(1, withA(C.sand, 0));
+        ctx.fillStyle = gt; ctx.fillRect(-W, -H, W * 2, H * 2);
+        ctx.restore();
+      }
+
+      // 立柱
+      var rodX = R + 34 * u;
+      [-1, 1].forEach(function (s) {
+        var rg = ctx.createLinearGradient(s * rodX - 5 * u, 0, s * rodX + 5 * u, 0);
+        rg.addColorStop(0, withA(C.rod, 0.15)); rg.addColorStop(0.45, C.rod); rg.addColorStop(1, withA(C.rod, 0.1));
+        ctx.fillStyle = rg;
+        roundRect(s * rodX - 4 * u, -G - 2, 8 * u, 2 * G + 4, 4 * u); ctx.fill();
+      });
+
+      // 玻璃内的淡底
+      glassPath(0);
+      ctx.fillStyle = C['glass-fill']; ctx.fill();
+
+      // 沙子（裁在玻璃内）
+      ctx.save();
+      glassPath(2.2 * u);
+      ctx.clip();
+      var sandGrad = ctx.createLinearGradient(0, -G, 0, G);
+      sandGrad.addColorStop(0, C['sand-lo']); sandGrad.addColorStop(0.18, C.sand); sandGrad.addColorStop(0.5, C['sand-hi']);
+      sandGrad.addColorStop(0.82, C.sand); sandGrad.addColorStop(1, C['sand-lo']);
+
+      // 上半：从瓶颈往上堆，中心有漏斗形的凹坑
+      var topPeak = null, pileTop = G;
+      if (fTop > 0.0005) {
+        var drained = 1 - fTop, aTop = fTop * SAND, lv = levelFor(aTop), dip = 0, rr = 0;
+        // 漏斗坑会挖掉一块面积：把液面抬高同样的面积，保证画出来的沙量 = 剩余比例
+        for (var it = 0; it < 4; it++) {
+          dip = Math.min(lv * G * 0.92, 70 * u * smooth(0, 0.06, drained)) * settle;
+          rr = prof(lv) * R;
+          lv = levelFor(Math.min(CHAMBER, aTop + (dip / G) * (rr / R) * 0.92 / 2.6));
+        }
+        var yS = -lv * G;
+        ctx.beginPath();
+        ctx.moveTo(-R * 1.2, 0);
+        ctx.lineTo(-R * 1.2, yS);
+        for (var i = 0; i <= 60; i++) {
+          var x = -rr + (2 * rr) * i / 60, k = Math.max(0, 1 - Math.abs(x) / (rr * 0.92));
+          ctx.lineTo(x, yS + dip * Math.pow(k, 1.6));
+        }
+        ctx.lineTo(R * 1.2, yS); ctx.lineTo(R * 1.2, 0);
+        ctx.closePath();
+        ctx.fillStyle = sandGrad; ctx.fill();
+        if (grainPat) { ctx.fillStyle = grainPat; ctx.fill(); }
+        // 表面一道亮边
+        ctx.beginPath();
+        for (i = 0; i <= 60; i++) {
+          var x2 = -rr + (2 * rr) * i / 60, k2 = Math.max(0, 1 - Math.abs(x2) / (rr * 0.92));
+          ctx.lineTo(x2, yS + dip * Math.pow(k2, 1.6));
+        }
+        ctx.strokeStyle = withA(C['sand-hi'], C.dark ? 0.9 : 0.7); ctx.lineWidth = 1.2 * u + 0.6; ctx.stroke();
+      }
+
+      // 下半：从端盖往上堆，中间一个锥形沙丘
+      if (fBot > 0.0005) {
+        var vb = fBot * SAND;
+        var cone = 0.13 * smooth(0, 0.12, fBot) * settle;
+        var d1 = levelFromCap(vb);
+        for (var it2 = 0; it2 < 4; it2++) d1 = levelFromCap(Math.max(0, vb - cone * prof(1 - d1) * 0.98 / 2.25));
+        var yB = G - d1 * G;
+        var rb = prof(1 - d1) * R;
+        var peakH = cone * G;
+        ctx.beginPath();
+        ctx.moveTo(-R * 1.2, G + 4);
+        ctx.lineTo(-R * 1.2, yB);
+        for (i = 0; i <= 60; i++) {
+          var xb = -rb + 2 * rb * i / 60, kb = Math.max(0, 1 - Math.abs(xb) / (rb * 0.98));
+          ctx.lineTo(xb, yB - peakH * Math.pow(kb, 1.25));
+        }
+        ctx.lineTo(R * 1.2, yB); ctx.lineTo(R * 1.2, G + 4);
+        ctx.closePath();
+        ctx.fillStyle = sandGrad; ctx.fill();
+        if (grainPat) { ctx.fillStyle = grainPat; ctx.fill(); }
+        ctx.beginPath();
+        for (i = 0; i <= 60; i++) {
+          var xb2 = -rb + 2 * rb * i / 60, kb2 = Math.max(0, 1 - Math.abs(xb2) / (rb * 0.98));
+          ctx.lineTo(xb2, yB - peakH * Math.pow(kb2, 1.25));
+        }
+        ctx.strokeStyle = withA(C['sand-hi'], C.dark ? 0.9 : 0.7); ctx.lineWidth = 1.2 * u + 0.6; ctx.stroke();
+        pileTop = yB - peakH;
+      }
+
+      // 沙流
+      if (running && fp === null && fTop > 0.0005) {
+        var sw = 3.2 * u + 0.6;
+        var sg = ctx.createLinearGradient(0, 0, 0, pileTop);
+        sg.addColorStop(0, C['sand-hi']); sg.addColorStop(1, withA(C.sand, 0.65));
+        ctx.fillStyle = sg;
+        var wob = reduced ? 0 : Math.sin(tNow / 90) * 0.25 * u;
+        ctx.fillRect(-sw / 2 + wob, -4 * u, sw, pileTop + 4 * u);
+        if (!reduced) {
+          ctx.fillStyle = C['sand-hi'];
+          var gScale = G;
+          grains.forEach(function (g) {
+            if (!g.hit) {
+              g.vy += 2.6 * dt; g.y += g.vy * dt;
+              var py = g.y * gScale * 0.35;
+              if (py >= pileTop - 2 * u) {
+                g.hit = true; g.y = (pileTop - 2 * u) / (gScale * 0.35);
+                g.vx = (Math.random() < 0.5 ? -1 : 1) * (0.25 + Math.random() * 0.6);
+                g.vy = -0.4 - Math.random() * 0.6;
+              }
+              ctx.globalAlpha = 0.9;
+              ctx.fillRect(g.x * u * 6 - g.s * u, py, g.s * 2 * u + 0.5, g.s * 2 * u + 0.5);
+            } else {
+              g.x += g.vx * dt * 14; g.vy += 3.5 * dt; g.y += g.vy * dt * 0.25; g.life -= dt * 2.6;
+              var hy = g.y * gScale * 0.35;
+              if (g.life <= 0 || hy > pileTop + 30 * u) { spawn(g); return; }
+              ctx.globalAlpha = Math.max(0, g.life);
+              ctx.fillRect(g.x * u * 6 - g.s * u, hy, g.s * 2 * u + 0.5, g.s * 2 * u + 0.5);
+            }
+          });
+          ctx.globalAlpha = 1;
+        }
+        // 瓶颈处的一点亮
+        var ng = ctx.createRadialGradient(0, 0, 0, 0, 0, 18 * u);
+        ng.addColorStop(0, withA(C['sand-hi'], 0.7)); ng.addColorStop(1, withA(C['sand-hi'], 0));
+        ctx.fillStyle = ng; ctx.fillRect(-18 * u, -18 * u, 36 * u, 36 * u);
+      }
+      ctx.restore(); // 退出裁剪
+
+      // 玻璃描边 + 高光
+      glassPath(0);
+      var gs = ctx.createLinearGradient(-R, 0, R, 0);
+      gs.addColorStop(0, C.glass); gs.addColorStop(0.5, withA(C.glass, 0.35)); gs.addColorStop(1, C.glass);
+      ctx.strokeStyle = gs; ctx.lineWidth = 1.6 * u + 0.5; ctx.stroke();
+      glassPath(7 * u);
+      ctx.strokeStyle = withA(C.glass, 0.12); ctx.lineWidth = 1 * u + 0.3; ctx.stroke();
+      // 左侧竖向反光
+      ctx.save();
+      ctx.lineCap = 'round';
+      [-1, 1].forEach(function (half) {
+        ctx.beginPath();
+        for (var i = 0; i <= 40; i++) {
+          var tt = 0.3 + 0.55 * i / 40;
+          ctx.lineTo(-prof(tt) * R * 0.78, half * tt * G);
+        }
+        ctx.strokeStyle = C.dark ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.75)';
+        ctx.lineWidth = 9 * u; ctx.stroke();
+        ctx.beginPath();
+        for (i = 0; i <= 20; i++) {
+          var t2 = 0.42 + 0.3 * i / 20;
+          ctx.lineTo(prof(t2) * R * 0.86, half * t2 * G);
+        }
+        ctx.strokeStyle = C.dark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.45)';
+        ctx.lineWidth = 4 * u; ctx.stroke();
+      });
+      ctx.restore();
+
+      // 端盖
+      [-1, 1].forEach(function (s) {
+        var y = s < 0 ? -G - capH : G;
+        var cg = ctx.createLinearGradient(0, y, 0, y + capH);
+        cg.addColorStop(0, C.cap); cg.addColorStop(1, C.cap);
+        ctx.fillStyle = cg;
+        roundRect(-capW, y, capW * 2, capH, capH * 0.35); ctx.fill();
+        ctx.fillStyle = C['cap-hi'];
+        ctx.fillRect(-capW + capH * 0.35, s < 0 ? y : y + 0.5, capW * 2 - capH * 0.7, 1);
+        ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+        roundRect(-capW, y, capW * 2, capH, capH * 0.35); ctx.stroke();
+      });
+      // 端盖上的刻线（器物感）
+      ctx.fillStyle = C.dark ? withA(C.acc, 0.85) : C.acc;
+      ctx.fillRect(-capW + 22 * u, -G - capH / 2 - 1 * u, 26 * u, 2 * u);
+      ctx.fillRect(capW - 48 * u, G + capH / 2 - 1 * u, 26 * u, 2 * u);
+
+      ctx.restore(); // 退出旋转
+
+      // 结束：一圈圈光环
+      if (S.status === 'done') {
+        var since = (tNow - doneAt) / 1000;
+        if (reduced) {
+          ringAt(cx, cy, R * 1.25, 0.5);
+        } else {
+          for (var r2 = 0; r2 < 2; r2++) {
+            var ph = (since * 0.4 + r2 / 2) % 1;
+            ringAt(cx, cy, R * (1.05 + ph * 0.5), Math.sin(ph * Math.PI) * 0.5 * (since < 10 ? 1 : 0.45));
+          }
+        }
+      }
+    }
+    function ringAt(x, y, r, a) {
+      ctx.beginPath();
+      ctx.ellipse(x, y, r, r * 1.75, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = withA(C.acc, a); ctx.lineWidth = 1.5; ctx.stroke();
+    }
+    function roundRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+    }
+    function withA(col, a) {
+      col = (col || '').trim();
+      var m = /^#([0-9a-f]{6})$/i.exec(col);
+      if (m) { var n = parseInt(m[1], 16); return 'rgba(' + (n >> 16) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')'; }
+      m = /^rgba?\(([^,]+),([^,]+),([^,)]+)(?:,([^)]+))?\)$/.exec(col.replace(/\s/g, ''));
+      if (m) return 'rgba(' + m[1] + ',' + m[2] + ',' + m[3] + ',' + (m[4] !== undefined ? +m[4] * a : a) + ')';
+      return col;
+    }
+
+    // ======================= 帧循环 =======================
+    // 只在需要动的时候跑 rAF；静止时画一帧就停。
+    function needsLoop() {
+      if (flipAnim) return true;
+      if (S.status === 'running') return true;
+      if (S.status === 'done' && !reduced) return true;
+      return false;
+    }
+    function frame(ts) {
+      rafId = 0;
+      check();
+      render(false);
+      draw(now());
+      if (needsLoop() && !document.hidden) {
+        // 减少动态时运行中每秒画一次就够（沙面随时间变化，不需要 60fps）
+        if (reduced && S.status === 'running' && !flipAnim) { clearTimeout(slowTimer); slowTimer = setTimeout(wake, 1000); }
+        else rafId = requestAnimationFrame(frame);
+      }
+    }
+    function wake() { if (!rafId) rafId = requestAnimationFrame(frame); }
+
+    // 后台也要更新标题、到点也要结束（rAF 在后台不跑）
+    setInterval(function () { check(); if (document.hidden) render(false); }, 1000);
+    document.addEventListener('visibilitychange', function () { check(); render(true); });
+
+    // ======================= 交互 =======================
+    primaryBtn.addEventListener('click', toggle);
+    resetBtn.addEventListener('click', reset);
+    flipBtn.addEventListener('click', start);
+    stageHit.addEventListener('click', function () { if (S.status === 'idle' || S.status === 'done') start(); });
+
+    chips.addEventListener('click', function (e) {
+      var b = e.target.closest('.chip');
+      if (!b || S.status === 'running') return;
+      if (b === customChip) { openCustom(); return; }
+      customForm.hidden = true;
+      setDuration(+b.getAttribute('data-min') * 60000);
+    });
+    chips.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var all = Array.prototype.slice.call(chips.querySelectorAll('.chip')), i = all.indexOf(document.activeElement);
+      if (i < 0) return;
+      e.preventDefault();
+      all[(i + (e.key === 'ArrowRight' ? 1 : all.length - 1)) % all.length].focus();
+    });
+    function openCustom() {
+      if (S.status === 'running') return;
+      customForm.hidden = false;
+      customIn.value = '';
+      customIn.placeholder = human(S.durationMs).replace(' ' + t('minUnit'), '');
+      customIn.focus();
+    }
+    customForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ms = parseDur(customIn.value);
+      if (!ms || ms < 1000) { customWrap.classList.add('bad'); say(t('badInput')); return; }
+      customWrap.classList.remove('bad');
+      customForm.hidden = true;
+      setDuration(ms);
+      primaryBtn.focus();
+    });
+    customIn.addEventListener('keydown', function (e) { if (e.key === 'Escape') { customForm.hidden = true; customChip.focus(); } });
+
+    shareBtn.addEventListener('click', function () {
+      var url = location.origin + location.pathname + '?d=' + Math.round(S.durationMs / 1000) + (lang === 'en' ? '&lang=en' : '');
+      var ok = function () { say(t('copied') + url); }, bad = function () { say(t('copyFail') + url); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, bad); else bad();
+    });
+
+    soundBtn.addEventListener('click', function () {
+      soundOn = !soundOn;
+      soundBtn.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+      soundBtn.setAttribute('aria-label', soundOn ? t('soundOn') : t('soundOff'));
+      store('datode-hourglass-sound', soundOn ? 'on' : 'off');
+      if (soundOn) unlockAudio();
+    });
+    langBtn.addEventListener('click', function () {
+      lang = lang === 'en' ? 'zh' : 'en';
+      store('datode-lang', lang);      // 和首页共用同一个语言偏好
+      applyLang();
+    });
+
+    // 任何一次用户手势都顺手解锁声音
+    ['pointerdown', 'keydown'].forEach(function (ev) { window.addEventListener(ev, unlockAudio, { capture: true, passive: true }); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      var onBtn = tag === 'BUTTON' || tag === 'A';
+      var k = e.key;
+      if (k === ' ' || k === 'Spacebar' || k === 'k' || k === 'K') {
+        if (onBtn && k !== 'k' && k !== 'K' && e.target !== stageHit) return; // 让按钮自己处理空格
+        e.preventDefault(); toggle();
+      } else if (k === 'r' || k === 'R') { reset(); }
+      else if (k === 'f' || k === 'F') { if (S.status === 'done') start(); }
+      else if (k === 'c' || k === 'C') { e.preventDefault(); openCustom(); }
+      else if (/^[1-5]$/.test(k) && S.status !== 'running') { customForm.hidden = true; setDuration(PRESETS[+k - 1] * 60000); }
+    });
+
+    function onScheme() { readColors(); draw(now()); }
+    if (darkMQ.addEventListener) darkMQ.addEventListener('change', onScheme); else if (darkMQ.addListener) darkMQ.addListener(onScheme);
+    function onReduce() { reduced = reduceMQ.matches; if (reduced) flipAnim = null; wake(); }
+    if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', onReduce); else if (reduceMQ.addListener) reduceMQ.addListener(onReduce);
+
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(cv);
+    else window.addEventListener('resize', resize);
+
+    // ======================= 初始化 =======================
+    var params = new URLSearchParams(location.search);
+    var dq = params.get('d');
+    var dSec = dq !== null ? parseFloat(dq) : NaN;
+    if (isFinite(dSec) && dSec > 0) setDuration(dSec * 1000, 'url');
+    else {
+      var saved = +store('datode-hourglass-ms');
+      if (saved >= 1000 && saved <= MAX_MS) setDuration(saved, 'url');
+    }
+
+    // 探针：读写的就是上面这一份 S，没有第二套状态
+    window.__hourglass = {
+      start: function () { start(); return this.state(); },
+      pause: function () { pause(); return this.state(); },
+      reset: function () { reset(); return this.state(); },
+      state: function () {
+        check();
+        return { status: S.status, remainingMs: Math.round(remaining()), durationMs: S.durationMs };
+      }
+    };
+
+    readColors();
+    applyLang();
+    resize();
+    wake();
+  })();
+  </script>
 </body>
 </html>
