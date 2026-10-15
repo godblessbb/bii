@@ -419,7 +419,7 @@ html[lang="zh-CN"] .outro-link { font-weight: 900; letter-spacing: -.01em; }
 .about-figure figcaption { margin-top: 10px; font: 400 12px var(--f-mono); color: var(--ink-2); }
 .no-gl .about-figure { display: block; }
 .about .prose { max-width: none; }
-.about .sheet { padding-right: max(var(--gut), 46vw); }
+.about .sheet { padding-right: max(var(--gut), 46%); }
 .gl .about .sheet { background: linear-gradient(to right, var(--sheet) 50%, transparent 64%); }
 
 /* ---------------- 文章 ---------------- */
