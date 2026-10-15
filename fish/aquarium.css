@@ -1,0 +1,126 @@
+/* 动态鱼缸 · 本页专用样式。所有资源都在仓库内，不引用外部字体或图片。 */
+
+:root {
+  --water-top: #b8efe6;
+  --water-mid: #2a9aa0;
+  --water-deep: #0b3f52;
+  --plate-ink: rgba(244, 250, 246, 0.92);
+  --plate-ink-2: rgba(244, 250, 246, 0.62);
+  --f-serif: "Songti SC", "STSong", "Noto Serif SC", "Source Han Serif SC", "Noto Serif CJK SC", Georgia, serif;
+  --f-sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background-color: var(--water-mid);
+  background-image: linear-gradient(180deg, var(--water-top) 0%, var(--water-mid) 46%, var(--water-deep) 100%);
+  color: var(--plate-ink);
+  font-family: var(--f-sans);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.tank {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  /* 水色必须画在 .tank 里：它自成一个混合组，光层的 screen 只和组内内容混合 */
+  background-color: var(--water-mid);
+  background-image: linear-gradient(180deg, var(--water-top) 0%, var(--water-mid) 46%, var(--water-deep) 100%);
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 远景：低分辨率 + 轻微模糊 = 便宜的景深 */
+.layer-far { filter: blur(1.2px); }
+
+/* 光：只含光线和焦散，用 screen 叠加，黑色 = 不影响 */
+.layer-light {
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* 近景：贴着玻璃的失焦水草 */
+.layer-front {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.plate {
+  position: fixed;
+  left: max(18px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  max-width: calc(100vw - 36px);
+  pointer-events: none;
+  text-shadow: 0 1px 12px rgba(0, 20, 30, 0.35);
+  transition: opacity 1.6s ease;
+}
+
+.plate.is-quiet { opacity: 0.38; }
+.plate.is-quiet .plate-hint { opacity: 0; }
+
+.plate-back {
+  pointer-events: auto;
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 4px 0;
+  color: var(--plate-ink-2);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.plate-back::before { content: "\2190\00a0"; }
+.plate-back:hover, .plate-back:focus-visible { color: var(--plate-ink); }
+
+.plate-title {
+  margin: 0;
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: clamp(20px, 2.1vw, 34px);
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+}
+
+.plate-time {
+  margin-left: 0.7em;
+  font-family: var(--f-sans);
+  font-weight: 400;
+  font-size: 0.42em;
+  letter-spacing: 0.22em;
+  color: var(--plate-ink-2);
+  vertical-align: 0.35em;
+}
+
+.plate-hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--plate-ink-2);
+  transition: opacity 1.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate, .plate-hint { transition: none; }
+}
+
+/* 自动降级（帧时过长时由脚本加上） */
+.q-lite .layer-far, .q-lite .layer-front { filter: none; }
+.q-nolight .layer-light, .q-nolight .layer-front { display: none; }
