@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- magnolia-basket · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="12"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M38 96 L122 96 L111 141 L49 141 Z"/>
+<path d="M42 96 Q80 40 118 96"/>
+<path d="M44 108 L116 108 M47 120 L113 120 M49 131 L111 131" stroke-width="1.1"/>
+<path d="M56 96 L60 141 M70 96 L72 141 M84 96 L84 141 M98 96 L96 141 M110 96 L104 141" stroke-width="1.1"/>
+<path d="M82 92 Q66 72 75 50 Q88 64 84 92"/>
+<path d="M85 92 Q100 72 96 52 Q82 64 82 92"/>
+<path d="M80 92 Q60 84 54 66 Q70 70 81 90"/>
+<path d="M86 92 Q104 86 110 70 Q96 72 86 90"/>
+<path d="M62 94 Q55 80 63 69 Q70 82 65 94"/>
+<path d="M66 94 Q70 98 80 94" stroke-width="1.2"/>
+</g>
+</svg>

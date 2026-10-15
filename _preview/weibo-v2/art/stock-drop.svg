@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- stock-drop · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="9"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M22 22 V138 H146"/>
+<path d="M22 50 h120 M22 80 h120 M22 110 h120" stroke-width="1" stroke-dasharray="2 6"/>
+<path d="M28 54 L42 46 L54 58 L68 49 L82 63 L95 58 L104 73 L113 69 L121 97 L127 129"/>
+<path d="M127 129 l-6 -5 M127 129 l2 -8"/>
+<path d="M115 70 Q124 76 132 80"  stroke-width="1"/>
+<path d="M133 76 L149 76 L149 94 L133 94 L127 85 Z"/>
+<circle cx="132" cy="85" r="1.6"/>
+<path d="M137 82 h8 M137 88 h6" stroke-width="1.1"/>
+</g>
+</svg>

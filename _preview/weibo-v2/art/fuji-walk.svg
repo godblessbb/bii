@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- fuji-walk · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="6"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M8 134 L56 56 Q64 47 79 49 Q92 47 100 56 L152 134"/>
+<path d="M47 71 L55 76 L62 67 L70 76 L79 65 L87 76 L95 67 L101 76 L110 71"/>
+<path d="M26 104 Q44 100 58 106 M108 108 Q124 102 138 110" stroke-width="1.2"/>
+<circle cx="128" cy="30" r="8"/>
+<circle cx="28" cy="122" r="3.6"/>
+<path d="M28 126 L29 135 M29 135 l-4 6 M29 135 l5 5 M28 129 l-4 4 M28 129 l5 2"/>
+<path d="M36 142 Q60 138 84 140" stroke-dasharray="2 5" stroke-width="1.4"/>
+</g>
+</svg>

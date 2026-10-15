@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- snow-balcony · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="13"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M24 16 L136 18 L134 146 L26 144 Z"/>
+<path d="M34 26 L126 27 L125 136 L35 135 Z" stroke-width="1.2"/>
+<path d="M36 104 H124 M36 128 H124"/>
+<path d="M44 104 V128 M54 104 V128 M64 104 V128 M96 104 V128 M106 104 V128 M116 104 V128" stroke-width="1.2"/>
+<circle cx="80" cy="66" r="6.5"/>
+<path d="M80 73 Q72 90 74 104 M80 73 Q89 90 86 104 M74 82 Q68 92 72 100" />
+<path d="M76 78 Q80 82 85 77" stroke-width="1.2"/>
+<path d="M46 40 l2 2 m0 -2 l-2 2 M62 52 l2 2 m0 -2 l-2 2 M104 38 l2 2 m0 -2 l-2 2 M114 60 l2 2 m0 -2 l-2 2 M50 76 l2 2 m0 -2 l-2 2 M110 84 l2 2 m0 -2 l-2 2 M92 46 l2 2 m0 -2 l-2 2" stroke-width="1.2"/>
+<path d="M134 128 L146 134"/>
+<path d="M144 130 L156 136 L152 148 L140 142 Z" stroke-width="1.4"/>
+<circle cx="146" cy="135" r="1.2"/>
+</g>
+</svg>

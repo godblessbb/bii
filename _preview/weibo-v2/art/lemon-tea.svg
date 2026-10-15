@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- lemon-tea · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="11"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M58 48 L102 48 L95 130 L65 130 Z"/>
+<path d="M54 48 L106 48 M57 48 Q80 33 103 48"/>
+<path d="M84 40 L93 9"/>
+<circle cx="73" cy="82" r="9"/>
+<path d="M73 73 V91 M64 82 H82 M67 76 L79 88 M79 76 L67 88" stroke-width="1"/>
+<circle cx="86" cy="104" r="8"/>
+<path d="M86 96 V112 M78 104 H94" stroke-width="1"/>
+<path d="M64 62 h8 v8 h-8 z M84 64 h8 v8 h-8 z" stroke-width="1.2"/>
+<path d="M110 94 h28 v36 h-28 z M116 94 q8 -13 16 0"/>
+<path d="M18 106 h28 v24 h-28 z M18 116 h28 M32 106 v24 M26 101 q6 4 6 5 q0 -1 6 -5" stroke-width="1.4"/>
+</g>
+</svg>

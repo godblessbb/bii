@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- airport-hug · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M14 141 Q80 137 146 142"/>
+<path d="M36 18 L124 17 L123 42 L37 43 Z"/>
+<path d="M60 17 V9 M101 17 V9"/>
+<path d="M45 26 h19 M72 26 h13 M93 26 h21 M45 34 h15 M68 34 h22 M98 34 h13" stroke-width="1.3"/>
+<circle cx="66" cy="67" r="8.5"/>
+<circle cx="86" cy="62" r="9"/>
+<path d="M61 76 Q54 104 57 139 M72 77 Q78 104 74 139"/>
+<path d="M80 71 Q76 100 82 139 M94 71 Q103 100 99 139"/>
+<path d="M69 85 Q85 79 98 90"/>
+<path d="M88 88 Q72 95 58 86"/>
+<path d="M57 120 L74 121 M82 118 L99 119" stroke-width="1.2"/>
+<path d="M112 110 h22 v28 h-22 z M118 110 v-9 h10 v9"/>
+<circle cx="116" cy="141" r="2"/><circle cx="130" cy="141" r="2"/>
+<path d="M118 120 h10 M118 127 h10" stroke-width="1.1"/>
+<path d="M76 50 q-3 -5 0 -8 q3 -3 5 1 q2 -4 5 -1 q3 3 -1 8 l-4 4 z" stroke-width="1.2"/>
+</g>
+</svg>

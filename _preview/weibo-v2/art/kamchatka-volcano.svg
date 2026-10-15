@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- kamchatka-volcano · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M42 15 Q41 12 46 12 L114 12 Q119 12 119 16 L120 146 Q120 151 114 151 L47 151 Q42 151 42 146 Z"/>
+<path d="M42 132 H120"/>
+<circle cx="81" cy="141" r="4"/>
+<path d="M47 122 L60 98 L68 110"/>
+<path d="M58 122 L77 66 Q81 61 86 66 L112 122"/>
+<path d="M70 86 Q74 92 78 88 Q82 94 86 88 Q90 93 93 86" />
+<path d="M47 122 H116"/>
+<path d="M81 59 q-7 -8 1 -14 q8 -6 1 -13 q-5 -5 2 -10" />
+<path d="M90 50 q5 -4 2 -9" stroke-width="1.2"/>
+<path d="M52 36 l2 2 m0 -2 l-2 2 M104 30 l2 2 m0 -2 l-2 2 M62 58 l2 2 m0 -2 l-2 2 M100 70 l2 2 m0 -2 l-2 2 M54 76 l2 2 m0 -2 l-2 2 M108 52 l2 2 m0 -2 l-2 2" stroke-width="1.2"/>
+</g>
+</svg>

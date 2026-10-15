@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- starlight · 本页原创单色墨线插画（datode.com 微博碎句集第二版） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M2 141 Q80 102 158 141"/>
+<path d="M14 136 Q80 112 146 136" stroke-width="1.1" stroke-dasharray="1 6"/>
+<path d="M40 22 L41.6 26.4 L46 28 L41.6 29.6 L40 34 L38.4 29.6 L34 28 L38.4 26.4 Z M120 13 L121.6 18.4 L127 20 L121.6 21.6 L120 27 L118.4 21.6 L113 20 L118.4 18.4 Z M72 49.5 L73.2 52.8 L76.5 54 L73.2 55.2 L72 58.5 L70.8 55.2 L67.5 54 L70.8 52.8 Z M138 59.5 L139.2 62.8 L142.5 64 L139.2 65.2 L138 68.5 L136.8 65.2 L133.5 64 L136.8 62.8 Z M22 68 L23.1 70.9 L26 72 L23.1 73.1 L22 76 L20.9 73.1 L18 72 L20.9 70.9 Z"/>
+<path d="M118 28 L99 104 M42 36 L92 106" stroke-dasharray="3 5" stroke-width="1.2"/>
+<circle cx="96" cy="108" r="3.2"/>
+<path d="M96 112 L96 121 M96 121 l-3 2 M96 121 l3 2 M96 115 l-3 3 M96 115 l3 -1"/>
+<circle cx="56" cy="88" r="1"/><circle cx="104" cy="44" r="1"/><circle cx="148" cy="96" r="1"/><circle cx="30" cy="104" r="1"/>
+</g>
+</svg>

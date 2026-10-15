@@ -1,0 +1,344 @@
+/* 微博碎句 · 第二版设计稿（_preview/weibo-v2）
+   方向见 DESIGN.md：一张安静的纸，一行窄窄的字，一只纸飞机来回穿针引线。 */
+
+@font-face {
+  font-family: "WeiboWenKai";
+  src: url("fonts/wenkai-weibo.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --paper: #f6f1e7;
+  --ink: #2b2824;
+  --ink-soft: #6f665c;
+  --ink-faint: #a99d8e;
+  --hair: #e2d8c6;
+  --plane: #4f6f8f;          /* 纸飞机：一支蓝墨水 */
+  --sketch-filter: none;
+
+  --body-size: 1.0625rem;    /* 17px */
+  --leading: 2.05;
+  --measure: 30em;           /* 正文行宽：每行至多 30 字 */
+  --entry-gap: 3.6em;        /* 两条碎句之间 ≈ 61px */
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #16181d;
+    --ink: #e4ddd0;
+    --ink-soft: #aba294;
+    --ink-faint: #6f6a63;
+    --hair: #2b2e35;
+    --plane: #9fbad6;
+    --sketch-filter: invert(.86) hue-rotate(180deg);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif;
+  font-size: var(--body-size);
+  line-height: var(--leading);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; }
+::selection { background: color-mix(in srgb, var(--plane) 25%, transparent); }
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- 阅读进度：顶上一根细线，纸飞机沿线往前飞 ---------- */
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 22px;
+  z-index: 20;
+  pointer-events: none;
+}
+.progress-line {
+  position: absolute;
+  left: 0; top: 10px;
+  height: 1px;
+  width: 0;
+  background: repeating-linear-gradient(90deg, var(--plane) 0 4px, transparent 4px 9px);
+  opacity: .55;
+}
+.progress-plane {
+  position: absolute;
+  top: 1px; left: 4px;
+  width: 18px; height: 18px;
+  color: var(--plane);
+  transform: translateX(0);
+}
+
+/* ---------- 刊头 ---------- */
+
+.masthead {
+  text-align: center;
+  padding: 18vh 20px 0;
+}
+.hero {
+  display: block;
+  width: min(300px, 78vw);
+  height: auto;
+  margin: 0 auto 1.6rem;
+  overflow: visible;
+}
+.hero-trail {
+  fill: none;
+  stroke: var(--plane);
+  stroke-width: 1.1;
+  stroke-dasharray: 2 6;
+  stroke-linecap: round;
+  opacity: .7;
+}
+.hero-plane { color: var(--plane); animation: drift 7s ease-in-out infinite; transform-origin: 276px 26px; }
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(3px, -4px) rotate(-4deg); }
+}
+
+.title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 2rem;
+  letter-spacing: .5em;
+  text-indent: .5em;          /* 抵消末字后的字距，保持视觉居中 */
+  line-height: 1.4;
+}
+
+.toc { margin: 3.2rem auto 0; max-width: 34rem; }
+.toc ol {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: .3rem 1.6rem;
+  font-size: .875rem;
+  line-height: 1.9;
+}
+.toc a { color: var(--ink-faint); text-decoration: none; transition: color .2s; }
+.toc a:hover, .toc a:focus-visible { color: var(--ink); }
+
+/* ---------- 音乐：一张很小的卡，不抢正文 ---------- */
+
+.music {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  max-width: calc(100% - 40px);
+  margin: 4.5rem auto 0;
+  font-size: .8125rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.music-stage {
+  position: relative;
+  flex: none;
+  width: 200px; height: 200px;           /* YouTube 条款：播放器可见且不小于 200×200 */
+  border: 1px solid var(--hair);
+  border-radius: 6px;
+  margin-right: 16px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--paper) 92%, var(--ink));
+}
+.music-player, .music-player iframe { display: block; width: 200px; height: 200px; border: 0; }
+/* 播放器没就绪（加载中 / 连不上）时，200×200 的框收起来；能放的时候才展开，保证播放时可见 */
+.music:not([data-state="ready"]):not([data-state="playing"]):not([data-state="paused"]) .music-stage {
+  width: 0; height: 0; border-width: 0; margin: 0;
+}
+.music-offline { margin-top: .3rem; }
+.music-offline ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0 .8rem; }
+.music-offline a { color: var(--ink-soft); text-underline-offset: 3px; }
+.music-meta { min-width: 0; max-width: 16rem; display: grid; grid-template-columns: 40px 1fr; column-gap: 12px; align-items: center; }
+.music-offline { grid-column: 2; }
+.music-meta p { margin: 0; }
+.music-title { color: var(--ink); }
+.music-title span { color: var(--ink-faint); }
+.music-status { color: var(--ink-faint); margin-top: .2rem !important; }
+.music-toggle {
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  grid-row: span 2;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--hair);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--plane);
+  cursor: pointer;
+}
+.music-toggle svg { width: 20px; height: 20px; transition: transform .4s ease; }
+.music[data-state="playing"] .music-toggle svg { transform: rotate(-35deg) translate(1px, -1px); }
+.music[data-state="playing"] .music-toggle { border-color: var(--plane); }
+.music-toggle:focus-visible, .to-top:focus-visible { outline: 2px solid var(--plane); outline-offset: 3px; }
+
+@media (min-width: 1360px) {
+  /* 宽屏：收进左下角，正文一侧空着 */
+  .music {
+    position: fixed;
+    left: 24px; bottom: 24px;
+    z-index: 10;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    width: 240px;
+  }
+  .music-meta { max-width: none; }
+  .music-stage { margin: 0 0 10px; }
+}
+
+/* ---------- 正文 ---------- */
+
+.page { padding: 0 20px; outline: none; }
+
+.weibo {
+  width: min(100%, 52rem);       /* 正文栏 + 两侧插画栏 */
+  margin: 0 auto;
+  padding: 2rem 0 0;
+}
+.weibo-loading, .weibo-error { text-align: center; color: var(--ink-faint); }
+
+.weibo ul, .weibo blockquote, .weibo > p, .chapter > p {
+  max-width: var(--measure);
+  margin-left: auto;
+  margin-right: auto;
+}
+.weibo p { margin-top: 0; margin-bottom: 0; }
+.spacer { display: none; }
+
+.chapter { margin-top: 9rem; }
+.chapter:first-child { margin-top: 5rem; }
+
+.weibo h2 {
+  margin: 0;
+  text-align: center;
+  font-weight: 400;
+  font-size: 1.25rem;
+  letter-spacing: .3em;
+  text-indent: .3em;
+  line-height: 1.6;
+}
+.mark {
+  display: block;
+  width: 24px; height: 24px;
+  margin: 0 auto .9rem;
+  color: var(--plane);
+  transform: rotate(-12deg);
+}
+.weibo blockquote {
+  margin-top: .8rem;
+  margin-bottom: 0;
+  padding: 0;
+  text-align: center;
+  font-size: .875rem;
+  color: var(--ink-faint);
+}
+.weibo ul { list-style: none; padding: 0; margin-top: 4.2rem; margin-bottom: 0; }
+
+[data-entry] { position: relative; margin: 0; padding: 0; }
+[data-entry] + [data-entry] { margin-top: var(--entry-gap); }
+
+/* 「按」：一小段前言，排得更轻 */
+.is-preface { text-align: center; }
+.is-preface .mark { display: none; }
+.is-preface h2 { font-size: 1rem; color: var(--ink-faint); }
+.is-preface > p { margin-top: 1.4rem; color: var(--ink-soft); font-size: .9375rem; }
+
+/* 章末：一段虚线航迹，纸飞机飞向下一章 */
+.trail {
+  display: block;
+  width: 150px; height: 44px;
+  margin: 5rem auto 0;
+  overflow: visible;
+  color: var(--plane);
+}
+.trail path { fill: none; stroke: var(--plane); stroke-width: 1; stroke-dasharray: 2 5; stroke-linecap: round; opacity: .7; }
+
+/* ---------- 跟着句子走的小画 ---------- */
+
+.sketch {
+  display: block;
+  width: 104px;
+  height: auto;
+  margin: 1.1rem 0 0 auto;
+  filter: var(--sketch-filter);
+}
+.sketch.l { margin: 1.1rem auto 0 0; }
+
+@media (min-width: 960px) {
+  .sketch {
+    position: absolute;
+    top: 50%;
+    width: 136px;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+  .sketch.r { left: calc(100% + 22px); }
+  .sketch.l { right: calc(100% + 22px); }
+}
+
+/* ---------- 页尾 & 回到顶部 ---------- */
+
+.end { padding: 8rem 20px 10rem; }
+.end-plane { display: block; width: 120px; height: 40px; margin: 0 auto; overflow: visible; color: var(--plane); }
+.end-trail { fill: none; stroke: var(--plane); stroke-width: 1; stroke-dasharray: 2 5; stroke-linecap: round; opacity: .7; }
+
+.to-top {
+  position: fixed;
+  right: 20px; bottom: 20px;
+  z-index: 10;
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  padding: 0;
+  border: 1px solid var(--hair);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--plane);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+.to-top svg { width: 20px; height: 20px; transform: rotate(-45deg); }
+.to-top.is-shown { opacity: .85; visibility: visible; }
+.to-top:hover { opacity: 1; }
+
+/* ---------- 手机 ---------- */
+
+@media (max-width: 600px) {
+  :root { --entry-gap: 2.6em; --leading: 1.95; }
+  .masthead { padding-top: 14vh; }
+  .title { font-size: 1.75rem; }
+  .toc ol { gap: .2rem 1.1rem; }
+  .chapter { margin-top: 6.5rem; }
+  .weibo ul { margin-top: 3rem; }
+  .music-stage, .music-player, .music-player iframe { width: 200px; height: 200px; }
+}
+
+/* ---------- 减少动态效果：全部停下 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
