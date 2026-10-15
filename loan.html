@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5CXD1W4K6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y5CXD1W4K6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>带汇总信息的贷款比较计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .calculator {
+            width: 48%;
+            padding: 20px;
+        }
+        .calculator + .calculator {
+            border-left: 1px solid #eaeaea;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        .summary {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <h2>先息后本还款方案</h2>
+            <input type="number" id="loanAmount1" placeholder="贷款金额">
+            <input type="number" id="interestRate1" placeholder="年利率 (%)">
+            <input type="number" id="loanTerm1" placeholder="贷款期限 (年)">
+            <input type="number" id="fixedPayment1" placeholder="每月固定还款数（可选）">
+            <button onclick="calculateInterestOnly()">计算</button>
+            <div id="result1"></div>
+        </div>
+        <div class="calculator">
+            <h2>等额本息还款方案</h2>
+            <input type="number" id="loanAmount2" placeholder="贷款金额">
+            <input type="number" id="interestRate2" placeholder="年利率 (%)">
+            <input type="number" id="loanTerm2" placeholder="贷款期限 (年)">
+            <input type="number" id="fixedPayment2" placeholder="每月固定还款数（可选）">
+            <button onclick="calculateEqualPayment()">计算</button>
+            <div id="result2"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateInterestOnly() {
+            const loanAmount = parseFloat(document.getElementById('loanAmount1').value);
+            const interestRate = parseFloat(document.getElementById('interestRate1').value) / 100;
+            const loanTerm = parseInt(document.getElementById('loanTerm1').value);
+            let fixedPayment = parseFloat(document.getElementById('fixedPayment1').value) || 0;
+
+            const monthlyInterest = loanAmount * interestRate / 12;
+            const minMonthlyPayment = monthlyInterest;
+
+            if (fixedPayment < minMonthlyPayment) {
+                fixedPayment = minMonthlyPayment;
+            }
+
+            let result = '<table><tr><th>年份</th><th>月份</th><th>月还款额</th><th>利息</th><th>本金</th><th>剩余本金</th></tr>';
+            let totalPayment = 0;
+            let totalInterest = 0;
+            let totalPrincipal = 0;
+            let remainingBalance = loanAmount;
+            let month = 1;
+
+            for (let year = 1; year <= loanTerm; year++) {
+                for (let m = 1; m <= 12; m++) {
+                    if (remainingBalance <= 0) break;
+
+                    const interest = remainingBalance * interestRate / 12;
+                    let principal = fixedPayment - interest;
+
+                    if (principal > remainingBalance) {
+                        principal = remainingBalance;
+                        fixedPayment = principal + interest;
+                    }
+
+                    remainingBalance -= principal;
+                    totalPayment += fixedPayment;
+                    totalInterest += interest;
+                    totalPrincipal += principal;
+
+                    result += `<tr>
+                        <td>${year}</td>
+                        <td>${month}</td>
+                        <td>${fixedPayment.toFixed(2)}</td>
+                        <td>${interest.toFixed(2)}</td>
+                        <td>${principal.toFixed(2)}</td>
+                        <td>${remainingBalance.toFixed(2)}</td>
+                    </tr>`;
+
+                    month++;
+                    if (remainingBalance <= 0) break;
+                }
+                if (remainingBalance <= 0) break;
+            }
+
+            result += '</table>';
+            result += `<div class="summary">
+                <p>累计利息：${totalInterest.toFixed(2)}</p>
+                <p>累计本金：${totalPrincipal.toFixed(2)}</p>
+                <p>总还款额：${totalPayment.toFixed(2)}</p>
+            </div>`;
+            document.getElementById('result1').innerHTML = result;
+        }
+
+        function calculateEqualPayment() {
+            const loanAmount = parseFloat(document.getElementById('loanAmount2').value);
+            const interestRate = parseFloat(document.getElementById('interestRate2').value) / 100;
+            const loanTerm = parseInt(document.getElementById('loanTerm2').value);
+            let fixedPayment = parseFloat(document.getElementById('fixedPayment2').value) || 0;
+
+            const monthlyRate = interestRate / 12;
+            const numberOfPayments = loanTerm * 12;
+            const calculatedMonthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+
+            if (fixedPayment < calculatedMonthlyPayment) {
+                fixedPayment = calculatedMonthlyPayment;
+            }
+
+            let result = '<table><tr><th>年份</th><th>月份</th><th>月还款额</th><th>利息</th><th>本金</th><th>剩余本金</th></tr>';
+            let totalPayment = 0;
+            let totalInterest = 0;
+            let totalPrincipal = 0;
+            let remainingBalance = loanAmount;
+            let month = 1;
+
+            for (let year = 1; year <= loanTerm; year++) {
+                for (let m = 1; m <= 12; m++) {
+                    if (remainingBalance <= 0) break;
+
+                    const interest = remainingBalance * monthlyRate;
+                    let principal = fixedPayment - interest;
+
+                    if (principal > remainingBalance) {
+                        principal = remainingBalance;
+                        fixedPayment = principal + interest;
+                    }
+
+                    remainingBalance -= principal;
+                    totalPayment += fixedPayment;
+                    totalInterest += interest;
+                    totalPrincipal += principal;
+
+                    result += `<tr>
+                        <td>${year}</td>
+                        <td>${month}</td>
+                        <td>${fixedPayment.toFixed(2)}</td>
+                        <td>${interest.toFixed(2)}</td>
+                        <td>${principal.toFixed(2)}</td>
+                        <td>${remainingBalance.toFixed(2)}</td>
+                    </tr>`;
+
+                    month++;
+                    if (remainingBalance <= 0) break;
+                }
+                if (remainingBalance <= 0) break;
+            }
+
+            result += '</table>';
+            result += `<div class="summary">
+                <p>累计利息：${totalInterest.toFixed(2)}</p>
+                <p>累计本金：${totalPrincipal.toFixed(2)}</p>
+                <p>总还款额：${totalPayment.toFixed(2)}</p>
+            </div>`;
+            document.getElementById('result2').innerHTML = result;
+        }
+    </script>
+</body>
+</html>

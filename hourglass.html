@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5CXD1W4K6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y5CXD1W4K6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中心翻转的SVG沙漏计时器</title>
+    <style>
+        body {
+            background-color: #CD0074;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        .hourglass-icon {
+            width: 250px;
+            height: 200px;
+            margin: 0 auto 30px;
+            transition: transform 1s;
+        }
+        button {
+            font-size: 16px;
+            padding: 8px 16px;
+            cursor: pointer;
+            background-color: #FFFFFF;
+            border: none;
+            color: #CD0074;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            width: 120px;
+            height: 40px;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hourglass-icon" id="hourglassContainer">
+            <svg viewBox="0 0 125 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Hourglass outline -->
+                <path d="M25 5 H100 L62.5 50 L100 95 H25 L62.5 50 Z" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+                
+                <!-- Sand in top half -->
+                <clipPath id="topClip">
+                    <path d="M25 5 H100 L62.5 50 Z" />
+                </clipPath>
+                <path id="topSand" d="M25 5 H100 L62.5 50 Z" fill="#FFFFFF" clip-path="url(#topClip)">
+                    <animate id="topAnim" attributeName="d" from="M25 5 H100 L62.5 50 Z" to="M25 50 H100 L62.5 50 Z" dur="30s" begin="indefinite" fill="freeze"/>
+                </path>
+                
+                <!-- Sand in bottom half -->
+                <path id="bottomSand" d="M25 95 L100 95 L62.5 95 Z" fill="#FFFFFF">
+                    <animate id="bottomAnim" attributeName="d" from="M25 95 L100 95 L62.5 95 Z" to="M25 95 L100 95 L62.5 50 Z" dur="30s" begin="indefinite" fill="freeze"/>
+                </path>
+                
+                <!-- Top and bottom lines -->
+                <rect x="23" y="3" width="79" height="4" fill="#FFFFFF"/>
+                <rect x="23" y="93" width="79" height="4" fill="#FFFFFF"/>
+            </svg>
+        </div>
+        <button id="timerButton">Focus On!</button>
+    </div>
+
+    <script>
+        const button = document.getElementById('timerButton');
+        const topAnim = document.getElementById('topAnim');
+        const bottomAnim = document.getElementById('bottomAnim');
+        const hourglassContainer = document.getElementById('hourglassContainer');
+        let startTime;
+        let timerInterval;
+        let isRunning = false;
+        const maxTime = 30 * 1000; // 30 seconds for demonstration (change to 30 * 60 * 1000 for 30 minutes)
+
+        function startTimer() {
+            startTime = Date.now();
+            isRunning = true;
+            timerInterval = setInterval(updateTimer, 1000);
+            topAnim.beginElement();
+            bottomAnim.beginElement();
+            
+            // Set timeout to flip the hourglass after animation completes
+            setTimeout(flipHourglass, maxTime);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+        }
+
+        function updateTimer() {
+            const elapsedTime = Date.now() - startTime;
+            if (elapsedTime >= maxTime) {
+                stopTimer();
+                button.textContent = 'Focus On!';
+                return;
+            }
+            const time = new Date(maxTime - elapsedTime);
+            const minutes = time.getUTCMinutes().toString().padStart(2, '0');
+            const seconds = time.getUTCSeconds().toString().padStart(2, '0');
+            button.textContent = `${minutes}:${seconds}`;
+        }
+
+        function flipHourglass() {
+            hourglassContainer.style.transform = 'rotate(180deg)';
+            
+            // Reset sand positions after flip animation
+            setTimeout(() => {
+                document.getElementById('topSand').setAttribute('d', 'M25 5 H100 L62.5 50 Z');
+                document.getElementById('bottomSand').setAttribute('d', 'M25 95 L100 95 L62.5 95 Z');
+                hourglassContainer.style.transform = 'rotate(0deg)';
+                
+                // Restart the timer and animations
+                startTimer();
+            }, 1000);
+        }
+
+        button.addEventListener('click', () => {
+            if (!isRunning) {
+                startTimer();
+            } else {
+                stopTimer();
+                button.textContent = 'Focus On!';
+                // Reset sand animation
+                document.getElementById('topSand').setAttribute('d', 'M25 5 H100 L62.5 50 Z');
+                document.getElementById('bottomSand').setAttribute('d', 'M25 95 L100 95 L62.5 95 Z');
+                hourglassContainer.style.transform = 'rotate(0deg)';
+            }
+        });
+    </script>
+</body>
+</html>

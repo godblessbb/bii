@@ -1,0 +1,59 @@
+<!-- filters.html -->
+<aside id="filters">
+    <h2>Filters</h2>
+<!--            <div class="filter-section">-->
+<!--            <hr class="filter-divider">-->
+<!--                <h3>Price</h3>-->
+<!--                <div class="price-slider" data-name="Price">-->
+<!--                    <input type="range" min="1" max="2999" value="2999" class="slider" id="maxPrice">-->
+<!--                    <input type="range" min="0" max="2998" value="0" class="slider" id="minPrice">-->
+
+<!--                    <div class="slider-track"></div>-->
+<!--                    <div class="slider-overlay"></div> &lt;!&ndash; 这是新添加的透明覆盖层 &ndash;&gt;-->
+<!--                </div>-->
+<!--                <div class="slider-values">-->
+<!--                    <span id="minPriceLabel">$0</span> - <span id="maxPriceLabel">$2999</span>-->
+<!--                </div>-->
+<!--            </div>-->
+    <div class="filter-section">
+        <hr class="filter-divider">
+        <h3>Price</h3>
+        <div class="number-inputs" data-name="Price">
+            $<input type="number" id="minPriceInput" name="minPrice" min="0" placeholder="0">
+            <span>-</span>
+            $<input type="number" id="maxPriceInput" name="maxPrice" min="0" placeholder="9999">
+        </div>
+        <hr class="filter-divider">
+        <h3>Perf Score</h3>
+        <div class="number-inputs" data-name="Perf Score">
+            <input type="number" id="minPerfScoreInput" name="minPerfScore" min="0" placeholder="Min Perf Score">
+            <span>-</span>
+            <input type="number" id="maxPerfScoreInput" name="maxPerfScore" min="0" placeholder="Max Perf Score">
+        </div>
+    </div>
+
+    <!-- 其他filter内容 -->
+    <div class="filter-section">
+        <hr class="section-divider">
+        <h3 class="section-title">Brand</h3>
+        <div class="checkbox-group" data-name="Brand">
+        <!-- 动态生成的复选框将被添加到这里 -->
+        </div>
+    </div>
+    <!-- 其他filter内容 -->
+    <div class="filter-section">
+        <hr class="section-divider">
+        <h3 class="section-title">Chipset</h3>
+        <div class="checkbox-group" data-name="Chipset">
+        </div>
+    </div>
+
+    <!-- 其他filter内容 -->
+    <div class="filter-section">
+        <hr class="section-divider">
+        <h3 class="section-title">Graphics Ram</h3>
+        <div class="checkbox-group" data-name="Ram">
+        </div>
+    </div>
+
+</aside>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5CXD1W4K6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y5CXD1W4K6');
+    </script>
+    <link rel="icon" href="gpu_favicon.png" type="image/png">
+    <link rel="canonical" href="https://gpubuy.com/index.html" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJ2H8TG798"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VJ2H8TG798');
+    </script>
+    <meta charset="UTF-8">
+    <title>Top 100 Stocks - Best Performers</title>
+    <meta name="description" content="Discover the top 100 performing stocks based on various criteria. Updated daily to provide the latest market insights.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="drop-most">
+    <header>
+        <h1>Top 100 Stocks</h1>
+        <p>We track the best performing stocks based on various metrics. Last updated: <span id="update-time"></span></p>
+    </header>
+    <div class="container">
+        <aside id="filters">
+        <h2>Filters</h2>
+        <div id="filters-container"></div>
+        </aside>
+        <main id="product-list">
+            <div class="deals-header">
+                <h2 id="dealsCount">Stocks Found</h2>
+                <hr>
+                <div class="tags">
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Stock Code</th>
+                        <th scope="col">Short Name</th>
+                        <th scope="col">Industry</th>
+                        <th scope="col">Latest Trade Date</th>
+                        <th scope="col">Latest Close</th>
+                        <th scope="col">PCT Change (1 day)</th>
+                        <th scope="col">PCT Change (3 days)</th>
+                        <th scope="col">PCT Change (5 days)</th>
+                        <th scope="col">PCT Change (10 days)</th>
+                        <th scope="col">Volume</th>
+                        <th scope="col">Turnover Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table body will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+    <footer>
+        <div class="footer-links">
+            <span class="footer-title">Hot Sectors :</span>
+            <a href="#tech">Technology</a>
+            <a href="#finance">Finance</a>
+            <a href="#healthcare">Healthcare</a>
+        </div>
+        <p>Data provided for informational purposes only. Not financial advice.</p>
+        <p>For any inquiries, please contact <a href="mailto:info@stocktracker.com">info@stocktracker.com</a>.</p>
+    </footer>
+    <script src="navigation.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        generateNavigation('drop-most');
+    });
+    </script>
+    <script src="script.js"></script>
+    <script>
+    // New script to handle CSV loading and table population
+    function formatPercentage(value) {
+        return (parseFloat(value) * 100).toFixed(2) + '%';
+    }
+
+    function formatPrice(value) {
+        return parseFloat(value).toFixed(2);
+    }
+
+    async function loadStockData() {
+        try {
+            const response = await fetch('top_100_stocks.csv');
+            const data = await response.text();
+            const rows = data.split('\n').slice(1);
+            const tableBody = document.querySelector('#product-list table tbody');
+
+            rows.forEach(row => {
+                const columns = row.split(',');
+                if (columns.length === 13) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${columns[0]}</td>
+                        <td>${columns[1]}</td>
+                        <td>${columns[2]}</td>
+                        <td>${formatPrice(columns[4])}</td>
+                        <td>${formatPercentage(columns[6])}</td>
+                        <td>${formatPercentage(columns[8])}</td>
+                        <td>${formatPercentage(columns[10])}</td>
+                        <td>${formatPercentage(columns[12])}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                }
+            });
+
+            document.getElementById('dealsCount').textContent = `${rows.length} Stocks Found`;
+            document.getElementById('update-time').textContent = new Date().toLocaleString();
+        } catch (error) {
+            console.error('Error loading stock data:', error);
+            document.getElementById('product-list').innerHTML = '<p>Error loading stock data. Please try again later.</p>';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadStockData);
+    </script>
+</body>
+</html>

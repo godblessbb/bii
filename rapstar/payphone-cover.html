@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5CXD1W4K6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y5CXD1W4K6');
+    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a0a14">
+<title>Payphone (Wiz Khalifa Verse Cover)</title>
+<meta name="description" content="A personal cover of Wiz Khalifa&#39;s verse from Maroon 5&#39;s Payphone. 04bot · Personal Mix.">
+
+<!-- Open Graph (WeChat / Facebook / iMessage / LinkedIn) -->
+<meta property="og:type" content="music.song">
+<meta property="og:site_name" content="Rapstar · 04bot">
+<meta property="og:title" content="Payphone (Wiz Khalifa Verse Cover)">
+<meta property="og:description" content="A personal cover of Wiz Khalifa&#39;s verse from Maroon 5&#39;s Payphone. 04bot · Personal Mix.">
+<meta property="og:url" content="https://datode.com/rapstar/payphone-cover.html">
+<meta property="og:image" content="https://datode.com/rapstar/payphone-cover-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Payphone (Wiz Khalifa Verse Cover)">
+<meta property="og:audio" content="https://datode.com/rapstar/payphone-cover.mp3">
+<meta property="og:audio:type" content="audio/mpeg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Payphone (Wiz Khalifa Verse Cover)">
+<meta name="twitter:description" content="A personal cover of Wiz Khalifa&#39;s verse from Maroon 5&#39;s Payphone. 04bot · Personal Mix.">
+<meta name="twitter:image" content="https://datode.com/rapstar/payphone-cover-card.png">
+
+<link rel="icon" type="image/png" href="https://datode.com/rapstar/bao.png">
+<link rel="apple-touch-icon" href="https://datode.com/rapstar/bao.png">
+
+<!-- Schema.org MusicRecording -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MusicRecording",
+  "name": "Payphone (Wiz Khalifa Verse Cover)",
+  "byArtist": { "@type": "Person", "name": "04bot" },
+  "inAlbum": { "@type": "MusicAlbum", "name": "Personal Mix" },
+  "image": "https://datode.com/rapstar/payphone-cover-card.png",
+  "url": "https://datode.com/rapstar/payphone-cover.html",
+  "audio": "https://datode.com/rapstar/payphone-cover.mp3",
+  "datePublished": "2026-05-16"
+}
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: #0a0a14;
+    color: #e8e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  body {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+      #0a0a14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+  }
+
+  .player {
+    width: 100%;
+    max-width: 460px;
+    padding: 48px 28px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .cover-wrap {
+    width: 240px;
+    height: 240px;
+    position: relative;
+  }
+  .cover {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background:
+      conic-gradient(from 0deg,
+        #6366f1, #8b5cf6, #ec4899, #f59e0b, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 20px 60px -10px rgba(99, 102, 241, 0.5),
+      0 0 0 1px rgba(255,255,255,0.06);
+    animation: spin 16s linear infinite;
+    animation-play-state: paused;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 35% 35%, #1a1a2e 0%, #0a0a14 100%);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0a0a14;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+  }
+  .cover.playing { animation-play-state: running; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .cover-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(99, 102, 241, 0.4);
+    pointer-events: none;
+    opacity: 0;
+  }
+  .cover-pulse.active {
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.25); opacity: 0; }
+  }
+
+  .meta {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .meta .title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .meta .artist {
+    font-size: 13px;
+    color: rgba(232, 232, 240, 0.55);
+    letter-spacing: 0.5px;
+  }
+
+  .waveform {
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 0 4px;
+  }
+  .waveform .bar {
+    flex: 1;
+    height: 8%;
+    min-height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #818cf8 0%, #6366f1 50%, #4f46e5 100%);
+    transition: height 0.08s ease-out;
+    will-change: height;
+  }
+
+  .progress {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    overflow: visible;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #ec4899);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.1s linear;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.6);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .progress-bar:hover .progress-fill::after { opacity: 1; }
+
+  .progress-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(232, 232, 240, 0.5);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 4px;
+  }
+  .btn {
+    background: transparent;
+    border: none;
+    color: rgba(232, 232, 240, 0.7);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: color 0.2s, background 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  .btn:active { transform: scale(0.92); }
+  .btn svg { width: 22px; height: 22px; }
+
+  .btn-play {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: #fff;
+    box-shadow: 0 8px 24px -4px rgba(99, 102, 241, 0.6);
+  }
+  .btn-play:hover {
+    background: linear-gradient(135deg, #7376f7 0%, #9d6ffa 100%);
+    box-shadow: 0 12px 28px -4px rgba(99, 102, 241, 0.8);
+  }
+  .btn-play svg { width: 28px; height: 28px; }
+
+  .loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 20, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .loading.active { opacity: 1; }
+  .loading::after {
+    content: '';
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: rot 0.8s linear infinite;
+  }
+  @keyframes rot { to { transform: rotate(360deg); } }
+
+  .back-link {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: rgba(232, 232, 240, 0.65);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: color 0.2s, background 0.2s, transform 0.1s;
+    text-decoration: none;
+    z-index: 10;
+  }
+  .back-link:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+  .back-link:active { transform: scale(0.92); }
+  .back-link svg { width: 20px; height: 20px; }
+
+  @media (max-width: 480px) {
+    .player { padding: 32px 20px 24px; gap: 24px; }
+    .cover-wrap { width: 200px; height: 200px; }
+    .meta .title { font-size: 19px; }
+    .controls { gap: 24px; }
+    .btn-play { width: 58px; height: 58px; }
+    .back-link { top: 14px; left: 14px; width: 36px; height: 36px; }
+  }
+</style>
+</head>
+<body>
+  <a href="/rapstar/" class="back-link" aria-label="返回曲目列表">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+  <div class="player">
+    <div class="cover-wrap">
+      <div class="cover" id="cover"></div>
+      <div class="cover-pulse" id="pulse"></div>
+      <div class="loading" id="loading"></div>
+    </div>
+
+    <div class="meta">
+      <div class="title">Payphone (Wiz Khalifa Verse Cover)</div>
+      <div class="artist">04bot · Personal Mix</div>
+    </div>
+
+    <div class="waveform" id="waveform"></div>
+
+    <div class="progress">
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-time">
+        <span id="currentTime">0:00</span>
+        <span id="totalTime">0:00</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="rewindBtn" aria-label="后退 10 秒">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 4 1 10 7 10"/>
+          <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+        </svg>
+      </button>
+
+      <button class="btn btn-play" id="playBtn" aria-label="播放">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path id="playIcon" d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+
+      <button class="btn" id="forwardBtn" aria-label="前进 10 秒">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+      </button>
+    </div>
+
+    <audio id="audio" src="payphone-cover.mp3" preload="metadata" crossorigin="anonymous"></audio>
+  </div>
+
+<script>
+(function() {
+  const SONG_SLUG = "payphone-cover";
+  const SONG_TITLE = "Payphone (Wiz Khalifa Verse Cover)";
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('playBtn');
+  const playIcon = document.getElementById('playIcon');
+  const rewindBtn = document.getElementById('rewindBtn');
+  const forwardBtn = document.getElementById('forwardBtn');
+  const cover = document.getElementById('cover');
+  const pulse = document.getElementById('pulse');
+  const loading = document.getElementById('loading');
+  const waveform = document.getElementById('waveform');
+  const progressBar = document.getElementById('progressBar');
+  const progressFill = document.getElementById('progressFill');
+  const currentTimeEl = document.getElementById('currentTime');
+  const totalTimeEl = document.getElementById('totalTime');
+
+  const PLAY_PATH = 'M8 5v14l11-7z';
+  const PAUSE_PATH = 'M6 4h4v16H6zm8 0h4v16h-4z';
+
+  // ---- GA event helpers ----
+  // Track key engagement: first-play / 25% / 50% / 75% / complete / seek / rewind / forward
+  const gaEvent = (name, params) => {
+    try {
+      if (typeof gtag === 'function') {
+        gtag('event', name, Object.assign({
+          song_slug: SONG_SLUG,
+          song_title: SONG_TITLE
+        }, params || {}));
+      }
+    } catch (e) { /* never break playback for analytics */ }
+  };
+  let firstPlayFired = false;
+  let progressMarks = { q1: false, q2: false, q3: false };
+
+  // ---- Build waveform bars ----
+  const BAR_COUNT = 48;
+  const bars = [];
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const b = document.createElement('div');
+    b.className = 'bar';
+    waveform.appendChild(b);
+    bars.push(b);
+  }
+
+  // ---- Format time ----
+  function fmtTime(sec) {
+    if (!isFinite(sec)) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  // ---- Web Audio + Analyser ----
+  let audioCtx = null;
+  let analyser = null;
+  let sourceNode = null;
+  let dataArray = null;
+  let animFrame = null;
+
+  function setupAudioContext() {
+    if (audioCtx) return true;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return false;
+      audioCtx = new Ctx();
+      sourceNode = audioCtx.createMediaElementSource(audio);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 128;
+      analyser.smoothingTimeConstant = 0.75;
+      sourceNode.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      dataArray = new Uint8Array(analyser.frequencyBinCount);
+      return true;
+    } catch (e) {
+      console.warn('AudioContext setup failed:', e);
+      return false;
+    }
+  }
+
+  // ---- Animate waveform ----
+  function renderWave() {
+    if (!analyser) return;
+    analyser.getByteFrequencyData(dataArray);
+    const step = Math.floor(dataArray.length / BAR_COUNT) || 1;
+    for (let i = 0; i < BAR_COUNT; i++) {
+      let v = 0;
+      let count = 0;
+      for (let j = 0; j < step; j++) {
+        const idx = i * step + j;
+        if (idx < dataArray.length) {
+          v += dataArray[idx];
+          count++;
+        }
+      }
+      v = count ? v / count : 0;
+      const norm = Math.max(0, Math.min(1, v / 220));
+      const h = 8 + norm * 92;
+      bars[i].style.height = h + '%';
+    }
+    animFrame = requestAnimationFrame(renderWave);
+  }
+
+  function startWave() {
+    if (animFrame) cancelAnimationFrame(animFrame);
+    renderWave();
+  }
+  function stopWave() {
+    if (animFrame) {
+      cancelAnimationFrame(animFrame);
+      animFrame = null;
+    }
+    bars.forEach((b, i) => {
+      const h = 8 + Math.sin(i * 0.4) * 4 + 4;
+      b.style.height = h + '%';
+    });
+  }
+
+  // ---- Idle ambient animation when paused ----
+  let idleFrame = null;
+  let idleStart = 0;
+  function idleLoop(t) {
+    if (!idleStart) idleStart = t;
+    const dt = (t - idleStart) / 1000;
+    bars.forEach((b, i) => {
+      const phase = i * 0.35;
+      const h = 8 + (Math.sin(dt * 1.4 + phase) + 1) * 6;
+      b.style.height = h + '%';
+    });
+    idleFrame = requestAnimationFrame(idleLoop);
+  }
+  function startIdle() {
+    if (idleFrame) cancelAnimationFrame(idleFrame);
+    idleStart = 0;
+    idleLoop(performance.now());
+  }
+  function stopIdle() {
+    if (idleFrame) {
+      cancelAnimationFrame(idleFrame);
+      idleFrame = null;
+    }
+  }
+
+  // ---- Play / Pause ----
+  async function togglePlay() {
+    if (audio.paused) {
+      const ok = setupAudioContext();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        try { await audioCtx.resume(); } catch (e) {}
+      }
+      try {
+        await audio.play();
+      } catch (e) {
+        console.warn('Play failed:', e);
+        return;
+      }
+      playIcon.setAttribute('d', PAUSE_PATH);
+      playBtn.setAttribute('aria-label', '暂停');
+      cover.classList.add('playing');
+      pulse.classList.add('active');
+      stopIdle();
+      if (ok) startWave();
+
+      if (!firstPlayFired) {
+        firstPlayFired = true;
+        gaEvent('song_play', { event_category: 'rapstar', action: 'first_play' });
+      } else {
+        gaEvent('song_resume', { event_category: 'rapstar' });
+      }
+    } else {
+      audio.pause();
+      playIcon.setAttribute('d', PLAY_PATH);
+      playBtn.setAttribute('aria-label', '播放');
+      cover.classList.remove('playing');
+      pulse.classList.remove('active');
+      stopWave();
+      startIdle();
+      gaEvent('song_pause', {
+        event_category: 'rapstar',
+        position_sec: Math.floor(audio.currentTime || 0),
+        position_pct: audio.duration ? Math.floor((audio.currentTime / audio.duration) * 100) : 0
+      });
+    }
+  }
+
+  playBtn.addEventListener('click', togglePlay);
+
+  rewindBtn.addEventListener('click', () => {
+    audio.currentTime = Math.max(0, audio.currentTime - 10);
+    gaEvent('song_rewind', { event_category: 'rapstar' });
+  });
+  forwardBtn.addEventListener('click', () => {
+    audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10);
+    gaEvent('song_forward', { event_category: 'rapstar' });
+  });
+
+  // ---- Progress ----
+  audio.addEventListener('loadedmetadata', () => {
+    totalTimeEl.textContent = fmtTime(audio.duration);
+  });
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    progressFill.style.width = pct + '%';
+    currentTimeEl.textContent = fmtTime(audio.currentTime);
+
+    // Engagement quartiles (each fires once)
+    if (!progressMarks.q1 && pct >= 25) {
+      progressMarks.q1 = true;
+      gaEvent('song_progress', { event_category: 'rapstar', milestone: 25 });
+    }
+    if (!progressMarks.q2 && pct >= 50) {
+      progressMarks.q2 = true;
+      gaEvent('song_progress', { event_category: 'rapstar', milestone: 50 });
+    }
+    if (!progressMarks.q3 && pct >= 75) {
+      progressMarks.q3 = true;
+      gaEvent('song_progress', { event_category: 'rapstar', milestone: 75 });
+    }
+  });
+  audio.addEventListener('ended', () => {
+    playIcon.setAttribute('d', PLAY_PATH);
+    cover.classList.remove('playing');
+    pulse.classList.remove('active');
+    stopWave();
+    startIdle();
+    audio.currentTime = 0;
+    progressFill.style.width = '0%';
+    currentTimeEl.textContent = '0:00';
+    gaEvent('song_complete', { event_category: 'rapstar' });
+    // Reset for replay
+    firstPlayFired = false;
+    progressMarks = { q1: false, q2: false, q3: false };
+  });
+  audio.addEventListener('waiting', () => loading.classList.add('active'));
+  audio.addEventListener('canplay', () => loading.classList.remove('active'));
+  audio.addEventListener('playing', () => loading.classList.remove('active'));
+
+  // ---- Click / drag progress ----
+  function seekFromEvent(e) {
+    const rect = progressBar.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const pct = x / rect.width;
+    if (audio.duration) {
+      audio.currentTime = pct * audio.duration;
+      progressFill.style.width = (pct * 100) + '%';
+      gaEvent('song_seek', {
+        event_category: 'rapstar',
+        position_pct: Math.floor(pct * 100)
+      });
+    }
+  }
+  progressBar.addEventListener('click', seekFromEvent);
+  progressBar.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    seekFromEvent(e);
+  }, { passive: false });
+
+  // ---- iOS unlock on first touch ----
+  function unlockAudio() {
+    if (!audioCtx) setupAudioContext();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+    document.removeEventListener('touchstart', unlockAudio);
+    document.removeEventListener('click', unlockAudio);
+  }
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+  document.addEventListener('click', unlockAudio, { once: true });
+
+  // Start idle animation
+  startIdle();
+})();
+</script>
+</body>
+</html>

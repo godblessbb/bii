@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5CXD1W4K6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y5CXD1W4K6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简文本排版 - datode.com/note</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.20/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400&family=Noto+Serif+SC:wght@300;400&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        .preview-container {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pingfang {
+            font-family: 'PingFang SC', 'Apple SD Gothic Neo', 'Noto Sans SC', sans-serif;
+            font-weight: 300;
+        }
+        
+        input[type="color"] {
+            height: 35px;
+            padding: 2px;
+        }
+        
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #09f;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Added styles for collapsible section */
+        .collapsible-section {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .collapsible-button {
+            transition: transform 0.3s ease;
+        }
+        
+        .collapsible-button.open {
+            transform: rotate(180deg);
+        }
+        
+        /* 使用说明的样式 */
+        .instruction-text {
+            color: #9CA3AF; /* 更淡的灰色 */
+            white-space: pre-line;
+            font-size: 14px;
+            font-weight: 300;
+        }
+        
+        .instruction-text:focus {
+            color: #000;
+        }
+        
+        /* 下拉菜单样式 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+        
+        .dropdown-content button {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+        }
+        
+        .dropdown-content button:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        /* 设置选项的样式 */
+        .settings-text {
+            font-size: 13px;
+            font-weight: 300;
+        }
+        
+        .settings-label {
+            font-size: 14px;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        const TextFormatter = () => {
+            const defaultInstructions = `使用说明：
+1. 在文本区域输入或粘贴您的文本
+2. 点击"高级设置"按钮调整格式选项
+3. 预览会在右侧实时更新
+4. 点击"导出为图片"按钮下载生成的图片`;
+            
+            const defaultPoem = `他抬起头，看着老大哥那张庞大的脸孔，看着老大哥那藏在胡子后的笑容，他觉得他用了四十年的时间才知道那副笑容是什么样的。他突然意识到，以往对老大哥的误会是多么残酷而没有必要的啊！他原来是个顽固和自负的浪子，还一直挣扎着要脱离老大哥的关怀！
+
+两滴夹杂着杜松子酒味道的眼泪慢慢滑到了温斯顿鼻梁的两侧，温斯顿终于哭出了声。但是，现在一切都好了，斗争已经结束了，他也战胜了自己，他在心里说，他爱老大哥。
+
+——《一九八四》乔治·奥威尔`;
+
+            const [textContent, setTextContent] = useState(defaultInstructions);
+            const [isDefaultText, setIsDefaultText] = useState(true);
+            const [previewText, setPreviewText] = useState(defaultPoem); // 预览区域始终默认显示1984段落
+            const [textColor, setTextColor] = useState('#333333');
+            const [backgroundColor, setBackgroundColor] = useState('#fffefa');
+            const [fontFamily, setFontFamily] = useState('PingFang SC, Apple SD Gothic Neo, sans-serif');
+            const [fontSize, setFontSize] = useState(16);
+            const [lineHeight, setLineHeight] = useState(1.8);
+            const [padding, setPadding] = useState(48);
+            const [borderVisible, setBorderVisible] = useState(false);
+            const [borderColor, setBorderColor] = useState('#e0e0e0');
+            const [showVerticalDate, setShowVerticalDate] = useState(false);
+            const [showHeaderDecoration, setShowHeaderDecoration] = useState(true);
+            const [decorationType, setDecorationType] = useState('lines');
+            const [circleColor, setCircleColor] = useState('#333333');
+            const [quoteStyle, setQuoteStyle] = useState(false);
+            const [maxWidth, setMaxWidth] = useState(500);
+            const [isLoading, setIsLoading] = useState(false);
+            const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
+            const [selectedTemplate, setSelectedTemplate] = useState('默认');
+            
+            const previewRef = useRef(null);
+            const textareaRef = useRef(null);
+            
+            // Get current date
+            const getCurrentDate = () => {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth() + 1;
+                const day = now.getDate();
+                return { year, month, day };
+            };
+            
+            const { year, month, day } = getCurrentDate();
+            
+            const paragraphStyles = {
+                marginBottom: '1.5em',
+                textAlign: 'left',
+                paddingLeft: quoteStyle ? '1rem' : '0',
+                borderLeft: quoteStyle ? '3px solid #e0e0e0' : 'none',
+            };
+            
+            // Handle text area focus to clear instructions
+            const handleTextareaFocus = () => {
+                if (isDefaultText) {
+                    setTextContent('');
+                    setIsDefaultText(false);
+                }
+            };
+            
+            // Handle text area blur to restore instructions if empty
+            const handleTextareaBlur = () => {
+                if (textContent.trim() === '') {
+                    setTextContent(defaultInstructions);
+                    setIsDefaultText(true);
+                }
+            };
+            
+            // Handle text change
+            const handleTextChange = (e) => {
+                const newText = e.target.value;
+                setTextContent(newText);
+                if (isDefaultText) {
+                    setIsDefaultText(false);
+                }
+                
+                // 只有当用户实际输入了非指导内容时，才更新预览文本
+                if (newText.trim() !== '' && newText !== defaultInstructions) {
+                    setPreviewText(newText);
+                }
+            };
+            
+            // Handle paste event to preserve formatting
+            const handlePaste = (e) => {
+                const text = e.clipboardData.getData('text/plain');
+                setTextContent(text);
+                setPreviewText(text); // 粘贴的内容也会显示在预览区
+                setIsDefaultText(false);
+                e.preventDefault();
+            };
+            
+            const handleExport = async () => {
+                if (!previewRef.current) return;
+                
+                setIsLoading(true);
+                
+                try {
+                    const canvas = await html2canvas(previewRef.current, {
+                        scale: 2, // 提高导出图片分辨率
+                        useCORS: true,
+                        backgroundColor: backgroundColor
+                    });
+                    
+                    const image = canvas.toDataURL('image/png');
+                    
+                    // 创建下载链接
+                    const link = document.createElement('a');
+                    link.href = image;
+                    link.download = `文本排版_${new Date().toISOString().slice(0, 10)}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } catch (error) {
+                    console.error('导出图片时出错:', error);
+                    alert('导出图片时出错，请尝试使用截图功能。');
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            
+            const toggleAdvancedSettings = () => {
+                setShowAdvancedSettings(!showAdvancedSettings);
+            };
+            
+            // 模板选择处理
+            const handleTemplateChange = (template) => {
+                setSelectedTemplate(template);
+                // 这里可以根据不同模板设置不同的样式参数
+                if (template === '默认') {
+                    setBackgroundColor('#fffefa');
+                    setTextColor('#333333');
+                    setFontFamily('PingFang SC, Apple SD Gothic Neo, sans-serif');
+                    setFontSize(16);
+                    setLineHeight(1.8);
+                    setBorderVisible(false);
+                    setQuoteStyle(false);
+                } else if (template === '简约黑白') {
+                    setBackgroundColor('#ffffff');
+                    setTextColor('#222222');
+                    setFontFamily('Arial');
+                    setFontSize(16);
+                    setLineHeight(1.6);
+                    setBorderVisible(true);
+                    setBorderColor('#dddddd');
+                    setQuoteStyle(false);
+                }
+            };
+            
+            return (
+                <div className="flex flex-col items-center w-full max-w-6xl mx-auto p-4">
+                    {isLoading && (
+                        <div className="loading">
+                            <div className="spinner"></div>
+                        </div>
+                    )}
+                    
+                    <header className="w-full text-center mb-8 mt-4">
+                        <h1 className="text-2xl font-medium">极简文本排版工具</h1>
+                        <p className="text-gray-500 mt-2">datode.com/note</p>
+                    </header>
+                    
+                    {/* 两栏布局的主体部分 */}
+                    <div className="w-full flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
+                        {/* 左栏：文本输入和格式设置 */}
+                        <div className="w-full md:w-1/2">
+                            <div className="mb-4">
+                                <label className="block mb-2 font-bold settings-label">文本内容</label>
+                                <textarea
+                                    ref={textareaRef}
+                                    value={textContent}
+                                    onChange={handleTextChange}
+                                    onFocus={handleTextareaFocus}
+                                    onBlur={handleTextareaBlur}
+                                    onPaste={handlePaste}
+                                    className={`w-full p-2 border rounded h-64 mb-1 ${isDefaultText ? 'instruction-text' : ''}`}
+                                />
+                            </div>
+                            
+                            {/* 高级设置按钮 */}
+                            <div className="mb-4">
+                                <button 
+                                    onClick={toggleAdvancedSettings}
+                                    className="flex items-center text-blue-500 hover:text-blue-700 focus:outline-none settings-text"
+                                >
+                                    <span>高级设置</span>
+                                    <svg 
+                                        className={`ml-1 w-4 h-4 transition-transform duration-200 ${showAdvancedSettings ? 'transform rotate-180' : ''}`}
+                                        fill="none" 
+                                        stroke="currentColor" 
+                                        viewBox="0 0 24 24" 
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            {/* 高级设置折叠区域 */}
+                            <div 
+                                className="collapsible-section overflow-hidden transition-all duration-300 ease-in-out"
+                                style={{ 
+                                    maxHeight: showAdvancedSettings ? '1000px' : '0',
+                                    opacity: showAdvancedSettings ? '1' : '0',
+                                    marginBottom: showAdvancedSettings ? '1.5rem' : '0'
+                                }}
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 settings-text">
+                                                                            <div>
+                                        <label className="block mb-1 font-medium settings-label">字体</label>
+                                        <select
+                                            value={fontFamily}
+                                            onChange={(e) => setFontFamily(e.target.value)}
+                                            className="w-full p-2 border rounded"
+                                        >
+                                            <option value="PingFang SC, Apple SD Gothic Neo, sans-serif">苹方简（细体）</option>
+                                            <option value="Noto Sans SC">思源黑体</option>
+                                            <option value="Noto Serif SC">思源宋体</option>
+                                            <option value="Helvetica">Helvetica</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Arial">Arial</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">字体大小 (px)</label>
+                                        <input
+                                            type="number"
+                                            min="12"
+                                            max="36"
+                                            value={fontSize}
+                                            onChange={(e) => setFontSize(parseInt(e.target.value, 10))}
+                                            className="w-full p-2 border rounded"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block mb-2 font-medium">文本颜色</label>
+                                        <div className="flex">
+                                            <input
+                                                type="color"
+                                                value={textColor}
+                                                onChange={(e) => setTextColor(e.target.value)}
+                                                className="mr-2"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={textColor}
+                                                onChange={(e) => setTextColor(e.target.value)}
+                                                className="w-24 p-1 border rounded"
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">背景颜色</label>
+                                        <div className="flex">
+                                            <input
+                                                type="color"
+                                                value={backgroundColor}
+                                                onChange={(e) => setBackgroundColor(e.target.value)}
+                                                className="mr-2"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={backgroundColor}
+                                                onChange={(e) => setBackgroundColor(e.target.value)}
+                                                className="w-24 p-1 border rounded"
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">行高</label>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            max="3"
+                                            step="0.1"
+                                            value={lineHeight}
+                                            onChange={(e) => setLineHeight(parseFloat(e.target.value))}
+                                            className="w-full p-2 border rounded"
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">内边距 (px)</label>
+                                        <input
+                                            type="number"
+                                            min="20"
+                                            max="80"
+                                            value={padding}
+                                            onChange={(e) => setPadding(parseInt(e.target.value, 10))}
+                                            className="w-full p-2 border rounded"
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">显示边框</label>
+                                        <label className="inline-flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                checked={borderVisible}
+                                                onChange={(e) => setBorderVisible(e.target.checked)}
+                                                className="mr-2"
+                                            />
+                                            启用
+                                        </label>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">边框颜色</label>
+                                        <div className="flex">
+                                            <input
+                                                type="color"
+                                                value={borderColor}
+                                                onChange={(e) => setBorderColor(e.target.value)}
+                                                className="mr-2"
+                                                disabled={!borderVisible}
+                                            />
+                                            <input
+                                                type="text"
+                                                value={borderColor}
+                                                onChange={(e) => setBorderColor(e.target.value)}
+                                                className="w-24 p-1 border rounded"
+                                                disabled={!borderVisible}
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">显示垂直日期</label>
+                                        <label className="inline-flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                checked={showVerticalDate}
+                                                onChange={(e) => setShowVerticalDate(e.target.checked)}
+                                                className="mr-2"
+                                            />
+                                            启用
+                                        </label>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">显示头部装饰</label>
+                                        <label className="inline-flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                checked={showHeaderDecoration}
+                                                onChange={(e) => setShowHeaderDecoration(e.target.checked)}
+                                                className="mr-2"
+                                            />
+                                            启用
+                                        </label>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">装饰样式</label>
+                                        <select
+                                            value={decorationType}
+                                            onChange={(e) => setDecorationType(e.target.value)}
+                                            className="w-full p-2 border rounded"
+                                            disabled={!showHeaderDecoration}
+                                        >
+                                            <option value="lines">极简线条</option>
+                                            <option value="dot-line">点线组合</option>
+                                            <option value="square">方块</option>
+                                            <option value="triangle">三角形</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">装饰颜色</label>
+                                        <div className="flex">
+                                            <input
+                                                type="color"
+                                                value={circleColor}
+                                                onChange={(e) => setCircleColor(e.target.value)}
+                                                className="mr-2"
+                                                disabled={!showHeaderDecoration}
+                                            />
+                                            <input
+                                                type="text"
+                                                value={circleColor}
+                                                onChange={(e) => setCircleColor(e.target.value)}
+                                                className="w-24 p-1 border rounded"
+                                                disabled={!showHeaderDecoration}
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">显示引用样式</label>
+                                        <label className="inline-flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                checked={quoteStyle}
+                                                onChange={(e) => setQuoteStyle(e.target.checked)}
+                                                className="mr-2"
+                                            />
+                                            启用
+                                        </label>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block mb-2 font-medium">预览宽度 (px)</label>
+                                        <input
+                                            type="number"
+                                            min="300"
+                                            max="800"
+                                            value={maxWidth}
+                                            onChange={(e) => setMaxWidth(parseInt(e.target.value, 10))}
+                                            className="w-full p-2 border rounded"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* 右栏：模板选择和预览 */}
+                        <div className="w-full md:w-1/2">
+                            <div style={{ 
+                                width: `${maxWidth}px`,
+                                maxWidth: '100%',
+                                marginBottom: '12px',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="block font-medium settings-label" style={{ marginBottom: '0', marginRight: '0' }}>当前模板：</label>
+                                    <span className="mr-1 settings-text">{selectedTemplate}</span>
+                                    <div className="dropdown" style={{ marginLeft: '0' }}>
+                                        <div className="flex items-center cursor-pointer settings-text">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M6 9l6 6 6-6" />
+                                            </svg>
+                                        </div>
+                                        <div className="dropdown-content">
+                                            <button className="settings-text" onClick={() => handleTemplateChange('默认')}>默认</button>
+                                            <button className="settings-text" onClick={() => handleTemplateChange('简约黑白')}>简约黑白</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button 
+                                    onClick={handleExport}
+                                    className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 text-sm rounded transition duration-200 settings-text"
+                                >
+                                    导出为图片
+                                </button>
+                            </div>
+                            
+                            <div className="mt-4 w-full flex justify-center">
+                                <div
+                                    ref={previewRef} 
+                                    style={{
+                                        width: `${maxWidth}px`,
+                                        maxWidth: '100%',
+                                        position: 'relative',
+                                        fontFamily: fontFamily,
+                                        fontWeight: fontFamily.includes('PingFang') ? '300' : 'normal',
+                                        color: textColor,
+                                        backgroundColor: backgroundColor,
+                                        padding: `${padding}px`,
+                                        paddingLeft: `${padding}px`,
+                                        paddingRight: `${padding}px`,
+                                        border: borderVisible ? `1px solid ${borderColor}` : 'none',
+                                        fontSize: `${fontSize}px`,
+                                        lineHeight: lineHeight
+                                    }}
+                                    className="relative preview-container"
+                                >
+                                    {showVerticalDate && (
+                                        <div 
+                                            style={{
+                                                position: 'absolute',
+                                                top: '36px',
+                                                right: '36px',
+                                                writingMode: 'vertical-rl',
+                                                textOrientation: 'mixed',
+                                                fontSize: '14px',
+                                                letterSpacing: '2px',
+                                                opacity: 0.7
+                                            }}
+                                        >
+                                            {year}年{month}月{day}日
+                                        </div>
+                                    )}
+                                    
+                                    {showHeaderDecoration && (
+                                        <div style={{ position: 'absolute', top: '36px', left: `${padding}px`, right: `${padding}px` }}>
+                                            {decorationType === 'lines' && (
+                                                <div>
+                                                    <div style={{ height: '1px', width: '40px', backgroundColor: circleColor, marginBottom: '8px' }}></div>
+                                                    <div style={{ height: '1px', width: '20px', backgroundColor: circleColor, marginBottom: '24px' }}></div>
+                                                </div>
+                                            )}
+                                            
+                                            {decorationType === 'dot-line' && (
+                                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '24px' }}>
+                                                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: circleColor }}></div>
+                                                    <div style={{ height: '1px', width: '40px', backgroundColor: circleColor, marginLeft: '8px' }}></div>
+                                                </div>
+                                            )}
+                                            
+                                            {decorationType === 'square' && (
+                                                <div style={{ width: '12px', height: '12px', backgroundColor: circleColor, marginBottom: '24px' }}></div>
+                                            )}
+                                            
+                                            {decorationType === 'triangle' && (
+                                                <div 
+                                                    style={{ 
+                                                        width: 0,
+                                                        height: 0,
+                                                        borderLeft: '8px solid transparent',
+                                                        borderRight: '8px solid transparent',
+                                                        borderBottom: `16px solid ${circleColor}`,
+                                                        marginBottom: '24px'
+                                                    }}
+                                                ></div>
+                                            )}
+                                        </div>
+                                    )}
+                                    
+                                    <div style={{ 
+                                        marginTop: showHeaderDecoration ? '72px' : '36px', 
+                                        marginBottom: '48px' 
+                                    }}>
+                                        {/* 预览区域: 
+                                           如果用户有实际输入(非默认说明)则显示用户输入,
+                                           否则显示1984段落作为示例 */}
+                                        {(!isDefaultText && textContent.trim() !== '' ? 
+                                            textContent : previewText).split('\n\n').map((paragraph, index) => {
+                                            // Process Markdown (very basic implementation)
+                                            let processedText = paragraph;
+                                            
+                                            // Bold: **text** or __text__
+                                            processedText = processedText.replace(/(\*\*|__)(.*?)\1/g, '<strong>$2</strong>');
+                                            
+                                            // Italic: *text* or _text_
+                                            processedText = processedText.replace(/(\*|_)(.*?)\1/g, '<em>$2</em>');
+                                            
+                                            // Headers
+                                            processedText = processedText.replace(/^# (.*$)/gm, '<h1 style="font-size: 1.5em; margin-bottom: 0.5em;">$1</h1>');
+                                            processedText = processedText.replace(/^## (.*$)/gm, '<h2 style="font-size: 1.3em; margin-bottom: 0.5em;">$1</h2>');
+                                            processedText = processedText.replace(/^### (.*$)/gm, '<h3 style="font-size: 1.1em; margin-bottom: 0.5em;">$1</h3>');
+                                            
+                                            // Links: [text](url)
+                                            processedText = processedText.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" style="color:inherit;text-decoration:underline;">$1</a>');
+                                            
+                                            // Preserve line breaks within paragraphs with increased spacing
+                                            processedText = processedText.replace(/\n/g, '<br style="margin-bottom: 0.7em; display: block; content: \'\'" />');
+                                            
+                                            return (
+                                                <div key={index} style={{
+                                                    ...paragraphStyles,
+                                                    marginBottom: '1.8em'  // Increased spacing between paragraphs
+                                                }} 
+                                                    dangerouslySetInnerHTML={{ __html: processedText }} />
+                                            );
+                                        })}
+                                    </div>
+                                    
+                                    {/* 底部签名 */}
+                                    <div style={{
+                                        fontSize: '12px',
+                                        color: '#999999',
+                                        textAlign: 'center',
+                                        marginTop: '24px',
+                                        opacity: 0.8
+                                    }}>
+                                        powered by 菜花便签
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <footer className="w-full text-center text-gray-500 text-xs mt-16 pb-4">
+                        © {new Date().getFullYear()} datode.com/note - 极简文本排版工具
+                    </footer>
+                </div>
+            );
+        };
+        
+        ReactDOM.render(<TextFormatter />, document.getElementById('root'));
+    </script>
+</body>
+</html>

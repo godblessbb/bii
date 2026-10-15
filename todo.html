@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5CXD1W4K6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y5CXD1W4K6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docket Notes</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
+        body {background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;}
+        .app-container {width: 100%; max-width: 1200px; background-color: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 20px rgba(0,0,0,0.1);}
+        .sidebar {width: 100%; background-color: white; padding: 20px; border-bottom: 1px solid #e0e0e0;}
+        .logo {font-size: 24px; font-weight: bold; margin-bottom: 20px;}
+        .add-button-container {position: relative; width: 50px; height: 250px;}
+        .add-button {width: 50px; height: 50px; background-color: black; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; cursor: pointer; transition: transform 0.3s ease; z-index: 2; position: relative;}
+        .color-dots {position: absolute; top: 65px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center;}
+        .color-dot {width: 20px; height: 20px; border-radius: 50%; margin-bottom: 15px; cursor: pointer; transition: transform 0.2s ease; transform: translateY(-40px); opacity: 0; pointer-events: none;}
+        .color-dot:hover {transform: scale(1.2) translateY(0);}
+        .color-dots.expanded .color-dot {transform: translateY(0); opacity: 1; pointer-events: auto;}
+        .main-content {flex-grow: 1; padding: 20px; overflow-y: auto;}
+        .search-bar {display: flex; align-items: center; background-color: #f0f4f8; border-radius: 20px; padding: 10px 20px; margin-bottom: 20px;}
+        .search-bar input {border: none; background-color: transparent; flex-grow: 1; font-size: 16px; outline: none;}
+        .search-icon {color: #888; margin-right: 10px;}
+        .notes-title {font-size: 36px; font-weight: bold; margin-bottom: 20px;}
+        .notes-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; position: relative;}
+        .note-card {border-radius: 15px; padding: 15px; transition: all 0.3s ease; position: relative; min-height: 150px; cursor: move;}
+        .note-card:hover {transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
+        .note-title {font-size: 16px; font-weight: bold; margin-bottom: 8px;}
+        .note-footer {position: absolute; bottom: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #888;}
+        .note-date {opacity: 0; transition: opacity 0.3s ease;}
+        .note-card:hover .note-date {opacity: 1;}
+        .edit-icon {cursor: pointer;}
+        .dragging {opacity: 0.5; transform: scale(1.05);}
+        .drag-indicator {position: absolute; width: 4px; background-color: #007bff; transition: all 0.2s ease; z-index: 10;}
+        @media (min-width: 768px) {
+            .app-container {flex-direction: row; height: 90vh;}
+            .sidebar {width: 200px; border-right: 1px solid #e0e0e0; border-bottom: none;}
+            .notes-grid {grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));}
+        }
+        @media (min-width: 1200px) {.notes-grid {grid-template-columns: repeat(5, 1fr);}}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">Docket</div>
+            <div class="add-button-container">
+                <div class="add-button">+</div>
+                <div class="color-dots">
+                    <div class="color-dot" style="background-color: #fbd38d;"></div>
+                    <div class="color-dot" style="background-color: #f8d7da;"></div>
+                    <div class="color-dot" style="background-color: #d8b4fe;"></div>
+                    <div class="color-dot" style="background-color: #bfdbfe;"></div>
+                    <div class="color-dot" style="background-color: #bbf7d0;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search">
+            </div>
+            <h1 class="notes-title">Notes</h1>
+            <div class="notes-grid">
+                <div class="note-card" draggable="true" style="background-color: #f8d7da;">
+                    <div class="note-title">This is Docket note.</div>
+                    <div class="note-footer">
+                        <span class="note-date">May 20, 2020</span>
+                        <span class="edit-icon">✎</span>
+                    </div>
+                </div>
+                <div class="note-card" draggable="true" style="background-color: #fff3cd;">
+                    <div class="note-title">The beginning of screenless design</div>
+                    <div class="note-footer">
+                        <span class="note-date">May 21, 2020</span>
+                        <span class="edit-icon">✎</span>
+                    </div>
+                </div>
+                <div class="note-card" draggable="true" style="background-color: #d8b4fe;">
+                    <div class="note-title">13 Things You Should Give Up If You Want To Be a Successful UX Des</div>
+                    <div class="note-footer">
+                        <span class="note-date">May 25, 2020</span>
+                        <span class="edit-icon">✎</span>
+                    </div>
+                </div>
+                <div class="note-card" draggable="true" style="background-color: #bfdbfe;">
+                    <div class="note-title">New note 4</div>
+                    <div class="note-footer">
+                        <span class="note-date">June 1, 2020</span>
+                        <span class="edit-icon">✎</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const addButton = document.querySelector('.add-button');
+        const colorDots = document.querySelector('.color-dots');
+        const notesGrid = document.querySelector('.notes-grid');
+        let isExpanded = false;
+        let draggedNote = null;
+        let dragIndicator = null;
+
+        addButton.addEventListener('click', () => {
+            isExpanded = !isExpanded;
+            colorDots.classList.toggle('expanded');
+            addButton.style.transform = isExpanded ? 'rotate(45deg)' : 'rotate(0deg)';
+            document.querySelectorAll('.color-dot').forEach((dot, index) => {
+                dot.style.transition = `transform 0.3s ease ${index * 0.05}s, opacity 0.3s ease ${index * 0.05}s`;
+                dot.style.transform = isExpanded ? 'translateY(0)' : 'translateY(-40px)';
+                dot.style.opacity = isExpanded ? '1' : '0';
+            });
+        });
+
+        document.querySelectorAll('.color-dot').forEach(dot => {
+            dot.addEventListener('click', () => addNewNote(dot.style.backgroundColor));
+        });
+
+        function addNewNote(color) {
+            const newNote = document.createElement('div');
+            newNote.className = 'note-card';
+            newNote.draggable = true;
+            newNote.style.backgroundColor = color;
+            newNote.innerHTML = `
+                <div class="note-title">New Note</div>
+                <div class="note-footer">
+                    <span class="note-date">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span class="edit-icon">✎</span>
+                </div>
+            `;
+            notesGrid.insertBefore(newNote, notesGrid.firstChild);
+            Array.from(notesGrid.children).forEach((note, index) => {
+                if (index !== 0) {
+                    note.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                    note.style.transform = 'translateY(20px)';
+                    note.style.opacity = '0';
+                    setTimeout(() => {
+                        note.style.transform = 'translateY(0)';
+                        note.style.opacity = '1';
+                    }, 50);
+                }
+            });
+            addDragListeners(newNote);
+        }
+
+        function addDragListeners(note) {
+            note.addEventListener('dragstart', dragStart);
+            note.addEventListener('dragend', dragEnd);
+        }
+
+        function createDragIndicator() {
+            dragIndicator = document.createElement('div');
+            dragIndicator.className = 'drag-indicator';
+            notesGrid.appendChild(dragIndicator);
+        }
+
+        function updateDragIndicator(y) {
+            if (!dragIndicator) return;
+            const closestNote = Array.from(notesGrid.querySelectorAll('.note-card:not(.dragging)')).reduce((closest, note) => {
+                const box = note.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                return (offset < 0 && offset > closest.offset) ? { offset, element: note } : closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+            if (closestNote) {
+                const rect = closestNote.getBoundingClientRect();
+                Object.assign(dragIndicator.style, {
+                    height: `${rect.height}px`,
+                    top: `${rect.top - notesGrid.getBoundingClientRect().top}px`,
+                    left: `${rect.left - notesGrid.getBoundingClientRect().left - 10}px`,
+                    display: 'block'
+                });
+            } else {
+                dragIndicator.style.display = 'none';
+            }
+        }
+
+        function dragStart(e) {
+            draggedNote = this;
+            setTimeout(() => {
+                this.style.display = 'none';
+                animateNotes(Array.from(notesGrid.querySelectorAll('.note-card:not(.dragging)')).slice(Array.from(notesGrid.children).indexOf(this) + 1), -20);
+            }, 0);
+            createDragIndicator();
+        }
+
+        function dragEnd(e) {
+            this.style.display = 'block';
+            this.classList.remove('dragging');
+            if (dragIndicator) {
+                dragIndicator.remove();
+                dragIndicator = null;
+            }
+            animateNotes(Array.from(notesGrid.querySelectorAll('.note-card')).slice(Array.from(notesGrid.children).indexOf(this) + 1), 20);
+        }
+
+        function animateNotes(notes, y) {
+            notes.forEach(n => {
+                n.style.transition = 'transform 0.3s ease';
+                n.style.transform = `translateY(${y}px)`;
+                setTimeout(() => n.style.transform = 'translateY(0)', y < 0 ? 300 : 0);
+            });
+        }
+
+        ['dragover', 'dragenter', 'dragleave', 'drop'].forEach(eventName => {
+            notesGrid.addEventListener(eventName, e => {
+                e.preventDefault();
+                if (eventName === 'dragover') updateDragIndicator(e.clientY);
+                if (eventName === 'drop') {
+                    const afterElement = getDragAfterElement(notesGrid, e.clientY);
+                    notesGrid.insertBefore(draggedNote, afterElement);
+                }
+            });
+        });
+
+        function getDragAfterElement(container, y) {
+            return Array.from(container.querySelectorAll('.note-card:not(.dragging)'))
+                .reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    return (offset < 0 && offset > closest.offset) ? { offset, element: child } : closest;
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        document.querySelector('.search-bar input').addEventListener('input', e => {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.note-card').forEach(card => {
+                card.style.display = card.querySelector('.note-title').textContent.toLowerCase().includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        document.querySelectorAll('.note-card').forEach(addDragListeners);
+    </script>
+</body>
+</html>
