@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7DEXQT23DE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7DEXQT23DE');
+  </script>
+  <meta charset="UTF-8">
+  <title>香又脆的菜花</title>
+  <meta name="description" content="香又脆的菜花 —— 一个社会“闲达”的起居注和食货志。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#e9e9e2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <script>
+    // 语言偏好尽早生效，避免首屏闪烁
+    try { if (localStorage.getItem('datode-lang') === 'en') document.documentElement.lang = 'en'; } catch (e) {}
+  </script>
+  <link rel="preload" href="fonts/anybody-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+  <a class="skip" href="#view" data-i18n="skip">跳到正文</a>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="wipe" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><span></span></div>
+
+  <header class="bar">
+    <a class="bar-brand" href="#/">
+      <span class="bar-mark" aria-hidden="true">菜</span>
+      <span class="bar-name" data-i18n="brand">香又脆的菜花</span>
+    </a>
+    <nav class="bar-nav" aria-label="主导航" data-i18n-aria="navLabel">
+      <a href="#/articles" data-nav="articles"><b>01</b><span data-i18n="nav.articles">文章</span></a>
+      <a href="#/tools" data-nav="tools"><b>02</b><span data-i18n="nav.tools">工具</span></a>
+      <a href="#/works" data-nav="works"><b>03</b><span data-i18n="nav.works">作品</span></a>
+      <a href="#/about" data-nav="about"><b>04</b><span data-i18n="nav.about">关于</span></a>
+    </nav>
+    <button class="bar-lang" type="button" data-lang-toggle aria-pressed="false" aria-label="Switch to English">
+      <span class="lang-zh">中</span><span class="lang-sep">/</span><span class="lang-en">En</span>
+    </button>
+  </header>
+
+  <main id="view" tabindex="-1"></main>
+
+  <footer class="foot">
+    <div class="foot-big" aria-hidden="true"><span class="kin-static">see you, caihua.</span></div>
+    <div class="foot-grid">
+      <p data-i18n="footer.note">香又脆的菜花 · 北京 · 四海为家</p>
+      <p><a href="https://github.com/godblessbb" target="_blank" rel="noopener">GitHub ↗</a></p>
+      <p><a href="https://weibo.com/bicaihua" target="_blank" rel="noopener" data-i18n="footer.weibo">微博 ↗</a></p>
+      <p>© <span data-year>2026</span> datode.com</p>
+    </div>
+  </footer>
+
+  <script src="vendor/marked.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
