@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 310" role="img" aria-label="一颗很小的星球上立着一盏亮着的路灯">
+  <!-- 原创手绘感插画：datode.com 微博存档设计稿。 -->
+  <style>
+    .ink{fill:none;stroke:#3a3029;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+    .thin{stroke-width:1.4}
+    .wash-planet{fill:#c8b2a6;opacity:.6}
+    .wash-glow{fill:#f5d27b;opacity:.55}
+    .wash-flame{fill:#eaa23c;opacity:.85}
+    .wash-sky{fill:#9fb4cf;opacity:.3}
+    .star{fill:#e2ab3c}
+    @media (prefers-color-scheme: dark){
+      .ink{stroke:#efe4cc}
+      .wash-planet{fill:#7d6a64;opacity:.6}
+      .wash-glow{fill:#ffd36b;opacity:.4}
+      .wash-flame{fill:#ffb347;opacity:.95}
+      .wash-sky{fill:#2f4670;opacity:.5}
+      .star{fill:#ffd36b}
+    }
+  </style>
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="31"/>
+      <feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="bleed" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="13" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.6"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#bleed)">
+    <ellipse class="wash-sky" cx="210" cy="160" rx="185" ry="135"/>
+    <circle class="wash-glow" cx="210" cy="78" r="56"/>
+    <circle class="wash-planet" cx="210" cy="232" r="62"/>
+    <path class="wash-flame" d="M210 64 Q200 78 206 90 Q210 94 214 90 Q220 78 210 64Z"/>
+  </g>
+
+  <g class="ink" filter="url(#wobble)">
+    <path d="M148 232 A62 62 0 0 1 272 232 A62 62 0 0 1 148 232"/>
+    <path class="thin" d="M160 262 q24 26 60 30"/>
+    <path class="thin" d="M176 250 q8 -5 16 0 q-8 6 -16 0Z M226 262 q6 -4 12 0 q-6 5 -12 0Z"/>
+    <!-- 灯柱 -->
+    <path d="M206 172 L206 104 M214 172 L214 104"/>
+    <path d="M198 176 L222 176 L218 168 L202 168Z"/>
+    <path class="thin" d="M206 140 L214 140"/>
+    <!-- 灯罩 -->
+    <path d="M196 104 L224 104 L218 96 L202 96Z"/>
+    <path d="M200 96 L196 64 L224 64 L220 96"/>
+    <path d="M192 64 L228 64 L210 50Z"/>
+    <path class="thin" d="M210 50 l0 -6"/>
+    <circle class="thin" cx="210" cy="42" r="2.5"/>
+    <!-- 小梯子靠着灯柱 -->
+    <path class="thin" d="M232 176 L222 120 M244 176 L234 120 M230 166 L242 166 M228 154 L240 154 M226 142 L238 142 M224 130 L236 130"/>
+    <!-- 光线 -->
+    <path class="thin" stroke-dasharray="3 6" d="M176 70 L156 64 M244 70 L264 64 M178 88 L160 96 M242 88 L260 96 M210 36 L210 24"/>
+  </g>
+
+  <g class="star">
+    <path d="M70 70 l3 -10 l3 10 l10 3 l-10 3 l-3 10 l-3 -10 l-10 -3Z"/>
+    <path d="M350 92 l2 -8 l2 8 l8 2 l-8 2 l-2 8 l-2 -8 l-8 -2Z"/>
+    <circle cx="120" cy="30" r="1.8"/>
+    <circle cx="310" cy="34" r="2"/>
+    <circle cx="380" cy="190" r="1.8"/>
+    <circle cx="44" cy="176" r="2"/>
+  </g>
+</svg>

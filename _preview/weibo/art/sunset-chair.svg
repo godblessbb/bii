@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 330" role="img" aria-label="小星球上放着一把空椅子，对着落日，几只鸟飞过">
+  <!-- 原创手绘感插画：datode.com 微博存档设计稿。 -->
+  <style>
+    .ink{fill:none;stroke:#3a3029;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+    .thin{stroke-width:1.4}
+    .wash-sun{fill:#ef9c6b;opacity:.6}
+    .wash-sky{fill:#f2c9a0;opacity:.45}
+    .wash-planet{fill:#b9a2c9;opacity:.55}
+    .wash-chair{fill:#d4744e;opacity:.75}
+    .star{fill:#e2ab3c}
+    @media (prefers-color-scheme: dark){
+      .ink{stroke:#efe4cc}
+      .wash-sun{fill:#f08a5d;opacity:.6}
+      .wash-sky{fill:#7a4a62;opacity:.45}
+      .wash-planet{fill:#5d4c7a;opacity:.6}
+      .wash-chair{fill:#e3835a;opacity:.8}
+      .star{fill:#ffd36b}
+    }
+  </style>
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="41"/>
+      <feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="bleed" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="17" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.5"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#bleed)">
+    <ellipse class="wash-sky" cx="240" cy="170" rx="225" ry="140"/>
+    <circle class="wash-sun" cx="366" cy="150" r="44"/>
+    <circle class="wash-planet" cx="214" cy="250" r="72"/>
+    <path class="wash-chair" transform="translate(0 -24)" d="M192 160 L196 196 L232 196 L230 182 L204 182 L200 156Z"/>
+  </g>
+
+  <g class="ink" filter="url(#wobble)">
+    <path d="M142 250 A72 72 0 0 1 286 250 A72 72 0 0 1 142 250"/>
+    <path class="thin" d="M156 284 q26 30 64 36 M236 280 q8 -5 16 0 q-8 6 -16 0Z"/>
+    <!-- 远处的落日 -->
+    <path d="M322 150 A44 44 0 0 1 410 150"/>
+    <path class="thin" d="M314 162 L418 162 M328 174 L404 174 M344 186 L388 186"/>
+    <!-- 椅子 -->
+    <g transform="translate(0 -24)">
+    <path d="M200 156 L204 182 L230 182"/>
+    <path d="M192 158 L196 196 M200 182 L198 206 M228 182 L232 204 M196 196 L232 196"/>
+    <path class="thin" d="M194 168 L201 166 M195 176 L202 175"/>
+    </g>
+    <!-- 小草 -->
+    <path class="thin" d="M168 202 q2 -10 -2 -16 M172 200 q2 -8 6 -12 M258 196 q-2 -10 2 -16 M262 196 q4 -6 8 -8"/>
+    <!-- 鸟 -->
+    <path class="thin" d="M120 80 q8 -8 14 0 q6 -8 14 0"/>
+    <path class="thin" d="M160 60 q6 -6 10 0 q4 -6 10 0"/>
+    <path class="thin" d="M96 108 q5 -5 9 0 q4 -5 9 0"/>
+  </g>
+
+  <g class="star">
+    <path d="M404 54 l3 -10 l3 10 l10 3 l-10 3 l-3 10 l-3 -10 l-10 -3Z"/>
+    <circle cx="60" cy="50" r="2"/>
+    <circle cx="250" cy="40" r="1.6"/>
+    <circle cx="452" cy="120" r="1.8"/>
+  </g>
+</svg>

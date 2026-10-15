@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 260" role="img" aria-label="一只小狐狸坐在麦草坡上，仰头看一颗星星">
+  <!-- 原创手绘感插画：datode.com 微博存档设计稿。 -->
+  <style>
+    .ink{fill:none;stroke:#3a3029;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+    .thin{stroke-width:1.4}
+    .wash-hill{fill:#d9c27c;opacity:.55}
+    .wash-fox{fill:#d98a45;opacity:.8}
+    .wash-cream{fill:#f3e6cc;opacity:.95}
+    .wash-glow{fill:#f2d27a;opacity:.45}
+    .star{fill:#e2ab3c}
+    @media (prefers-color-scheme: dark){
+      .ink{stroke:#efe4cc}
+      .wash-hill{fill:#8c7a45;opacity:.5}
+      .wash-fox{fill:#e3914a;opacity:.85}
+      .wash-cream{fill:#efe2c6;opacity:.75}
+      .wash-glow{fill:#ffd96e;opacity:.35}
+      .star{fill:#ffd36b}
+    }
+  </style>
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="11"/>
+      <feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="bleed" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="5" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.2"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#bleed)">
+    <circle class="wash-glow" cx="330" cy="58" r="40"/>
+    <path class="wash-hill" d="M0 220 Q120 176 230 196 Q330 214 420 190 L420 260 L0 260Z"/>
+    <!-- 尾巴 -->
+    <path class="wash-fox" d="M150 206 Q96 214 92 184 Q90 160 118 164 Q112 186 150 190Z"/>
+    <!-- 身体 -->
+    <path class="wash-fox" d="M150 200 Q140 150 170 128 Q196 116 206 140 Q214 172 204 204Z"/>
+    <!-- 头 -->
+    <path class="wash-fox" d="M176 132 Q170 108 186 96 L184 74 L198 90 Q206 88 214 90 L226 72 L224 98 Q236 110 246 108 Q236 124 214 128 Q196 138 176 132Z"/>
+    <path class="wash-cream" d="M100 180 Q98 168 110 166 Q108 178 118 186 Q106 188 100 180Z"/>
+    <path class="wash-cream" d="M200 132 Q214 128 228 116 Q238 112 244 108 Q236 124 214 130Z"/>
+  </g>
+
+  <g class="ink" filter="url(#wobble)">
+    <!-- 山坡 -->
+    <path d="M0 220 Q120 176 230 196 Q330 214 420 190"/>
+    <!-- 麦草 -->
+    <path class="thin" d="M38 214 q4 -26 -2 -46 M36 182 q-8 -4 -10 -12 M37 190 q8 -6 10 -14 M36 198 q-8 -2 -12 -10"/>
+    <path class="thin" d="M60 206 q2 -20 -4 -36 M58 182 q8 -4 9 -12 M58 192 q-7 -3 -10 -10"/>
+    <path class="thin" d="M300 204 q-2 -24 6 -42 M304 172 q-8 -2 -12 -10 M302 182 q8 -4 12 -12 M301 192 q-8 -2 -11 -9"/>
+    <path class="thin" d="M352 200 q2 -18 -2 -32 M350 178 q7 -3 9 -10 M351 188 q-7 -3 -9 -9"/>
+    <path class="thin" d="M384 196 q-1 -14 4 -26 M386 176 q-6 -2 -8 -8"/>
+    <!-- 尾巴 -->
+    <path d="M150 206 Q96 214 92 184 Q90 160 118 164 Q112 186 150 190"/>
+    <path class="thin" d="M100 180 Q98 168 110 166"/>
+    <!-- 身体与前腿 -->
+    <path d="M150 204 Q140 150 170 130"/>
+    <path d="M206 140 Q214 172 204 204"/>
+    <path d="M178 204 L180 168 M192 204 L194 170"/>
+    <path class="thin" d="M174 206 q6 -3 10 0 M188 206 q6 -3 10 0"/>
+    <!-- 头：仰起，看向星星 -->
+    <path d="M176 132 Q170 108 186 96 L184 74 L198 90 Q206 88 214 90 L226 72 L224 98 Q236 110 246 108 Q236 124 214 128 Q196 138 176 132"/>
+    <path class="thin" d="M188 80 L192 92 M222 80 L218 94"/>
+    <path d="M244 106 l4 -1"/>
+    <path class="thin" d="M206 106 q4 -4 9 -1"/>
+    <!-- 视线 -->
+    <path class="thin" stroke-dasharray="2 7" d="M252 102 Q290 80 316 66"/>
+  </g>
+
+  <g class="star">
+    <path d="M330 58 l4 -15 l4 15 l15 4 l-15 4 l-4 15 l-4 -15 l-15 -4Z"/>
+    <circle cx="80" cy="40" r="2"/>
+    <circle cx="150" cy="24" r="1.6"/>
+    <circle cx="396" cy="110" r="2.2"/>
+    <circle cx="260" cy="30" r="1.6"/>
+    <path d="M40 92 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2Z"/>
+  </g>
+</svg>

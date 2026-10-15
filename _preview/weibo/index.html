@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>微博碎句集 · 香又脆的菜花（设计稿）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="微博存档设计稿：一个被炸掉的老号里捡回来的句子，2012–2022。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4ecdc" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1626" media="(prefers-color-scheme: dark)">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/wenkai-weibo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#weibo">跳到正文</a>
+  <div class="sky" aria-hidden="true" data-sky></div>
+
+  <header class="masthead">
+    <figure class="hero-art">
+      <img src="art/rose-planet.svg" width="480" height="360"
+           alt="水彩插画：一颗小行星上长着一枝玫瑰，旁边一座冒烟的小火山，天上挂着弯月。">
+    </figure>
+    <p class="kicker">香又脆的菜花 · 微博存档</p>
+    <h1 class="title">微博碎句集</h1>
+    <p class="dek">二〇一二至二〇二二，一个被炸掉的老号，<br>和它在星星之间留下的句子。</p>
+    <nav class="toc" aria-label="目录" data-toc hidden></nav>
+  </header>
+
+  <section class="music" data-music data-state="idle" aria-labelledby="music-title">
+    <button class="disc" type="button" data-music-toggle aria-pressed="false"
+            aria-label="播放 I Love You So">
+      <span class="disc-label" aria-hidden="true"><span class="disc-hole"></span></span>
+      <span class="disc-icon" aria-hidden="true"></span>
+    </button>
+    <div class="music-meta">
+      <p class="music-eyebrow">留声机</p>
+      <h2 class="music-title" id="music-title">I Love You So</h2>
+      <p class="music-artist">The Walters</p>
+      <p class="music-status" data-music-status aria-live="polite">唱针已经备好，轻触页面任意处，歌就开始。</p>
+    </div>
+    <div class="music-stage">
+      <div class="music-player" data-music-player></div>
+      <div class="music-offline" data-music-offline hidden>
+        <p>唱片机这会儿连不上（可能是网络或地区原因）。<br>换个地方听也一样：</p>
+        <ul class="music-links">
+          <li><a href="https://music.163.com/#/search/m/?s=I%20Love%20You%20So%20The%20Walters" target="_blank" rel="noopener">网易云音乐</a></li>
+          <li><a href="https://music.apple.com/search?term=The%20Walters%20I%20Love%20You%20So" target="_blank" rel="noopener">Apple Music</a></li>
+          <li><a href="https://open.spotify.com/search/The%20Walters%20I%20Love%20You%20So" target="_blank" rel="noopener">Spotify</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=The+Walters+I+Love+You+So" target="_blank" rel="noopener">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <main class="page" id="weibo" tabindex="-1">
+    <article class="weibo" data-weibo-body aria-busy="true">
+      <p class="weibo-loading">正在翻开本子……</p>
+    </article>
+  </main>
+
+  <footer class="colophon">
+    <figure class="colophon-art">
+      <img src="art/sunset-chair.svg" width="480" height="330" loading="lazy"
+           alt="水彩插画：小星球上放着一把空椅子，对着远处的落日，几只鸟飞过。">
+    </figure>
+    <p class="colophon-end">完</p>
+    <p class="colophon-note">插画为本页原创手绘风 SVG · 字体：霞鹜文楷 Lite（SIL OFL 1.1）子集<br>
+      这是设计稿预览，线上页面仍在 <a href="../../#/weibo">datode.com/#/weibo</a></p>
+  </footer>
+
+  <button class="mini-disc" type="button" data-music-mini aria-label="播放或暂停 I Love You So" hidden>
+    <span class="mini-disc-face" aria-hidden="true"></span>
+    <span class="mini-disc-text" aria-hidden="true">♪</span>
+  </button>
+
+  <script src="../../vendor/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
