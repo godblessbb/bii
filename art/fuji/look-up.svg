@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- look-up · 本站原创单色墨线插画（datode.com《普通人如何去拥有富士山呢？》，与微博合辑同一套画法） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="36"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M2 150 L50 50 Q60 34 70 36 Q80 34 88 48 L130 150"/>
+<path d="M45 62 L50.5 66 L57 60 L63.5 66 L70 60 L76.5 66 L83 60 L89.5 66 L95 63"/>
+<path d="M30 112 Q46 106 58 114 M84 118 Q98 112 110 120" stroke-width="1.2"/>
+<path d="M84 64 q4 -8 12 -4 q8 -6 14 2 q8 0 6 7 H86 q-6 0 -2 -5 Z" stroke-width="1.4"/>
+<path d="M126 150 H158"/>
+<circle cx="145" cy="134" r="3.2"/>
+<path d="M145.5 137.5 L146 145 M146 145 l-2.5 5 M146 145 l3 4.5 M145.8 140 l-3 3 M145.8 140 l3.4 2"/>
+<path d="M143 131 L72 38" stroke-width="1.1" stroke-dasharray="2 5"/>
+<path d="M118 20 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 Z" stroke-width="1.2"/>
+</g>
+</svg>

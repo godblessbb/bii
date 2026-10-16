@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- night-steps · 本站原创单色墨线插画（datode.com《普通人如何去拥有富士山呢？》，与微博合辑同一套画法） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="34"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M126 14 A14 14 0 1 0 142 36 A11 11 0 1 1 126 14 Z"/>
+<path d="M30 20 l1.4 3.6 3.6 1.4 -3.6 1.4 -1.4 3.6 -1.4 -3.6 -3.6 -1.4 3.6 -1.4 Z M66 12 l1 2.6 2.6 1 -2.6 1 -1 2.6 -1 -2.6 -2.6 -1 2.6 -1 Z" stroke-width="1.2"/>
+<circle cx="96" cy="30" r="1"/><circle cx="18" cy="48" r="1"/><circle cx="148" cy="56" r="1"/>
+<path d="M4 76 Q30 68 72 76 M86 76 Q118 68 156 74"/>
+<path d="M14 154 Q54 118 74 78 M104 154 Q90 116 84 78"/>
+<path d="M48 134 q-2.7 4.2 0 6 q2.7 -1.8 0 -6 z M58 126 q-2.4 3.8 0 5.4 q2.4 -1.6 0 -5.4 z M60 116 q-2.1 3.2 0 4.6 q2.1 -1.4 0 -4.6 z M68 108 q-1.8 2.8 0 4 q1.8 -1.2 0 -4 z M68 100 q-1.5 2.4 0 3.4 q1.5 -1 0 -3.4 z M74 92 q-1.3 2 0 2.8 q1.3 -0.8 0 -2.8 z M74 86 q-1.1 1.7 0 2.4 q1.1 -0.7 0 -2.4 z" stroke-width="1.1" stroke-dasharray="2 2.4"/>
+<circle cx="79" cy="57" r="2.6" stroke-width="1.3"/>
+<path d="M79 60 L79 67 M79 67 l-2 5.5 M79 67 l2.6 5 M79 62 l-4 2.4 M79 62 l4 -1.4" stroke-width="1.3"/>
+<path d="M39 128 q-3.5 4 0 8 M34 125 q-6 7 0 14" stroke-width="1" stroke-dasharray="1.2 3"/>
+</g>
+</svg>

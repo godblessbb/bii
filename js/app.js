@@ -40,13 +40,22 @@
     { path: '_works/《无名之辈》观后：一场悲凉的烟花散场', cat: 'works',
       zh: '《无名之辈》观后：一场悲凉的烟花散场', en: 'On “A Cool Fish”: the fireworks fade, and it is sad',
       dzh: '一部包裹着苦涩生活的美丽糖果。', den: 'A pretty candy wrapped around a bitter life.' },
+    { path: '_works/普通人如何去拥有富士山呢', cat: 'works', date: '2025.10.13',
+      zh: '普通人如何去拥有富士山呢？', en: 'How does an ordinary person come to own Mount Fuji?',
+      dzh: '写给一场单恋，和一座不属于自己的山。', den: 'On unrequited love, and a mountain that was never yours.' },
+    // hidden: true —— 不进文章列表、角标、首页篇数和上一篇 / 下一篇，直达链接照旧能打开。删掉 hidden 这一行即可恢复显示。
     { path: '_works/周宇新：毛泽东一生谋的都是权', cat: 'works',
+      hidden: true,
       zh: '【转载】周宇新：毛泽东一生谋的都是权', en: 'Repost — Zhou Yuxin: all Mao ever sought was power',
       dzh: '一篇转载的长文。', den: 'A long essay, reposted.' },
+    // 同上：删掉 hidden 这一行即可恢复显示。
     { path: '_works/户口壁垒：现代中国的身份鸿沟', cat: 'works',
+      hidden: true,
       zh: '户口壁垒：现代中国的“身份鸿沟”', en: 'The hukou barrier: the “identity gap” in modern China',
       dzh: '一个延续六十余年的人口管理制度。', den: 'A household registration system, more than sixty years on.' }
   ];
+  // 列表、角标、篇数、上一篇 / 下一篇只用这一份；findMeta 仍查全部 ARTICLES，所以隐藏的文章直达链接还在
+  var LISTED = ARTICLES.filter(function (a) { return !a.hidden; });
   // 不在列表里、但旧链接仍要能打开
   var EXTRA = [
     { path: '_weibo/weibo0', cat: 'weibo', zh: '微博存档 · 生活手账', en: 'Weibo archive: life notes' },
@@ -335,6 +344,15 @@
     return null;
   }
 
+  // 上一篇 / 下一篇：按列表里看得见的顺序；隐藏的文章不出现，也不从它那里往外连
+  function listNeighbours(meta) {
+    var idx = LISTED.indexOf(meta);
+    return {
+      prev: idx > 0 ? LISTED[idx - 1] : null,
+      next: idx >= 0 && idx < LISTED.length - 1 ? LISTED[idx + 1] : null
+    };
+  }
+
   function resolveRoute(r) {
     var p = r.path;
     if (p === '/' || p === '/home' || p === '/index') return { name: 'home', scene: 'home', render: homeView };
@@ -353,9 +371,11 @@
       }
     }
     // 微博合辑：第二版版式，仍属「文章」栏目（导航高亮文章），<html data-route="weibo"> 用来把纸色样式圈在这一页
-    if (p === '/weibo') return { name: 'articles', route: 'weibo', scene: 'reading', article: true, render: function () { return weiboView(r.id); } };
+    // paper: true 的两种页面共用纸页版式，<html data-paper> 圈住共用的纸色样式
+    if (p === '/weibo') return { name: 'articles', route: 'weibo', paper: true, scene: 'reading', article: true, render: function () { return weiboView(r.id); } };
     if (ARTICLE_RE.test(p)) {
       var path = p.slice(1);
+      if (PAPER_ESSAYS[path]) return { name: 'articles', route: 'essay', paper: true, scene: 'reading', article: true, render: function () { return paperEssayView(path, r.id); } };
       return { name: 'articles', scene: 'reading', article: true, render: function () { return articleView(path, r.id); } };
     }
     return { name: '', scene: '', render: notFoundView };
@@ -364,7 +384,7 @@
   /* ---------------- 视图：首页 ---------------- */
   function homeView() {
     var s = S();
-    var counts = { articles: ARTICLES.length, tools: TOOLS.length, works: 1, about: null };
+    var counts = { articles: LISTED.length, tools: TOOLS.length, works: 1, about: null };
     var portals = ['articles', 'tools', 'works', 'about'].map(function (k, i) {
       var c = counts[k] == null ? '' : pad(counts[k]);
       return '<li class="rv"><a class="portal" href="#/' + k + '" data-refract>' +
@@ -423,12 +443,13 @@
     var s = S();
     var order = ['study', 'works', 'weibo'];
     var groups = order.map(function (cat) {
-      var items = ARTICLES.filter(function (a) { return a.cat === cat; });
+      var items = LISTED.filter(function (a) { return a.cat === cat; });
       var rows = items.map(function (a) {
-        var n = ARTICLES.indexOf(a) + 1;
-        return '<li><a class="row" href="' + esc(hrefFor(a.path)) + '">' +
+        var n = LISTED.indexOf(a) + 1;
+        var paper = a.path === 'weibo' || !!PAPER_ESSAYS[a.path];   // 纸页那一家：行尾一架小纸飞机，悬停透出纸色
+        return '<li><a class="row"' + (paper ? ' data-paper-row' : '') + ' href="' + esc(hrefFor(a.path)) + '">' +
           '<span class="row-n">' + pad(n) + '</span>' +
-          '<span class="row-t">' + esc(L(a)) + (a.path === 'weibo' ? '<svg class="row-plane" data-weibo-plane viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#plane"/></svg>' : '') + '</span>' +
+          '<span class="row-t">' + esc(L(a)) + (paper ? '<svg class="row-plane" data-weibo-plane viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#plane"/></svg>' : '') + '</span>' +
           '<span class="row-d">' + esc(L(a, 'd')) + '</span>' +
           '<span class="row-go" aria-hidden="true">→</span>' +
           '</a></li>';
@@ -437,12 +458,12 @@
         '<div class="group-head"><h2><span class="tag tag-' + cat + '">' + esc(L(CATS[cat], '')) + '</span></h2><span>' + esc(s.count(items.length)) + '</span></div>' +
         '<ul class="rows">' + rows + '</ul></section>';
     }).join('');
-    var chips = '<button class="chip" type="button" data-filter="all" aria-pressed="true">' + esc(s.all) + '<sup>' + ARTICLES.length + '</sup></button>' +
+    var chips = '<button class="chip" type="button" data-filter="all" aria-pressed="true">' + esc(s.all) + '<sup>' + LISTED.length + '</sup></button>' +
       order.map(function (cat) {
-        var n = ARTICLES.filter(function (a) { return a.cat === cat; }).length;
+        var n = LISTED.filter(function (a) { return a.cat === cat; }).length;
         return '<button class="chip" type="button" data-filter="' + cat + '" aria-pressed="false">' + esc(L(CATS[cat], '')) + '<sup>' + n + '</sup></button>';
       }).join('');
-    return pageHead('articles', s.articlesLede, s.count(ARTICLES.length)) +
+    return pageHead('articles', s.articlesLede, s.count(LISTED.length)) +
       '<div class="sheet"><div class="chips rv" role="group">' + chips + '</div>' + groups + '</div>';
   }
 
@@ -634,9 +655,9 @@
       var r = renderMarkdown(md, path);
       var chars = countChars(md);
       var mins = Math.max(1, Math.round(chars / 450));
-      var idx = ARTICLES.indexOf(meta);
-      var prev = idx > 0 ? ARTICLES[idx - 1] : null;
-      var next = idx >= 0 && idx < ARTICLES.length - 1 ? ARTICLES[idx + 1] : null;
+      var nb = listNeighbours(meta);
+      var prev = nb.prev;
+      var next = nb.next;
       var toc = r.toc.length >= 3
         ? '<nav class="toc" aria-label="' + esc(s.toc) + '"><p class="toc-label">' + esc(s.toc) + '</p><ol lang="zh-CN">' +
           r.toc.map(function (t) { return '<li><a href="#/' + esc(path) + '?id=' + encodeURIComponent(t.id) + '" data-anchor="' + esc(t.id) + '">' + esc(t.text) + '</a></li>'; }).join('') +
@@ -665,15 +686,15 @@
         title: L(meta),
         anchor: anchor
       };
-    }, function (err) {
-      if (err && err.status === 404) return notFoundView();
-      return { html: '<section class="empty"><h1 class="page-title">' + esc(s.notFound) + '</h1><p>' + esc(s.loadError) + '</p></section>' };
-    });
+    }, mdFail);
   }
 
-  /* ---------------- 视图：微博合辑（第二版版式，见 _preview/weibo-v2/DESIGN.md） ----------------
-     正文仍然运行时读 weibo.md，一个字不改；只加样式钩子、纸飞机、贴着句子的小画和条间记号。
-     小画、字体直接引用 _preview/weibo-v2/ 下那一份素材，不另存拷贝。 */
+  /* ---------------- 纸页：#/weibo 与纸页随笔共用的一套版式（设计见 _preview/weibo-v2/DESIGN.md） ----------------
+     暖纸底、纸飞机母题、阅读进度、贴着句子的单色墨线小画。微博合辑（weiboView）和登记在 PAPER_ESSAYS 里的随笔
+     （paperEssayView）都由 paperPage 出页面、paperSketches 放小画、initPaper 挂阅读进度和回到顶部；
+     样式在 css/site.css 的 html[data-paper] 下，类名沿用 wb- 前缀。
+     只有微博合辑才有的东西（按 h2 分节、[data-entry] 条目、条间记号）留在 wbDecorate / wbRenderSeps 里。
+     正文都是运行时读 .md，一个字不改；小画、字体直接引用 _preview/weibo-v2/ 下那一份素材，不另存拷贝。 */
   var WB_ASSETS = '_preview/weibo-v2/';
   // frag 是 weibo.md 里那一条的连续原文（去空白后匹配），画放在那条碎句旁边
   var WB_SKETCHES = [
@@ -693,14 +714,91 @@
   var WB_SEPS = ['dot', 'num', 'line'];
   var WB_SEP_DEFAULT = 'num';    // 条间记号默认值；用户定了以后只改这里
 
+  /* 纸页随笔：path → 版式配置。登记在这里的文章走纸页版式，其余文章照旧走 articleView。
+     sketches 的 frag 必须是正文里那一行的连续原文；src 相对站点根。 */
+  var PAPER_ESSAYS = {
+    '_works/普通人如何去拥有富士山呢': {
+      font: 'fuji',     // 这篇有 80 来个字不在微博那份文楷子集里，另有一份子集 fonts/wenkai-fuji.woff2
+      sign: true,       // 末段是落款
+      sketches: [
+        { frag: '那天淫雨霏霏像情人在低语', src: 'art/fuji/nichome-rain.svg' },
+        { frag: '足够让一场雨凝结成雪，落在富士山顶', src: 'art/fuji/snow-summit.svg' },
+        { frag: '他像在岸上打盹的救生员，浑然不知你正在溺水', src: 'art/fuji/lifeguard.svg' },
+        { frag: '单恋是夜路上最轻的脚步声', src: 'art/fuji/night-steps.svg' },
+        { frag: '喜欢一个遥不可及的人就像喜欢富士山', src: WB_ASSETS + 'art/fuji-walk.svg' },   // 与微博合辑同一幅，引用原路径
+        { frag: '你看春樱秋叶，看晨昏更迭', src: 'art/fuji/sakura-momiji.svg' },
+        { frag: '山根本不知道你在仰望它', src: 'art/fuji/look-up.svg' },
+        { frag: '然后带着它的影子，继续走向下一座山，下一片海', src: 'art/fuji/shadow-sea.svg' }
+      ]
+    }
+  };
+
   // 纸飞机：全部 <use href="#plane">（index.html 里唯一的 symbol）
-  function wbPlane(cls, motif, viewBox, use, inner) {
+  function paperPlane(cls, motif, viewBox, use, inner) {
     return '<svg class="' + cls + '"' + (motif ? ' data-motif="' + motif + '"' : '') + ' viewBox="' + viewBox + '" aria-hidden="true" focusable="false">' +
       (inner || '') + '<use href="#plane"' + (use || '') + '/></svg>';
   }
 
   function wbSquash(str) { return str.replace(/\s+/g, ''); }
 
+  // 小画挂进含那句原文的第一个块里，左右交替（宽屏放在那一块旁边的留白，窄屏放在它下面）
+  function paperSketches(blocks, sketches, base, lazy) {
+    var keyed = blocks.map(function (b) { return wbSquash(b.textContent); });
+    var side = 0;
+    sketches.forEach(function (sk) {
+      var idx = -1;
+      for (var i = 0; i < keyed.length; i++) if (keyed[i].indexOf(sk.frag) !== -1) { idx = i; break; }
+      if (idx === -1) return;   // 原文里找不到就不放，绝不改字去凑
+      var img = document.createElement('img');
+      img.className = 'wb-sketch ' + (side++ % 2 ? 'l' : 'r');
+      img.src = C(base + sk.src);
+      img.width = 160;
+      img.height = 160;
+      img.alt = '';              // 点缀性插画，不进入正文文字
+      img.setAttribute('decoding', 'async');
+      if (lazy) img.setAttribute('loading', 'lazy');
+      img.setAttribute('data-illustrates', sk.frag);
+      blocks[idx].appendChild(img);
+    });
+  }
+
+  // 一张纸页：阅读进度、面包屑、刊头（航迹 + 标题 + o.masthead）、正文、页尾飞机 + 回到列表 + 上一篇 / 下一篇、回到顶部
+  function paperPage(o) {
+    var s = S();
+    var meta = o.meta;
+    return '<article class="article wb-page" data-paper-page' + (o.attrs || '') + '>' +
+      '<div class="wb-progress" data-motif="progress" aria-hidden="true"><span class="wb-progress-line" data-wb-progress-line></span>' +
+        paperPlane('wb-progress-plane', '', '0 0 24 24').replace('<svg ', '<svg data-wb-progress-plane ') + '</div>' +
+      '<header class="article-head wb-head">' +
+        '<p class="crumbs"><a href="#/articles">← ' + esc(s.sectionNames.articles) + '</a><span class="tag tag-' + esc(meta.cat) + '">' + esc(L(CATS[meta.cat], '')) + '</span>' + (meta.date ? '<span>' + esc(meta.date) + '</span>' : '') + '</p>' +
+        '<div class="wb-masthead">' +
+          '<svg class="wb-hero" data-motif="hero" viewBox="0 0 300 96" aria-hidden="true" focusable="false">' +
+            '<path class="wb-hero-trail" d="M8 84 C 60 84, 70 30, 118 34 C 160 38, 150 78, 124 72 C 100 66, 126 22, 182 26 C 222 29, 246 46, 270 30"/>' +
+            '<g class="wb-hero-plane"><use href="#plane" x="262" y="12" width="28" height="28"/></g></svg>' +
+          '<h1 class="article-title wb-title">' + esc(L(meta)) + '</h1>' +
+          (o.masthead || '') +
+        '</div>' +
+      '</header>' +
+      '<div class="wb-body"' + (o.bodyAttrs || '') + ' lang="zh-CN">' + o.body + '</div>' +
+      '<div class="wb-end">' +
+        paperPlane('wb-end-plane', 'end', '0 0 120 40', ' x="74" y="20" width="22" height="22"', '<path class="wb-end-trail" d="M4 10 C 30 10, 40 34, 72 32"/>') +
+        '<p class="article-end"><span>' + esc(s.endMark) + '</span><a href="#/articles">' + esc(s.backToList) + ' →</a></p>' +
+        '<nav class="pager">' +
+          (o.prev ? '<a href="' + esc(hrefFor(o.prev.path)) + '"><small>← ' + esc(s.prev) + '</small><span>' + esc(L(o.prev)) + '</span></a>' : '<span></span>') +
+          (o.next ? '<a class="pager-next" href="' + esc(hrefFor(o.next.path)) + '"><small>' + esc(s.next) + ' →</small><span>' + esc(L(o.next)) + '</span></a>' : '<span></span>') +
+        '</nav>' +
+      '</div>' +
+      '<button class="wb-to-top" type="button" data-motif="top" data-wb-to-top aria-label="' + esc(s.wb.toTop) + '">' + paperPlane('', '', '0 0 24 24') + '</button>' +
+      '</article>';
+  }
+
+  function mdFail(err) {
+    var s = S();
+    if (err && err.status === 404) return notFoundView();
+    return { html: '<section class="empty"><h1 class="page-title">' + esc(s.notFound) + '</h1><p>' + esc(s.loadError) + '</p></section>' };
+  }
+
+  /* ---------------- 视图：微博合辑 ---------------- */
   // 把 marked 渲染出的正文按 h2 分节、挂钩子、放小画；节点原样搬，不碰文字
   function wbDecorate(box) {
     var nodes = Array.prototype.slice.call(box.childNodes);
@@ -719,7 +817,7 @@
     box.appendChild(out);
 
     Array.prototype.forEach.call(box.querySelectorAll('p'), function (p) {
-      if (p.textContent.replace(/[\s ]/g, '') === '') { p.className = 'wb-spacer'; p.setAttribute('aria-hidden', 'true'); }
+      if (p.textContent.replace(/[\s ]/g, '') === '') { p.className = 'wb-spacer'; p.setAttribute('aria-hidden', 'true'); }
     });
 
     var toc = [];
@@ -729,33 +827,17 @@
       sec.id = 'sec-' + i;
       if (i === 0 && title === '按') { sec.classList.add('is-preface'); return; }
       var mark = document.createElement('div');
-      mark.innerHTML = wbPlane('wb-mark', 'section', '0 0 24 24');
+      mark.innerHTML = paperPlane('wb-mark', 'section', '0 0 24 24');
       sec.insertBefore(mark.firstChild, h);
       var tr = document.createElement('div');
-      tr.innerHTML = wbPlane('wb-trail', 'trail', '0 0 150 44', ' x="108" y="16" width="20" height="20"', '<path d="M6 8 C 40 6, 58 40, 106 28"/>');
+      tr.innerHTML = paperPlane('wb-trail', 'trail', '0 0 150 44', ' x="108" y="16" width="20" height="20"', '<path d="M6 8 C 40 6, 58 40, 106 28"/>');
       sec.appendChild(tr.firstChild);
       toc.push({ id: sec.id, title: title });
     });
 
     var entries = Array.prototype.slice.call(box.querySelectorAll('li'));
     entries.forEach(function (li) { li.setAttribute('data-entry', ''); });
-    var keyed = entries.map(function (li) { return wbSquash(li.textContent); });
-    var side = 0;
-    WB_SKETCHES.forEach(function (sk) {
-      var idx = -1;
-      for (var i = 0; i < keyed.length; i++) if (keyed[i].indexOf(sk.frag) !== -1) { idx = i; break; }
-      if (idx === -1) return;   // 原文里找不到就不放，绝不改字去凑
-      var img = document.createElement('img');
-      img.className = 'wb-sketch ' + (side++ % 2 ? 'l' : 'r');
-      img.src = C(WB_ASSETS + sk.src);
-      img.width = 160;
-      img.height = 160;
-      img.alt = '';              // 点缀性插画，不进入正文文字
-      img.setAttribute('decoding', 'async');
-      img.setAttribute('loading', 'lazy');
-      img.setAttribute('data-illustrates', sk.frag);
-      entries[idx].appendChild(img);
-    });
+    paperSketches(entries, WB_SKETCHES, WB_ASSETS, true);
     return toc;
   }
 
@@ -767,41 +849,20 @@
       var box = document.createElement('div');
       box.innerHTML = window.marked ? window.marked.parse(md, { gfm: true, breaks: false }) : '<pre>' + esc(md) + '</pre>';
       var toc = wbDecorate(box);
-      var next = ARTICLES[ARTICLES.indexOf(meta) + 1];
+      var nb = listNeighbours(meta);
       var tocHtml = toc.length ? '<nav class="wb-toc" aria-label="' + esc(w.toc) + '"><ol lang="zh-CN">' + toc.map(function (t) {
         return '<li><a href="#/weibo?id=' + esc(t.id) + '" data-anchor="' + esc(t.id) + '">' + esc(t.title) + '</a></li>';
       }).join('') + '</ol></nav>' : '';
       return {
-        html: '<article class="article wb-page" data-weibo-page>' +
-          '<div class="wb-progress" data-motif="progress" aria-hidden="true"><span class="wb-progress-line" data-wb-progress-line></span>' +
-            wbPlane('wb-progress-plane', '', '0 0 24 24').replace('<svg ', '<svg data-wb-progress-plane ') + '</div>' +
-          '<header class="article-head wb-head">' +
-            '<p class="crumbs"><a href="#/articles">← ' + esc(s.sectionNames.articles) + '</a><span class="tag tag-weibo">' + esc(L(CATS.weibo, '')) + '</span><span>' + esc(meta.date) + '</span></p>' +
-            '<div class="wb-masthead">' +
-              '<svg class="wb-hero" data-motif="hero" viewBox="0 0 300 96" aria-hidden="true" focusable="false">' +
-                '<path class="wb-hero-trail" d="M8 84 C 60 84, 70 30, 118 34 C 160 38, 150 78, 124 72 C 100 66, 126 22, 182 26 C 222 29, 246 46, 270 30"/>' +
-                '<g class="wb-hero-plane"><use href="#plane" x="262" y="12" width="28" height="28"/></g></svg>' +
-              '<h1 class="article-title wb-title">' + esc(L(meta)) + '</h1>' +
-              tocHtml +
-            '</div>' +
-          '</header>' +
-          '<div class="wb-body" data-weibo-body data-sep="' + WB_SEP_DEFAULT + '" lang="zh-CN">' + box.innerHTML + '</div>' +
-          '<div class="wb-end">' +
-            wbPlane('wb-end-plane', 'end', '0 0 120 40', ' x="74" y="20" width="22" height="22"', '<path class="wb-end-trail" d="M4 10 C 30 10, 40 34, 72 32"/>') +
-            '<p class="article-end"><span>' + esc(s.endMark) + '</span><a href="#/articles">' + esc(s.backToList) + ' →</a></p>' +
-            '<nav class="pager"><span></span>' +
-              (next ? '<a class="pager-next" href="' + esc(hrefFor(next.path)) + '"><small>' + esc(s.next) + ' →</small><span>' + esc(L(next)) + '</span></a>' : '<span></span>') +
-            '</nav>' +
-          '</div>' +
-          '<button class="wb-to-top" type="button" data-motif="top" data-wb-to-top aria-label="' + esc(w.toTop) + '">' + wbPlane('', '', '0 0 24 24') + '</button>' +
-          '</article>',
+        html: paperPage({
+          meta: meta, attrs: ' data-weibo-page', masthead: tocHtml,
+          bodyAttrs: ' data-weibo-body data-sep="' + WB_SEP_DEFAULT + '"', body: box.innerHTML,
+          prev: nb.prev, next: nb.next
+        }),
         title: L(meta),
         anchor: anchor
       };
-    }, function (err) {
-      if (err && err.status === 404) return notFoundView();
-      return { html: '<section class="empty"><h1 class="page-title">' + esc(s.notFound) + '</h1><p>' + esc(s.loadError) + '</p></section>' };
-    });
+    }, mdFail);
   }
 
   /* 条与条之间的记号：只看 [data-weibo-body] 上的 data-sep（dot / num / line），改这个属性就换，别的不用动。
@@ -836,20 +897,70 @@
     body.setAttribute('data-sep-ready', mode);
   }
 
-  function initWeibo() {
-    var page = view.querySelector('[data-weibo-page]');
+  /* ---------------- 视图：纸页随笔 ----------------
+     诗一样的分行短句：没有 h2 分节，也没有 li 条目，所以不分节、不编号。
+     marked 用 breaks: true，md 里一行就是一行；每一行再拆成一个 .wb-line 块（节点原样搬，不碰字），小画贴在那一行旁边。 */
+  function paperLines(box) {
+    var lines = [];
+    Array.prototype.forEach.call(box.querySelectorAll('p'), function (p) {
+      var line = null;
+      Array.prototype.slice.call(p.childNodes).forEach(function (n) {
+        if (n.nodeName === 'BR') { p.removeChild(n); line = null; return; }
+        if (!line && n.nodeType === 3 && !n.nodeValue.trim()) { p.removeChild(n); return; }
+        if (!line) {
+          line = document.createElement('span');
+          line.className = 'wb-line';
+          p.insertBefore(line, n);
+          lines.push(line);
+        }
+        line.appendChild(n);
+      });
+    });
+    return lines;
+  }
+
+  function paperEssayView(path, anchor) {
+    var cfg = PAPER_ESSAYS[path];
+    var meta = findMeta(path) || { path: path, cat: 'works', zh: path.split('/').pop(), en: path.split('/').pop() };
+    return withMd(path, function (md) {
+      var box = document.createElement('div');
+      box.innerHTML = window.marked ? window.marked.parse(md, { gfm: true, breaks: true }) : '<pre>' + esc(md) + '</pre>';
+      var h1 = box.firstElementChild;
+      if (h1 && h1.tagName === 'H1') box.removeChild(h1);   // 标题由刊头给出
+      var paras = box.querySelectorAll('p');
+      if (cfg.sign && paras.length) paras[paras.length - 1].className = 'wb-sign';
+      paperSketches(paperLines(box), cfg.sketches || [], '', false);   // 画不多、每幅几 KB，不懒加载
+      var nb = listNeighbours(meta);
+      var dek = L(meta, 'd');
+      return {
+        html: paperPage({
+          meta: meta, attrs: ' data-paper-essay' + (cfg.font ? ' data-font="' + esc(cfg.font) + '"' : ''),
+          masthead: dek ? '<p class="wb-dek">' + esc(dek) + '</p>' : '',
+          body: box.innerHTML, prev: nb.prev, next: nb.next
+        }),
+        title: L(meta),
+        anchor: anchor
+      };
+    }, mdFail);
+  }
+
+  // 两种纸页共用：阅读进度（顶栏下沿一根虚线，纸飞机随进度往前飞）& 回到顶部；微博合辑另挂条间记号
+  function initPaper() {
+    var page = view.querySelector('[data-paper-page]');
     if (!page) return;
     var body = page.querySelector('[data-weibo-body]');
 
     // 条间记号
-    wbRenderSeps(body);
     var mo = null;
-    if (window.MutationObserver) {
-      mo = new MutationObserver(function () { wbRenderSeps(body); });
-      mo.observe(body, { attributes: true, attributeFilter: ['data-sep'] });
+    if (body) {
+      wbRenderSeps(body);
+      if (window.MutationObserver) {
+        mo = new MutationObserver(function () { wbRenderSeps(body); });
+        mo.observe(body, { attributes: true, attributeFilter: ['data-sep'] });
+      }
     }
 
-    // 阅读进度（顶栏下沿一根虚线，纸飞机随进度往前飞）& 回到顶部
+    // 阅读进度 & 回到顶部
     var hud = document.querySelector('.hud');
     var bar = page.querySelector('.wb-progress');
     var line = page.querySelector('[data-wb-progress-line]');
@@ -967,6 +1078,7 @@
     current = { name: target.name, route: target.route || target.name, article: !!target.article, path: r.path };
     root.classList.toggle('is-article', !!target.article);
     root.setAttribute('data-route', target.route || target.name || 'lost');
+    if (target.paper) root.setAttribute('data-paper', ''); else root.removeAttribute('data-paper');
     document.title = (out.title ? out.title + ' — ' : (target.name && target.name !== 'home' ? S().sectionNames[target.name] + ' — ' : '')) + S().title;
     markNav(target.name);
     window.scrollTo(0, 0);
@@ -1012,8 +1124,10 @@
     bindRefract(view);
     initGallery();
     initWorks();
-    initWeibo();
-    if (current && current.route === 'articles') loadMd('weibo').catch(function () {});   // 点进微博合辑时正文已在缓存里，同步挂上、当场起播
+    initPaper();
+    if (current && current.route === 'articles') {   // 点进纸页时正文已在缓存里，同步挂上、当场起播
+      ['weibo'].concat(Object.keys(PAPER_ESSAYS)).forEach(function (p) { loadMd(p).catch(function () {}); });
+    }
     onScroll();
   }
 

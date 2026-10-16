@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+<!-- snow-summit · 本站原创单色墨线插画（datode.com《普通人如何去拥有富士山呢？》，与微博合辑同一套画法） -->
+<defs><filter id="pen" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="32"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs>
+<g fill="none" stroke="#2b2824" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)">
+<path d="M30 10 q-3.6 5.6 0 8 q3.6 -2.4 0 -8 z M58 6 q-3.6 5.6 0 8 q3.6 -2.4 0 -8 z M88 12 q-3.6 5.6 0 8 q3.6 -2.4 0 -8 z M116 8 q-3.6 5.6 0 8 q3.6 -2.4 0 -8 z M138 16 q-3.6 5.6 0 8 q3.6 -2.4 0 -8 z" stroke-width="1.3"/>
+<path d="M60 22 Q64 30 62 36 M100 24 Q96 30 98 36" stroke-width="1" stroke-dasharray="1.5 4"/>
+<path d="M40 42.4 v7.2 M36.9 44.2 l6.2 3.6 M36.9 47.8 l6.2 -3.6 M68 48.4 v7.2 M64.9 50.2 l6.2 3.6 M64.9 53.8 l6.2 -3.6 M98 38.4 v7.2 M94.9 40.2 l6.2 3.6 M94.9 43.8 l6.2 -3.6 M124 50.4 v7.2 M120.9 52.2 l6.2 3.6 M120.9 55.8 l6.2 -3.6 M82 64.4 v7.2 M78.9 66.2 l6.2 3.6 M78.9 69.8 l6.2 -3.6 M52 66.4 v7.2 M48.9 68.2 l6.2 3.6 M48.9 71.8 l6.2 -3.6 M110 68.4 v7.2 M106.9 70.2 l6.2 3.6 M106.9 73.8 l6.2 -3.6" stroke-width="1.2"/>
+<path d="M6 148 L58 92 Q66 84 80 86 Q94 84 102 92 L154 148"/>
+<path d="M49 101 L57.5 104 L65 100 L72.5 104 L80 100 L87.5 104 L95 100 L102.5 104 L111 101"/>
+<path d="M66 88 l1.5 1.5 M80 87 l1.5 1.5 M93 88 l1.5 1.5" stroke-width="1.2"/>
+<path d="M22 128 Q40 124 54 130 M110 132 Q126 126 140 134" stroke-width="1.2"/>
+</g>
+</svg>

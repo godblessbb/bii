@@ -545,25 +545,26 @@ html[lang="en"] .foot-big { font-weight: 700; letter-spacing: -.05em; }
 }
 .prose > h2:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
 
-/* ================= 文章列表：微博合辑那一行 =================
+/* ================= 文章列表：纸页那一家的行（微博合辑、纸页随笔） =================
    一架小纸飞机（与 #/weibo 同一个 symbol），悬停透出纸色，点之前就知道里面是另一种气质。 */
 .row-plane { display: inline-block; width: .8em; height: .8em; margin-left: .45em; vertical-align: -.05em; color: var(--ink-3); transform: rotate(-12deg); transition: transform .45s var(--ease), color .25s; }
-.row[href="#/weibo"] { transition: padding .35s var(--ease), background-color .35s var(--ease); }
-.row[href="#/weibo"]:hover, .row[href="#/weibo"]:focus-visible { background-color: rgba(246, 241, 231, .07); }
-.row[href="#/weibo"]:hover .row-t, .row[href="#/weibo"]:focus-visible .row-t,
-.row[href="#/weibo"]:hover .row-go, .row[href="#/weibo"]:hover .row-n, .row[href="#/weibo"]:hover .row-plane { color: #f6f1e7; }
-.row[href="#/weibo"]:hover .row-plane, .row[href="#/weibo"]:focus-visible .row-plane { transform: translate(3px, -3px) rotate(-30deg); }
+.row[data-paper-row] { transition: padding .35s var(--ease), background-color .35s var(--ease); }
+.row[data-paper-row]:hover, .row[data-paper-row]:focus-visible { background-color: rgba(246, 241, 231, .07); }
+.row[data-paper-row]:hover .row-t, .row[data-paper-row]:focus-visible .row-t,
+.row[data-paper-row]:hover .row-go, .row[data-paper-row]:hover .row-n, .row[data-paper-row]:hover .row-plane { color: #f6f1e7; }
+.row[data-paper-row]:hover .row-plane, .row[data-paper-row]:focus-visible .row-plane { transform: translate(3px, -3px) rotate(-30deg); }
 @media (prefers-color-scheme: light) {
-  .row[href="#/weibo"]:hover, .row[href="#/weibo"]:focus-visible { background-color: #f6f1e7; box-shadow: inset 0 0 0 1px #e2d8c6; }
-  .row[href="#/weibo"]:hover .row-t, .row[href="#/weibo"]:focus-visible .row-t,
-  .row[href="#/weibo"]:hover .row-go, .row[href="#/weibo"]:hover .row-n { color: #2b2824; }
-  .row[href="#/weibo"]:hover .row-d { color: #6f665c; }
-  .row[href="#/weibo"]:hover .row-plane, .row[href="#/weibo"]:focus-visible .row-plane { color: #4f6f8f; }
+  .row[data-paper-row]:hover, .row[data-paper-row]:focus-visible { background-color: #f6f1e7; box-shadow: inset 0 0 0 1px #e2d8c6; }
+  .row[data-paper-row]:hover .row-t, .row[data-paper-row]:focus-visible .row-t,
+  .row[data-paper-row]:hover .row-go, .row[data-paper-row]:hover .row-n { color: #2b2824; }
+  .row[data-paper-row]:hover .row-d { color: #6f665c; }
+  .row[data-paper-row]:hover .row-plane, .row[data-paper-row]:focus-visible .row-plane { color: #4f6f8f; }
 }
 
-/* ================= 微博合辑 #/weibo：第二版版式 =================
-   全部挂在 html[data-route="weibo"] 下（只有这一页有），类名一律 wb- 开头，不漏到别的页面。
-   站点结构（顶栏、面包屑、返回列表、上一篇/下一篇、页脚）照旧，只把颜色换成纸色。 */
+/* ================= 纸页：微博合辑 #/weibo（第二版版式）与纸页随笔共用 =================
+   共用的纸色、纸飞机、阅读进度、刊头、小画、页尾挂在 html[data-paper] 下（只有这两种页面有）；
+   只有微博合辑才有的分节、条目、条间记号挂在 html[data-route="weibo"] 下；分行随笔自己的几条挂在 html[data-route="essay"] 下。
+   类名一律 wb- 开头，不漏到别的页面。站点结构（顶栏、面包屑、返回列表、上一篇/下一篇、页脚）照旧，只把颜色换成纸色。 */
 @font-face {
   font-family: "WeiboWenKai";
   src: url("../_preview/weibo-v2/fonts/wenkai-weibo.woff2") format("woff2");
@@ -571,8 +572,16 @@ html[lang="en"] .foot-big { font-weight: 700; letter-spacing: -.05em; }
   font-style: normal;
   font-display: swap;
 }
+/* 《普通人如何去拥有富士山呢？》里有 80 来个字不在上面那份子集里：同一款霞鹜文楷 Lite，按这篇的字另切一份 */
+@font-face {
+  font-family: "FujiWenKai";
+  src: url("../fonts/wenkai-fuji.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-html[data-route="weibo"] {
+html[data-paper] {
   --bg: #f6f1e7;
   --bg-2: #efe8da;
   --ink: #2b2824;
@@ -601,7 +610,7 @@ html[data-route="weibo"] {
 }
 @media (prefers-color-scheme: dark) {
   /* 深色：首页那种偏绿 / 中性的近黑，字和画调成暖白 */
-  html[data-route="weibo"] {
+  html[data-paper] {
     --bg: #060807;
     --bg-2: #0c110e;
     --ink: #e6e1d6;
@@ -625,39 +634,39 @@ html[data-route="weibo"] {
   }
 }
 
-html[data-route="weibo"] .progress { display: none; }
-html[data-route="weibo"] .foot { background: var(--bg); }   /* 页脚不透明 */
-html[data-route="weibo"] .brand-logo { box-shadow: none; }
+html[data-paper] .progress { display: none; }
+html[data-paper] .foot { background: var(--bg); }   /* 页脚不透明 */
+html[data-paper] .brand-logo { box-shadow: none; }
 
-html[data-route="weibo"] .wb-page { max-width: 1240px; }
-html[data-route="weibo"] .wb-head { max-width: none; padding-bottom: 0; }
-html[data-route="weibo"] .wb-head .crumbs { margin-bottom: 0; }
+html[data-paper] .wb-page { max-width: 1240px; }
+html[data-paper] .wb-head { max-width: none; padding-bottom: 0; }
+html[data-paper] .wb-head .crumbs { margin-bottom: 0; }
 
 /* 阅读进度：顶栏下沿一根虚线，纸飞机随进度往前飞 */
-html[data-route="weibo"] .wb-progress { position: fixed; left: 0; right: 0; top: 52px; height: 22px; z-index: 29; pointer-events: none; }
-html[data-route="weibo"] .wb-progress-line { position: absolute; left: 0; top: 10px; height: 1px; width: 0; background: repeating-linear-gradient(90deg, var(--wb-plane) 0 4px, transparent 4px 9px); opacity: .55; }
-html[data-route="weibo"] .wb-progress-plane { position: absolute; top: 1px; left: 4px; width: 18px; height: 18px; color: var(--wb-plane); }
+html[data-paper] .wb-progress { position: fixed; left: 0; right: 0; top: 52px; height: 22px; z-index: 29; pointer-events: none; }
+html[data-paper] .wb-progress-line { position: absolute; left: 0; top: 10px; height: 1px; width: 0; background: repeating-linear-gradient(90deg, var(--wb-plane) 0 4px, transparent 4px 9px); opacity: .55; }
+html[data-paper] .wb-progress-plane { position: absolute; top: 1px; left: 4px; width: 18px; height: 18px; color: var(--wb-plane); }
 
 /* 刊头：航迹 + 标题 + 小节目录，一张安静的纸 */
-html[data-route="weibo"] .wb-masthead { text-align: center; padding: clamp(40px, 9vh, 96px) 0 0; font-family: var(--wb-font); }
-html[data-route="weibo"] .wb-hero { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto 1.6rem; overflow: visible; }
-html[data-route="weibo"] .wb-hero-trail { fill: none; stroke: var(--wb-plane); stroke-width: 1.1; stroke-dasharray: 2 6; stroke-linecap: round; opacity: .7; }
-html[data-route="weibo"] .wb-hero-plane { color: var(--wb-plane); animation: wb-drift 7s ease-in-out infinite; transform-origin: 276px 26px; }
+html[data-paper] .wb-masthead { text-align: center; padding: clamp(40px, 9vh, 96px) 0 0; font-family: var(--wb-font); }
+html[data-paper] .wb-hero { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto 1.6rem; overflow: visible; }
+html[data-paper] .wb-hero-trail { fill: none; stroke: var(--wb-plane); stroke-width: 1.1; stroke-dasharray: 2 6; stroke-linecap: round; opacity: .7; }
+html[data-paper] .wb-hero-plane { color: var(--wb-plane); animation: wb-drift 7s ease-in-out infinite; transform-origin: 276px 26px; }
 @keyframes wb-drift {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
   50% { transform: translate(3px, -4px) rotate(-4deg); }
 }
-html[data-route="weibo"] .wb-title { margin: 0; font-family: var(--wb-font); font-weight: 400; font-size: 1.875rem; line-height: 1.5; letter-spacing: .22em; text-indent: .22em; }
-html[lang="en"][data-route="weibo"] .wb-title { font-family: var(--wb-font); font-weight: 400; letter-spacing: .06em; text-indent: .06em; line-height: 1.5; }
+html[data-paper] .wb-title { margin: 0; font-family: var(--wb-font); font-weight: 400; font-size: 1.875rem; line-height: 1.5; letter-spacing: .22em; text-indent: .22em; }
+html[lang="en"][data-paper] .wb-title { font-family: var(--wb-font); font-weight: 400; letter-spacing: .06em; text-indent: .06em; line-height: 1.5; }
 html[data-route="weibo"] .wb-toc { margin: 3.2rem auto 0; max-width: 34rem; }
 html[data-route="weibo"] .wb-toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem 1.6rem; font-size: .875rem; line-height: 1.9; }
 html[data-route="weibo"] .wb-toc a { color: var(--wb-faint); text-decoration: none; transition: color .2s; }
 html[data-route="weibo"] .wb-toc a:hover, html[data-route="weibo"] .wb-toc a:focus-visible { color: var(--ink); }
 
 /* 正文：窄窄一栏，疏朗 */
-html[data-route="weibo"] .wb-body { width: min(100%, 52rem); margin: 0 auto; padding: 2rem 0 0; font-family: var(--wb-font); font-size: var(--wb-size); line-height: var(--wb-leading); color: var(--ink); overflow-wrap: break-word; }
+html[data-paper] .wb-body { width: min(100%, 52rem); margin: 0 auto; padding: 2rem 0 0; font-family: var(--wb-font); font-size: var(--wb-size); line-height: var(--wb-leading); color: var(--ink); overflow-wrap: break-word; }
 html[data-route="weibo"] .wb-body ul, html[data-route="weibo"] .wb-body blockquote, html[data-route="weibo"] .wb-chapter > p { max-width: var(--wb-measure); margin-left: auto; margin-right: auto; }
-html[data-route="weibo"] .wb-body p { margin-top: 0; margin-bottom: 0; }
+html[data-paper] .wb-body p { margin-top: 0; margin-bottom: 0; }
 html[data-route="weibo"] .wb-spacer { display: none; }
 html[data-route="weibo"] .wb-chapter { margin-top: 9rem; scroll-margin-top: 90px; }
 html[data-route="weibo"] .wb-chapter:first-child { margin-top: 5rem; }
@@ -686,37 +695,49 @@ html[data-route="weibo"] .wb-sep-num .wb-sep-mark { display: inline-block; color
 html[data-route="weibo"] [data-entry] + .wb-sep-num { margin-top: var(--wb-gap); }
 html[data-route="weibo"] .wb-sep + [data-entry] { margin-top: 0; }
 
+/* 纸页随笔：诗一样的分行短句。一行一块（.wb-line），一段一节，节与节之间用微博两条之间的那段留白；
+   没有分节标记和条间编号。小画贴在那一行上，规则与微博的条目一样（宽屏放在那一行旁边，窄屏放在它下面）。 */
+html[data-route="essay"] .wb-page[data-font="fuji"] { --wb-font: "FujiWenKai", "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif; }
+html[data-route="essay"] .wb-dek { margin: 1.4rem auto 0; max-width: 30em; font-size: .9375rem; line-height: 1.9; color: var(--wb-faint); }
+html[data-route="essay"] .wb-body > p { max-width: var(--wb-measure); margin: var(--wb-gap) auto 0; }
+html[data-route="essay"] .wb-body > p:first-child { margin-top: 5rem; }
+html[data-route="essay"] .wb-line { display: block; position: relative; }
+html[data-route="essay"] .wb-sign { text-align: right; color: var(--ink-2); font-size: .9375rem; }
+html[data-route="essay"] .wb-body > p.wb-sign { margin-top: 5rem; }
+html[data-route="essay"] .wb-sign .wb-line { position: static; }
+
 /* 跟着句子走的小画 */
-html[data-route="weibo"] .wb-sketch { display: block; width: 104px; height: auto; margin: 1.1rem 0 0 auto; filter: var(--wb-sketch-filter); border-radius: 0; }
-html[data-route="weibo"] .wb-sketch.l { margin: 1.1rem auto 0 0; }
+html[data-paper] .wb-sketch { display: block; width: 104px; height: auto; margin: 1.1rem 0 0 auto; filter: var(--wb-sketch-filter); border-radius: 0; }
+html[data-paper] .wb-sketch.l { margin: 1.1rem auto 0 0; }
 @media (min-width: 960px) {
-  html[data-route="weibo"] .wb-sketch { position: absolute; top: 50%; width: 136px; margin: 0; transform: translateY(-50%); }
-  html[data-route="weibo"] .wb-sketch.r { left: calc(100% + 22px); }
-  html[data-route="weibo"] .wb-sketch.l { right: calc(100% + 22px); }
+  html[data-paper] .wb-sketch { position: absolute; top: 50%; width: 136px; margin: 0; transform: translateY(-50%); }
+  html[data-paper] .wb-sketch.r { left: calc(100% + 22px); }
+  html[data-paper] .wb-sketch.l { right: calc(100% + 22px); }
 }
 
 /* 页尾：飞机落地，然后是主站的「返回列表」和「下一篇」 */
-html[data-route="weibo"] .wb-end { max-width: 52rem; margin: 0 auto; padding-top: 8rem; }
-html[data-route="weibo"] .wb-end-plane { display: block; width: 120px; height: 40px; margin: 0 auto 6rem; overflow: visible; color: var(--wb-plane); }
-html[data-route="weibo"] .wb-end-trail { fill: none; stroke: var(--wb-plane); stroke-width: 1; stroke-dasharray: 2 5; stroke-linecap: round; opacity: .7; }
-html[data-route="weibo"] .wb-end .article-end { margin-top: 0; }
+html[data-paper] .wb-end { max-width: 52rem; margin: 0 auto; padding-top: 8rem; }
+html[data-paper] .wb-end-plane { display: block; width: 120px; height: 40px; margin: 0 auto 6rem; overflow: visible; color: var(--wb-plane); }
+html[data-paper] .wb-end-trail { fill: none; stroke: var(--wb-plane); stroke-width: 1; stroke-dasharray: 2 5; stroke-linecap: round; opacity: .7; }
+html[data-paper] .wb-end .article-end { margin-top: 0; }
 
-html[data-route="weibo"] .wb-to-top { position: fixed; right: 20px; bottom: 20px; z-index: 10; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--wb-hair); border-radius: 50%; background: var(--bg); color: var(--wb-plane); cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
-html[data-route="weibo"] .wb-to-top svg { width: 20px; height: 20px; transform: rotate(-45deg); }
-html[data-route="weibo"] .wb-to-top.is-shown { opacity: .85; visibility: visible; }
-html[data-route="weibo"] .wb-to-top:hover { opacity: 1; }
-html[data-route="weibo"] .wb-to-top:focus-visible { outline: 2px solid var(--wb-plane); outline-offset: 3px; }
+html[data-paper] .wb-to-top { position: fixed; right: 20px; bottom: 20px; z-index: 10; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--wb-hair); border-radius: 50%; background: var(--bg); color: var(--wb-plane); cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+html[data-paper] .wb-to-top svg { width: 20px; height: 20px; transform: rotate(-45deg); }
+html[data-paper] .wb-to-top.is-shown { opacity: .85; visibility: visible; }
+html[data-paper] .wb-to-top:hover { opacity: 1; }
+html[data-paper] .wb-to-top:focus-visible { outline: 2px solid var(--wb-plane); outline-offset: 3px; }
 
 @media (max-width: 600px) {
-  html[data-route="weibo"] { --wb-gap: 2.6em; --wb-leading: 1.95; }
-  html[data-route="weibo"] .wb-title { font-size: 1.5rem; letter-spacing: .12em; text-indent: .12em; }
+  html[data-paper] { --wb-gap: 2.6em; --wb-leading: 1.95; }
+  html[data-paper] .wb-title { font-size: 1.5rem; letter-spacing: .12em; text-indent: .12em; }
   html[data-route="weibo"] .wb-toc ol { gap: .2rem 1.1rem; }
   html[data-route="weibo"] .wb-chapter { margin-top: 6.5rem; }
   html[data-route="weibo"] .wb-body ul { margin-top: 3rem; }
+  html[data-route="essay"] .wb-body > p:first-child { margin-top: 3rem; }
 }
 
-/* 减少动态效果：微博页的动画全部停下（上面的全局规则已经停掉 animation / transition，这里把位移也归零） */
+/* 减少动态效果：纸页的动画全部停下（上面的全局规则已经停掉 animation / transition，这里把位移也归零） */
 @media (prefers-reduced-motion: reduce) {
-  html[data-route="weibo"] .wb-hero-plane { animation: none !important; transform: none; }
-  .row[href="#/weibo"]:hover .row-plane, .row[href="#/weibo"]:focus-visible .row-plane { transform: rotate(-12deg); }
+  html[data-paper] .wb-hero-plane { animation: none !important; transform: none; }
+  .row[data-paper-row]:hover .row-plane, .row[data-paper-row]:focus-visible .row-plane { transform: rotate(-12deg); }
 }
