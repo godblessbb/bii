@@ -850,7 +850,7 @@
         var mark = null;
         if (mode === 'num') {
           mark = document.createElement('span');
-          mark.textContent = String(++n);
+          mark.textContent = ('00' + (++n)).slice(-3);
         } else if (prevEntry) {
           mark = document.createElement('span');
         }
