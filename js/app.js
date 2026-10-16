@@ -112,7 +112,7 @@
       navLabel: '主导航',
       'nav.articles': '文章', 'nav.tools': '工具', 'nav.works': '作品', 'nav.about': '关于',
       langAria: 'Switch to English',
-      'foot.big': '菜花还在长',
+      'foot.big': '菜花还在生长',
       'foot.note': '香又脆的菜花 · 北京 · 四海为家',
       'foot.weibo': '微博', 'foot.top': '回到顶部',
       modes: { home: '场景 · 菜花', articles: '场景 · 星野', tools: '场景 · 漂流', works: '场景 · 声环', about: '场景 · 肖像', reading: '阅读', frame: '外框', '': '场景 · 迷路' },
@@ -184,18 +184,7 @@
       visualizer: '音频可视化',
       wb: {
         toc: '小节',
-        toTop: '回到顶部',
-        music: '背景音乐',
-        play: '播放 I Love You So', pause: '暂停 I Love You So',
-        armed: '轻触页面任意处开始',
-        starting: '起飞……',
-        tapPlayer: '请点一下播放器里的播放键',
-        playing: '正在播放',
-        paused: '暂停了',
-        ended: '放完了',
-        offline: '连不上，去别处听',
-        wrong: '视频不对，去别处听',
-        elsewhere: [['网易云音乐', 'https://music.163.com/#/search/m/?s=I%20Love%20You%20So%20The%20Walters'], ['Apple Music', 'https://music.apple.com/search?term=The%20Walters%20I%20Love%20You%20So'], ['Spotify', 'https://open.spotify.com/search/The%20Walters%20I%20Love%20You%20So'], ['YouTube', 'https://www.youtube.com/results?search_query=The+Walters+I+Love+You+So']]
+        toTop: '回到顶部'
       }
     },
     en: {
@@ -278,18 +267,7 @@
       visualizer: 'Audio visualizer',
       wb: {
         toc: 'Sections',
-        toTop: 'Back to top',
-        music: 'Background music',
-        play: 'Play I Love You So', pause: 'Pause I Love You So',
-        armed: 'Tap anywhere on the page to start',
-        starting: 'Taking off…',
-        tapPlayer: 'Tap play inside the player',
-        playing: 'Now playing',
-        paused: 'Paused',
-        ended: 'Finished',
-        offline: 'Cannot reach the player, listen elsewhere',
-        wrong: 'Wrong video, listen elsewhere',
-        elsewhere: [['NetEase Cloud Music', 'https://music.163.com/#/search/m/?s=I%20Love%20You%20So%20The%20Walters'], ['Apple Music', 'https://music.apple.com/search?term=The%20Walters%20I%20Love%20You%20So'], ['Spotify', 'https://open.spotify.com/search/The%20Walters%20I%20Love%20You%20So'], ['YouTube', 'https://www.youtube.com/results?search_query=The+Walters+I+Love+You+So']]
+        toTop: 'Back to top'
       }
     }
   };
@@ -793,7 +771,6 @@
       var tocHtml = toc.length ? '<nav class="wb-toc" aria-label="' + esc(w.toc) + '"><ol lang="zh-CN">' + toc.map(function (t) {
         return '<li><a href="#/weibo?id=' + esc(t.id) + '" data-anchor="' + esc(t.id) + '">' + esc(t.title) + '</a></li>';
       }).join('') + '</ol></nav>' : '';
-      var elsewhere = w.elsewhere.map(function (x) { return '<li><a href="' + esc(x[1]) + '" target="_blank" rel="noopener">' + esc(x[0]) + '</a></li>'; }).join('');
       return {
         html: '<article class="article wb-page" data-weibo-page>' +
           '<div class="wb-progress" data-motif="progress" aria-hidden="true"><span class="wb-progress-line" data-wb-progress-line></span>' +
@@ -808,15 +785,6 @@
               tocHtml +
             '</div>' +
           '</header>' +
-          '<aside class="wb-music" data-music data-music-state="armed" aria-label="' + esc(w.music) + '">' +
-            '<div class="wb-music-stage"><div class="wb-music-player" data-music-player></div></div>' +
-            '<div class="wb-music-meta">' +
-              '<button class="wb-music-toggle" type="button" data-music-toggle aria-pressed="false" aria-label="' + esc(w.play) + '">' + wbPlane('', 'music', '0 0 24 24') + '</button>' +
-              '<p class="wb-music-title">I Love You So<span> · The Walters</span></p>' +
-              '<p class="wb-music-status" data-music-status aria-live="polite">' + esc(w.armed) + '</p>' +
-              '<div class="wb-music-offline" data-music-offline hidden><ul>' + elsewhere + '</ul></div>' +
-            '</div>' +
-          '</aside>' +
           '<div class="wb-body" data-weibo-body data-sep="' + WB_SEP_DEFAULT + '" lang="zh-CN">' + box.innerHTML + '</div>' +
           '<div class="wb-end">' +
             wbPlane('wb-end-plane', 'end', '0 0 120 40', ' x="74" y="20" width="22" height="22"', '<path class="wb-end-trail" d="M4 10 C 30 10, 40 34, 72 32"/>') +
@@ -868,31 +836,10 @@
     body.setAttribute('data-sep-ready', mode);
   }
 
-  /* 音乐：The Walters《I Love You So》，只用 YouTube 官方嵌入播放器，仓库里不放音频。
-     浏览器只拦「页面上还没交互过就出声」：从站内点进来（点击算交互）当场起播；直接打开链接则 armed，等第一次点页面任意处。
-     data-music-state 如实反映：armed（等第一次点击）/ starting（播放器已在用户激活后创建、正在起播）/ playing / paused / unavailable（连不上或不是这首歌，降级成外链）。 */
-  var WB_VIDEO_ID = 'NwFVSclD_uc';   // The Walters 官方频道原版「The Walters -- I Love You So」
-  var WB_LOAD_TIMEOUT = 9000;
-  var WB_PLAY_CHECK = 2500;
-  var wbUserPaused = false;          // 在微博页上主动暂停过：重排（如切换语言）后不自动再放；离开这一页就清掉
-  var gestured = false;              // 这个文档里用户是否交互过（点击、按键）
-  function markGesture(e) {
-    if (e.type === 'keydown' && (e.key === 'Escape' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta')) return;
-    gestured = true;
-  }
-  document.addEventListener('pointerdown', markGesture, true);
-  document.addEventListener('keydown', markGesture, true);
-  document.addEventListener('click', markGesture, true);
-  function hasGesture() {
-    var ua = navigator.userActivation;
-    return gestured || !!(ua && ua.hasBeenActive);
-  }
-
   function initWeibo() {
     var page = view.querySelector('[data-weibo-page]');
-    if (!page) { if (!current || current.route !== 'weibo') wbUserPaused = false; return; }
+    if (!page) return;
     var body = page.querySelector('[data-weibo-body]');
-    var w = S().wb;
 
     // 条间记号
     wbRenderSeps(body);
@@ -933,161 +880,11 @@
     if (toTop) toTop.addEventListener('click', onTop);
     onWbScroll();
 
-    // 音乐
-    var music = page.querySelector('[data-music]');
-    var toggle = page.querySelector('[data-music-toggle]');
-    var statusEl = page.querySelector('[data-music-status]');
-    var playerEl = page.querySelector('[data-music-player]');
-    var offlineEl = page.querySelector('[data-music-offline]');
-    var state = 'armed';
-    var player = null;
-    var iframe = null;
-    var loadTimer = 0, playTimer = 0;
-    var alive = true;
-
-    function setStatus(t) { if (statusEl) statusEl.textContent = t; }
-    function setState(st, text) {
-      state = st;
-      music.setAttribute('data-music-state', st);
-      var on = st === 'playing';
-      toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
-      toggle.setAttribute('aria-label', on ? w.pause : w.play);
-      if (text != null) setStatus(text);
-    }
-    function teardown() {
-      clearTimeout(loadTimer); clearTimeout(playTimer);
-      if (player && player.destroy) { try { player.destroy(); } catch (e) {} }
-      player = null;
-      iframe = null;
-      if (playerEl) playerEl.innerHTML = '';
-    }
-    function unavailable(text) {
-      if (!alive) return;
-      teardown();
-      if (offlineEl) offlineEl.hidden = false;
-      setState('unavailable', text || w.offline);
-    }
-    function looksLikeTheSong() {
-      // 第一版的标题核对：不是这首歌就降级，不会放错歌
-      try {
-        var d = player.getVideoData && player.getVideoData();
-        if (!d || (!d.title && !d.author)) return true;
-        var t = (d.title + ' ' + d.author).toLowerCase();
-        return t.indexOf('walters') !== -1 || t.indexOf('i love you so') !== -1;
-      } catch (e) { return true; }
-    }
-    function playNow() {
-      if (!player || !player.playVideo) return;
-      try {
-        if (player.unMute) player.unMute();
-        if (player.setVolume) player.setVolume(70);
-        player.playVideo();
-      } catch (e) { unavailable(); return; }
-      clearTimeout(playTimer);
-      playTimer = setTimeout(function () {
-        if (alive && state === 'starting') setStatus(w.tapPlayer);   // iOS 等只认播放器里的直接点击
-      }, WB_PLAY_CHECK);
-    }
-    function onReady() {
-      if (!alive) return;
-      clearTimeout(loadTimer);
-      if (!looksLikeTheSong()) { unavailable(w.wrong); return; }
-      if (state === 'starting') playNow();
-    }
-    function onStateChange(e) {
-      var YT = window.YT;
-      if (!alive || !YT || !YT.PlayerState) return;
-      if (e.data === YT.PlayerState.PLAYING) {
-        clearTimeout(loadTimer); clearTimeout(playTimer);
-        if (!looksLikeTheSong()) { unavailable(w.wrong); return; }
-        setState('playing', w.playing);
-      } else if (e.data === YT.PlayerState.PAUSED) {
-        setState('paused', w.paused);
-      } else if (e.data === YT.PlayerState.ENDED) {
-        setState('paused', w.ended);
-      }
-    }
-    function attachApi() {
-      if (!alive || !iframe || player) return;
-      try {
-        player = new window.YT.Player(iframe, {
-          events: { onReady: onReady, onStateChange: onStateChange, onError: function () { unavailable(); } }
-        });
-      } catch (e) { unavailable(); }
-    }
-    // 只在用户激活之后调用：当场创建带 allow="autoplay" 的官方嵌入播放器并起播
-    function start() {
-      if (!alive || state === 'starting' || state === 'playing' || state === 'unavailable') return;
-      wbUserPaused = false;
-      if (player && player.playVideo) { setState('starting', w.starting); playNow(); return; }
-      setState('starting', w.starting);
-      if (offlineEl) offlineEl.hidden = true;
-      iframe = document.createElement('iframe');
-      iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
-      iframe.setAttribute('title', 'I Love You So · The Walters');
-      iframe.width = '200';
-      iframe.height = '200';
-      iframe.src = 'https://www.youtube-nocookie.com/embed/' + WB_VIDEO_ID +
-        '?enablejsapi=1&autoplay=1&playsinline=1&rel=0&modestbranding=1' +
-        (/^https?:/.test(location.origin) ? '&origin=' + encodeURIComponent(location.origin) : '');
-      playerEl.appendChild(iframe);
-      loadTimer = setTimeout(function () { if (state === 'starting' && !player) unavailable(); }, WB_LOAD_TIMEOUT);   // 官方脚本没到：当连不上
-      if (window.YT && window.YT.Player) { attachApi(); return; }
-      var prev = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = function () {
-        if (typeof prev === 'function') { try { prev(); } catch (e) {} }
-        attachApi();
-      };
-      if (!document.querySelector('script[data-yt-api]')) {
-        var sc = document.createElement('script');
-        sc.src = 'https://www.youtube.com/iframe_api';
-        sc.async = true;
-        sc.setAttribute('data-yt-api', '');
-        sc.onerror = function () { sc.parentNode && sc.parentNode.removeChild(sc); unavailable(); };
-        document.head.appendChild(sc);
-      }
-    }
-    function onToggle() {
-      if (state === 'unavailable') {
-        var first = offlineEl && offlineEl.querySelector('a');
-        if (first) first.focus();
-        return;
-      }
-      if (state === 'playing') {
-        wbUserPaused = true;
-        if (player && player.pauseVideo) { try { player.pauseVideo(); } catch (e) {} }
-        setState('paused', w.paused);
-        return;
-      }
-      if (state === 'starting') return;
-      start();
-    }
-    // 直接打开：第一次点页面任意处（或按回车 / 空格）就开始；点的是离开这一页的链接就不算
-    function onFirstGesture(e) {
-      if (state !== 'armed') return;
-      var t = e.target;
-      if (t && t.closest && t.closest('[data-music-toggle], [data-music-offline], a[href]:not([data-anchor])')) return;
-      if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
-      start();
-    }
-    toggle.addEventListener('click', onToggle);
-    document.addEventListener('pointerdown', onFirstGesture, true);
-    document.addEventListener('keydown', onFirstGesture, true);
-
-    if (hasGesture()) {
-      if (wbUserPaused) setState('paused', w.paused);
-      else start();          // 站内点进来：这次点击就是交互，当场起播
-    }
-
     cleanups.push(function () {
-      alive = false;
       if (mo) mo.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', onWbScroll);
       window.removeEventListener('resize', onWbScroll);
-      document.removeEventListener('pointerdown', onFirstGesture, true);
-      document.removeEventListener('keydown', onFirstGesture, true);
-      teardown();
     });
   }
 

@@ -17,6 +17,8 @@
   <meta name="theme-color" content="#060807" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e7eae2" media="(prefers-color-scheme: light)">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <script>
     // 语言偏好尽早生效，避免首屏闪烁
     try { if (localStorage.getItem('datode-lang') === 'en') document.documentElement.lang = 'en'; } catch (e) {}
@@ -26,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
   <link rel="preload" href="fonts/caihua-glyph.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/site.css?v=20261015">
 </head>
 <body>
   <a class="skip" href="#view" data-i18n="skip">跳到正文</a>
@@ -40,7 +42,7 @@
 
   <header class="hud">
     <a class="brand" href="#/">
-      <span class="brand-orb" aria-hidden="true"></span>
+      <img class="brand-logo" src="logo.png" alt="" width="28" height="28" decoding="async">
       <span class="brand-name" data-i18n="brand">香又脆的菜花</span>
     </a>
     <nav class="nav" aria-label="主导航" data-i18n-aria="navLabel">
@@ -67,7 +69,7 @@
 
   <footer class="foot">
     <div class="foot-inner">
-      <p class="foot-big" data-i18n="foot.big">菜花还在长</p>
+      <p class="foot-big" data-i18n="foot.big">菜花还在生长</p>
       <div class="foot-row">
         <span data-i18n="foot.note">香又脆的菜花 · 北京 · 四海为家</span>
         <span class="foot-links">
@@ -93,7 +95,7 @@
   </svg>
 
   <script src="vendor/marked.min.js"></script>
-  <script src="js/gl.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/gl.js?v=20261015"></script>
+  <script src="js/app.js?v=20261015"></script>
 </body>
 </html>
