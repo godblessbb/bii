@@ -713,7 +713,7 @@
     { frag: '她在这张纸上歪歪斜斜地写满了我的名字', src: 'art/name-paper.svg' }
   ];
   var WB_SEPS = ['dot', 'num', 'line'];
-  var WB_SEP_DEFAULT = 'dot';    // 条间记号默认值；用户定了以后只改这里
+  var WB_SEP_DEFAULT = 'num';    // 条间记号默认值；用户定了以后只改这里
 
   // 纸飞机：全部 <use href="#plane">（index.html 里唯一的 symbol）
   function wbPlane(cls, motif, viewBox, use, inner) {
