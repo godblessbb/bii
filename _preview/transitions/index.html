@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>转场效果对比 · 香又脆的菜花（预览）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="datode.com 栏目转场的候选效果：现状火烧 + 七个备选，点按钮逐个体验。">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#060807">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // 与主站同一个开关：localStorage['datode-lang'] === 'en' 时用英文
+    try { if (localStorage.getItem('datode-lang') === 'en') document.documentElement.lang = 'en'; } catch (e) {}
+  </script>
+</head>
+<body>
+  <main class="lab">
+    <header class="lab-head">
+      <div class="lab-title">
+        <span class="lab-mark" aria-hidden="true"></span>
+        <h1 data-i18n="title">转场效果对比</h1>
+      </div>
+      <button class="lang" type="button" data-lang-toggle aria-label="Switch to English">
+        <span class="lang-a">中</span><span class="lang-b">En</span>
+      </button>
+      <p class="lab-note" data-i18n-html="note"></p>
+    </header>
+
+    <div class="stage" data-stage data-state="idle" data-page="A" role="img" aria-label="">
+      <canvas class="pg pg-a" data-pg="A" aria-hidden="true"></canvas>
+      <canvas class="pg pg-b" data-pg="B" aria-hidden="true"></canvas>
+      <canvas class="fx" aria-hidden="true"></canvas>
+    </div>
+
+    <div class="freeze" data-freeze hidden>
+      <span class="freeze-k" data-freeze-label></span>
+      <input class="freeze-r" type="range" min="0" max="1" step="0.01" value="0.5" data-freeze-range aria-label="progress">
+      <output class="freeze-v" data-freeze-value>0.50</output>
+      <a class="freeze-x" href="./" data-i18n="exit">退出冻结</a>
+    </div>
+
+    <nav class="fx-btns" aria-label="效果" data-i18n-aria="effects">
+      <button type="button" data-effect="burn"><b data-i18n="n_burn">火烧</b><small data-i18n="tag_burn">现状</small></button>
+      <button type="button" data-effect="ink"><b data-i18n="n_ink">墨水晕开</b><small>1.0s</small></button>
+      <button type="button" data-effect="brush"><b data-i18n="n_brush">水墨扫过</b><small>0.9s</small></button>
+      <button type="button" data-effect="tear"><b data-i18n="n_tear">纸张撕开</b><small>1.05s</small></button>
+      <button type="button" data-effect="pixel"><b data-i18n="n_pixel">像素消散</b><small>0.85s</small></button>
+      <button type="button" data-effect="iris"><b data-i18n="n_iris">光圈收放</b><small>0.7s</small></button>
+      <button type="button" data-effect="mist"><b data-i18n="n_mist">雾散</b><small>0.4s</small></button>
+      <button type="button" data-effect="plane"><b data-i18n="n_plane">纸飞机</b><small>1.15s</small></button>
+    </nav>
+
+    <p class="fx-info" data-info aria-live="polite"></p>
+  </main>
+
+  <script src="pages.js"></script>
+  <script src="fx.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+/* 转场效果对比（预览页）· 与主站同一套深色配色，自成一体，不引主站 css */
+:root {
+  --bg: #060807;
+  --bg-2: #0c110e;
+  --ink: #e8efe4;
+  --ink-2: #9aa79c;
+  --ink-3: #5f6b62;
+  --line: rgba(232, 239, 228, 0.13);
+  --line-2: rgba(232, 239, 228, 0.28);
+  --acc: #c4ff3a;
+  --acc-ink: #0b1205;
+  --f-display: "Unbounded", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  --f-sans: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --gut: clamp(16px, 3vw, 40px);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+
+.lab {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px var(--gut) 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ---- 头部 ---- */
+.lab-head {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 6px 16px;
+}
+.lab-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.lab-mark { flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 14px rgba(196, 255, 58, .55); }
+h1 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(18px, 2.2vw, 24px); letter-spacing: -.01em; line-height: 1.2; }
+.lab-note { grid-column: 1 / -1; margin: 0; color: var(--ink-2); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.lab-note b { color: var(--acc); font-weight: 600; }
+.lab-note code { font-family: var(--f-mono); font-size: .92em; color: var(--ink); background: rgba(232, 239, 228, .08); padding: .05em .35em; border-radius: 5px; }
+.lab-note a { color: var(--acc); text-underline-offset: 3px; }
+
+.lang { display: inline-flex; gap: 2px; padding: 4px; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; cursor: pointer; font-family: var(--f-mono); font-size: 12px; }
+.lang span { padding: 2px 8px; border-radius: 999px; color: var(--ink-3); }
+html:not([lang="en"]) .lang-a, html[lang="en"] .lang-b { background: var(--acc); color: var(--acc-ink); }
+
+/* ---- 舞台 ---- */
+.stage {
+  position: relative;
+  width: min(100%, calc((100vh - 250px) * 1.6));
+  min-width: min(100%, 560px);
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: 0 0 0 1px var(--line), 0 24px 60px -30px rgba(196, 255, 58, .18);
+  cursor: crosshair;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@supports (height: 100dvh) {
+  .stage { width: min(100%, calc((100dvh - 250px) * 1.6)); }
+}
+@media (max-width: 640px) {
+  .stage { width: 100%; min-width: 0; aspect-ratio: 4 / 5; max-height: calc(100svh - 300px); min-height: 300px; border-radius: 12px; }
+}
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.stage .pg { visibility: hidden; }
+.stage[data-page="A"] .pg-a, .stage[data-page="B"] .pg-b { visibility: visible; }
+.stage .fx { visibility: hidden; }
+.stage[data-fx] .fx { visibility: visible; }
+
+/* ---- 冻结帧条 ---- */
+.freeze {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  border: 1px dashed var(--line-2);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.freeze[hidden] { display: none; }
+.freeze-k { font-family: var(--f-mono); color: var(--acc); white-space: nowrap; }
+.freeze-r { flex: 1; min-width: 0; accent-color: var(--acc); }
+.freeze-v { font-family: var(--f-mono); color: var(--ink); min-width: 3.2em; text-align: right; }
+.freeze-x { white-space: nowrap; color: var(--ink-2); }
+
+/* ---- 效果按钮 ---- */
+.fx-btns {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 8px;
+}
+@media (max-width: 900px) {
+  .fx-btns { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.fx-btns button {
+  min-width: 0;
+  min-height: 52px;
+  padding: 7px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: rgba(232, 239, 228, .03);
+  cursor: pointer;
+  transition: border-color .2s, background-color .2s, color .2s, transform .2s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.fx-btns b { font-weight: 600; font-size: 14px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.fx-btns small { font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); line-height: 1.3; }
+.fx-btns button[data-effect="burn"] small { color: var(--acc); }
+@media (hover: hover) {
+  .fx-btns button:hover { border-color: var(--acc); }
+}
+.fx-btns button:active { transform: scale(.97); }
+.fx-btns button[aria-pressed="true"] { border-color: var(--acc); background: rgba(196, 255, 58, .1); }
+.fx-btns button[aria-pressed="true"] small { color: var(--acc); }
+[data-state="running"] ~ .fx-btns button { cursor: progress; }
+
+.fx-info { width: 100%; margin: 0; min-height: 3.2em; color: var(--ink-2); font-size: 13px; line-height: 1.6; }
+.fx-info b { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .lab { padding-top: 12px; gap: 10px; }
+  .fx-btns { gap: 6px; }
+  .fx-btns button { min-height: 48px; padding: 6px 4px; border-radius: 10px; }
+  .fx-btns b { font-size: 13px; }
+  .lab-note, .fx-info { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
