@@ -114,40 +114,36 @@
     '}'
   ].join('\n');
 
-  /* 转场：光圈收放（与 _preview/transitions 的 iris 同一套几何和缓动）。
-     遮罩只有「新页还没被光圈张开的部分」：主题底色盖在新内容上，圆形光圈从点击处张开，
-     光圈里露出新页；边缘 R/G/B 三个通道的半径错开一点 → 色散彩边，最后收一道细亮边。 */
+  /* 转场：雾散（与 _preview/transitions 的 mist 同一套雾和噪声）。
+     遮罩只有「新页还没从雾里露出来的部分」：一开始主题底色盖满新页；雾漫上来的同时，
+     底色按一张很粗的噪声图慢慢散开，露出新页；雾最浓之后自己退掉。没有硬边，没有光圈。 */
   var FS_VEIL = [
     '#ifdef GL_FRAGMENT_PRECISION_HIGH',
     'precision highp float;',
     '#else',
     'precision mediump float;',
     '#endif',
-    'uniform vec2 uRes; uniform float uP; uniform float uPx; uniform vec2 uO; uniform vec3 uBg;',
-    'float sat(float x){ return clamp(x, 0.0, 1.0); }',
+    'uniform vec2 uRes; uniform float uP; uniform float uPx; uniform float uT; uniform vec3 uBg;',
+    'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
+    'float noise(vec2 p){ vec2 i = floor(p), f = fract(p), u = f * f * (3.0 - 2.0 * f);',
+    '  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y); }',
+    'float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++){ v += a * noise(p); p = p * 2.03 + vec2(1.7, 9.2); a *= 0.5; } return v; }',
     'void main(){',
-    '  vec2 fc = gl_FragCoord.xy;',
-    '  float d = length(fc - uO);',
+    '  vec2 p = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;',
     '  float k = uP;',
-    '  float e = k < 0.35 ? k * k / 0.35 : 1.0 - (1.0 - k) * (1.0 - k) / 0.65;',
-    '  vec2 far = max(uO, uRes - uO);',
-    '  float Rm = length(far) + 40.0 * uPx;',
-    '  float R = Rm * e;',
-    '  float ca = (1.0 + 2.5 * sin(k * 3.14159265)) * uPx;',
-    '  float aa = 1.0 * uPx;',
-    // 三个通道各自的覆盖度：半径错开 → 彩边
-    '  vec3 cov;',
-    '  cov.r = smoothstep(R - ca - aa, R - ca + aa, d);',
-    '  cov.g = smoothstep(R - aa, R + aa, d);',
-    '  cov.b = smoothstep(R + ca - aa, R + ca + aa, d);',
-    '  float a = max(cov.r, max(cov.g, cov.b));',
-    '  vec3 col = uBg * cov;',
-    // 细亮边
-    '  float ring = exp(-pow((d - R) / (1.4 * uPx), 2.0)) * step(0.001, k) * (1.0 - smoothstep(0.93, 1.0, k));',
-    '  vec3 lime = vec3(0.92, 1.0, 0.75);',
-    '  col = mix(col, lime, ring * 0.55);',
-    '  a = max(a, ring * 0.55);',
-    '  gl_FragColor = vec4(col, a);',
+    '  float fog = smoothstep(0.0, 0.45, k) * (1.0 - smoothstep(0.55, 1.0, k));',
+    '  vec2 drift = vec2(uT * 0.35, -uT * 0.12);',
+    '  float n = fbm(p * 1.6 + drift);',
+    '  float n2 = fbm(p * 3.4 - drift * 1.6 + 4.0);',
+    // 底色散开的进度：时间 + 噪声，噪声高的地方先散
+    '  float sw = smoothstep(-0.35, 0.35, (k - 0.5) * 2.4 + (n - 0.5) * 1.1);',
+    '  float cover = 1.0 - sw;',
+    // 雾色取主题底色朝中性灰带一点：深浅主题下都是低对比的一层
+    '  vec3 mistC = mix(uBg, vec3(0.5, 0.54, 0.5), 0.35) + vec3(0.04, 0.05, 0.02) * (n2 - 0.5);',
+    '  float dens = fog * (0.32 + 0.2 * n2 + 0.1 * n);',
+    '  vec3 col = mix(uBg, mistC, dens);',
+    '  float a = max(cover, dens);',
+    '  gl_FragColor = vec4(col * a, a);',
     '}'
   ].join('\n');
 
@@ -344,7 +340,7 @@
     if (glyphPortrait !== (aspect < 0.9) && N) { buildGlyph(); uploadA(); }
     applyLayout(true);
     if (vgl) {
-      var vs = (small() ? 0.75 : 1.0) * Math.max(quality, 0.7);   // 光圈着色器很轻，遮罩不必跟着粒子的降档一起糊
+      var vs = (small() ? 0.75 : 1.0) * Math.max(quality, 0.7);   // 雾散着色器不重，遮罩不必跟着粒子的降档一起糊
       veil.width = Math.max(1, Math.round(w * vs)); veil.height = Math.max(1, Math.round(h * vs));
       vgl.viewport(0, 0, veil.width, veil.height);
     }
@@ -579,9 +575,6 @@
       img.src = avatarUrl;
     }
 
-    window.addEventListener('pointerdown', function (e) {
-      vOx = e.clientX / Math.max(1, window.innerWidth); vOy = e.clientY / Math.max(1, window.innerHeight); vOt = performance.now();
-    }, { passive: true, capture: true });
     window.addEventListener('pointermove', function (e) {
       if (reduced() || !running) return;
       var x = (e.clientX / window.innerWidth * 2 - 1) * aspect;
@@ -612,12 +605,11 @@
   Scene.count = function () { return Math.round(N * TIERS[tier].n); };
   Scene.stats = function () { return { bench: Scene.benchMs, tier: lite ? 'off' : tier, fps: Math.round(lastFps * 10) / 10, quality: quality, particles: lite ? 0 : Scene.count() }; };
 
-  /* ---------- 页面转场（光圈收放）----------
+  /* ---------- 页面转场（雾散）----------
      只是盖在新内容上的视觉层：调用时新栏目的 DOM 已经挂好，
      遮罩从「盖满」溶解到「全开」，不回调、不阻塞任何东西。
      掉帧（低于 30fps 或已降档）就直接不放。 */
-  var vRaf = 0, vStart = 0, vLast = 0, VEIL_MS = 700;
-  var vOx = 0.5, vOy = 0.5, vOt = 0;   // 光圈起点：最近一次点击（CSS 像素占视口的比例）；没有就取屏幕中心
+  var vRaf = 0, vStart = 0, vLast = 0, VEIL_MS = 450;
   function drawVeil(p) {
     var th = theme();
     vgl.clearColor(0, 0, 0, 0);
@@ -629,7 +621,7 @@
     vgl.vertexAttribPointer(loc, 2, vgl.FLOAT, false, 0, 0);
     vgl.uniform2f(pVeil.u.uRes, veil.width, veil.height);
     vgl.uniform1f(pVeil.u.uP, p);
-    vgl.uniform2f(pVeil.u.uO, vOx * veil.width, (1 - vOy) * veil.height);
+    vgl.uniform1f(pVeil.u.uT, p * 1.2);
     vgl.uniform1f(pVeil.u.uPx, veil.width / Math.max(1, window.innerWidth));   // 1 个 CSS 像素 = 几个画布像素
     vgl.uniform3fv(pVeil.u.uBg, th.bg);
     vgl.drawArrays(vgl.TRIANGLES, 0, 3);
@@ -656,7 +648,6 @@
     if (vRaf) cancelAnimationFrame(vRaf);
     vStart = 0;
     veil.classList.add('is-on');
-    if (!(performance.now() - vOt < 1500)) { vOx = 0.5; vOy = 0.5; }   // 键盘 / 地址栏切换：从屏幕中心张开
     drawVeil(0.0);   // 先盖满（只是排进 GPU 命令，不等它画完）
     vRaf = requestAnimationFrame(veilFrame);
     return true;
