@@ -546,20 +546,10 @@ html[lang="en"] .foot-big { font-weight: 700; letter-spacing: -.05em; }
 .prose > h2:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
 
 /* ================= 文章列表：纸页那一家的行（微博合辑、纸页随笔） =================
-   一架小纸飞机（与 #/weibo 同一个 symbol），悬停透出纸色，点之前就知道里面是另一种气质。 */
+   一架小纸飞机（与 #/weibo 同一个 symbol），悬停沿用普通行的高亮，纸飞机轻轻翘起。 */
 .row-plane { display: inline-block; width: .8em; height: .8em; margin-left: .45em; vertical-align: -.05em; color: var(--ink-3); transform: rotate(-12deg); transition: transform .45s var(--ease), color .25s; }
 .row[data-paper-row] { transition: padding .35s var(--ease), background-color .35s var(--ease); }
-.row[data-paper-row]:hover, .row[data-paper-row]:focus-visible { background-color: rgba(246, 241, 231, .07); }
-.row[data-paper-row]:hover .row-t, .row[data-paper-row]:focus-visible .row-t,
-.row[data-paper-row]:hover .row-go, .row[data-paper-row]:hover .row-n, .row[data-paper-row]:hover .row-plane { color: #f6f1e7; }
-.row[data-paper-row]:hover .row-plane, .row[data-paper-row]:focus-visible .row-plane { transform: translate(3px, -3px) rotate(-30deg); }
-@media (prefers-color-scheme: light) {
-  .row[data-paper-row]:hover, .row[data-paper-row]:focus-visible { background-color: #f6f1e7; box-shadow: inset 0 0 0 1px #e2d8c6; }
-  .row[data-paper-row]:hover .row-t, .row[data-paper-row]:focus-visible .row-t,
-  .row[data-paper-row]:hover .row-go, .row[data-paper-row]:hover .row-n { color: #2b2824; }
-  .row[data-paper-row]:hover .row-d { color: #6f665c; }
-  .row[data-paper-row]:hover .row-plane, .row[data-paper-row]:focus-visible .row-plane { color: #4f6f8f; }
-}
+.row:hover .row-plane, .row:focus-visible .row-plane { color: var(--acc); transform: translate(3px, -3px) rotate(-30deg); }
 
 /* ================= 纸页：微博合辑 #/weibo（第二版版式）与纸页随笔共用 =================
    共用的纸色、纸飞机、阅读进度、刊头、小画、页尾挂在 html[data-paper] 下（只有这两种页面有）；
