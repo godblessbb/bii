@@ -114,79 +114,40 @@
     '}'
   ].join('\n');
 
-  /* 转场：纸飞机（与 _preview/transitions 的 plane 同一套几何）。
-     遮罩只有「新页还没被尾流揭开的部分」：主题底色盖在新内容上，飞机从左下飞向右上，
-     机尾拖出越拉越宽的尾流，尾流里露出新页；尾流边是细蓝线，中线是虚线航迹。 */
+  /* 转场：光圈收放（与 _preview/transitions 的 iris 同一套几何和缓动）。
+     遮罩只有「新页还没被光圈张开的部分」：主题底色盖在新内容上，圆形光圈从点击处张开，
+     光圈里露出新页；边缘 R/G/B 三个通道的半径错开一点 → 色散彩边，最后收一道细亮边。 */
   var FS_VEIL = [
     '#ifdef GL_FRAGMENT_PRECISION_HIGH',
     'precision highp float;',
     '#else',
     'precision mediump float;',
     '#endif',
-    'uniform vec2 uRes; uniform float uP; uniform float uSeed; uniform float uPx; uniform vec3 uBg;',
-    'const float PI = 3.14159265;',
-    'mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, s, -s, c); }',
+    'uniform vec2 uRes; uniform float uP; uniform float uPx; uniform vec2 uO; uniform vec3 uBg;',
     'float sat(float x){ return clamp(x, 0.0, 1.0); }',
-    'float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p - a, ba = b - a; float h = sat(dot(pa, ba) / dot(ba, ba)); return length(pa - ba * h); }',
-    'float tri(vec2 p, vec2 a, vec2 b, vec2 c){',
-    '  float d1 = (p.x - b.x) * (a.y - b.y) - (a.x - b.x) * (p.y - b.y);',
-    '  float d2 = (p.x - c.x) * (b.y - c.y) - (b.x - c.x) * (p.y - c.y);',
-    '  float d3 = (p.x - a.x) * (c.y - a.y) - (c.x - a.x) * (p.y - a.y);',
-    '  bool neg = d1 < 0.0 || d2 < 0.0 || d3 < 0.0, pos = d1 > 0.0 || d2 > 0.0 || d3 > 0.0;',
-    '  return (neg && pos) ? 0.0 : 1.0; }',
-    // premultiplied「over」：在 d 上叠一层颜色 c、不透明度 a
-    'vec4 over(vec4 d, vec3 c, float a){ a = sat(a); return vec4(c * a + d.rgb * (1.0 - a), a + d.a * (1.0 - a)); }',
     'void main(){',
-    '  float W = uRes.x / uRes.y;',
-    '  vec2 P = gl_FragCoord.xy / uRes.y;',
+    '  vec2 fc = gl_FragCoord.xy;',
+    '  float d = length(fc - uO);',
     '  float k = uP;',
-    '  vec2 P0 = vec2(-0.3, -0.2), P1 = vec2(W + 0.35, 1.22);',
-    '  vec2 D = P1 - P0; float Ln = length(D); vec2 dir = D / Ln; vec2 nrm = vec2(-dir.y, dir.x);',
-    '  float fk = sat(k / 0.84);',
-    '  float fe = pow(fk, 1.3);',
-    '  float sp = mix(0.02, 1.14, fe) * Ln;',
-    '  float wob = sin(fk * 9.0 + uSeed) * 0.05 * fk;',
-    '  vec2 pos = P0 + dir * sp + nrm * (sin(fk * PI) * 0.06 + wob * 0.4);',
-    '  vec2 rel = P - P0;',
-    '  float t = dot(rel, dir), n = dot(rel, nrm) - sin(fk * PI) * 0.06 * smoothstep(0.0, 0.4, t / Ln);',
-    '  float ps = 0.16 * (0.85 + 0.35 * sin(fk * PI));',
-    '  float behind = sp - ps * 0.32 - t;',
-    '  float spread = pow(smoothstep(0.42, 1.0, k), 1.4) * 1.25;',
-    '  float wave = 1.0 + 0.07 * sin(t * 9.0 - k * 7.0 + uSeed) + 0.04 * sin(t * 23.0 + k * 5.0);',
-    '  float hw = (behind * 0.3 + spread) * wave;',
-    '  float px = uPx / uRes.y;',
-    '  float m = smoothstep(-px, px, behind) * smoothstep(hw + px, hw - px, abs(n));',
-    '  vec4 o = vec4(uBg * (1.0 - m), 1.0 - m);',
-    '  float fade = 1.0 - smoothstep(0.85, 1.0, k);',
-    '  vec3 blue = vec3(0.663, 0.753, 0.827);',
-    '  float rim = exp(-pow((abs(n) - hw) / (1.3 * px), 2.0)) * step(0.0, behind);',
-    '  float lip = smoothstep(hw - 14.0 * px, hw, abs(n)) * m;',
-    '  o = over(o, vec3(0.0), 0.3 * lip * fade);',
-    '  o = over(o, blue, rim * 0.55 * fade);',
-    '  float dash = step(fract(t / (0.032 * ps / 0.16)), 0.3);',
-    '  float tl = (1.0 - smoothstep(0.9 * px, 1.8 * px, abs(n))) * dash * step(0.0, behind) * fade;',
-    '  o = over(o, blue, tl * 0.85);',
-    '  float a0 = atan(10.2, 10.6);',
-    '  float ang = atan(dir.y, dir.x) - a0 + wob;',
-    '  vec2 v = rot(-ang) * (P - pos) / ps * 24.0;',
-    '  vec2 s = vec2(v.x + 12.0, 12.0 - v.y);',
-    '  float upx = 24.0 * px / ps;',
-    '  vec2 N = vec2(21.8, 3.2), Lw = vec2(2.2, 11.6), Rw = vec2(15.6, 20.6), Cf = vec2(11.2, 13.4);',
-    '  vec2 F1 = vec2(10.4, 18.6), F2 = vec2(13.2, 15.9);',
-    '  float f1 = tri(s, Lw, N, Cf), f2 = tri(s, N, Rw, Cf), f3 = tri(s, Cf, F1, F2);',
-    '  float body = max(f1, max(f2, f3));',
-    '  vec3 pc = vec3(0.965, 0.945, 0.906) * (f3 > 0.5 ? 0.72 : (f2 > 0.5 ? 0.84 : 1.0));',
-    '  float dl = min(min(seg(s, Lw, N), seg(s, N, Rw)), min(seg(s, Rw, Cf), seg(s, Cf, Lw)));',
-    '  dl = min(dl, min(seg(s, Cf, N), min(seg(s, Cf, F1), seg(s, F1, F2))));',
-    '  float stroke = 1.0 - smoothstep(0.62 - upx * 0.6, 0.62 + upx * 0.6, dl);',
-    '  float vis = step(0.0005, k) * step(fk, 0.999);',
-    '  vec2 vs = rot(-ang) * (P - pos - vec2(0.018, -0.03)) / ps * 24.0;',
-    '  vec2 ss = vec2(vs.x + 12.0, 12.0 - vs.y);',
-    '  float shd = max(tri(ss, Lw, N, Cf), tri(ss, N, Rw, Cf)) * vis;',
-    '  o = over(o, vec3(0.0), 0.35 * shd * (1.0 - body));',
-    '  o = over(o, pc, body * vis);',
-    '  o = over(o, vec3(0.31, 0.435, 0.56), stroke * vis);',
-    '  gl_FragColor = o;',
+    '  float e = k < 0.35 ? k * k / 0.35 : 1.0 - (1.0 - k) * (1.0 - k) / 0.65;',
+    '  vec2 far = max(uO, uRes - uO);',
+    '  float Rm = length(far) + 40.0 * uPx;',
+    '  float R = Rm * e;',
+    '  float ca = (1.0 + 2.5 * sin(k * 3.14159265)) * uPx;',
+    '  float aa = 1.0 * uPx;',
+    // 三个通道各自的覆盖度：半径错开 → 彩边
+    '  vec3 cov;',
+    '  cov.r = smoothstep(R - ca - aa, R - ca + aa, d);',
+    '  cov.g = smoothstep(R - aa, R + aa, d);',
+    '  cov.b = smoothstep(R + ca - aa, R + ca + aa, d);',
+    '  float a = max(cov.r, max(cov.g, cov.b));',
+    '  vec3 col = uBg * cov;',
+    // 细亮边
+    '  float ring = exp(-pow((d - R) / (1.4 * uPx), 2.0)) * step(0.001, k) * (1.0 - smoothstep(0.93, 1.0, k));',
+    '  vec3 lime = vec3(0.92, 1.0, 0.75);',
+    '  col = mix(col, lime, ring * 0.55);',
+    '  a = max(a, ring * 0.55);',
+    '  gl_FragColor = vec4(col, a);',
     '}'
   ].join('\n');
 
@@ -383,7 +344,7 @@
     if (glyphPortrait !== (aspect < 0.9) && N) { buildGlyph(); uploadA(); }
     applyLayout(true);
     if (vgl) {
-      var vs = (small() ? 0.75 : 1.0) * Math.max(quality, 0.7);   // 纸飞机着色器很轻，遮罩不必跟着粒子的降档一起糊
+      var vs = (small() ? 0.75 : 1.0) * Math.max(quality, 0.7);   // 光圈着色器很轻，遮罩不必跟着粒子的降档一起糊
       veil.width = Math.max(1, Math.round(w * vs)); veil.height = Math.max(1, Math.round(h * vs));
       vgl.viewport(0, 0, veil.width, veil.height);
     }
@@ -618,6 +579,9 @@
       img.src = avatarUrl;
     }
 
+    window.addEventListener('pointerdown', function (e) {
+      vOx = e.clientX / Math.max(1, window.innerWidth); vOy = e.clientY / Math.max(1, window.innerHeight); vOt = performance.now();
+    }, { passive: true, capture: true });
     window.addEventListener('pointermove', function (e) {
       if (reduced() || !running) return;
       var x = (e.clientX / window.innerWidth * 2 - 1) * aspect;
@@ -648,12 +612,12 @@
   Scene.count = function () { return Math.round(N * TIERS[tier].n); };
   Scene.stats = function () { return { bench: Scene.benchMs, tier: lite ? 'off' : tier, fps: Math.round(lastFps * 10) / 10, quality: quality, particles: lite ? 0 : Scene.count() }; };
 
-  /* ---------- 页面转场（纸飞机）----------
+  /* ---------- 页面转场（光圈收放）----------
      只是盖在新内容上的视觉层：调用时新栏目的 DOM 已经挂好，
      遮罩从「盖满」溶解到「全开」，不回调、不阻塞任何东西。
      掉帧（低于 30fps 或已降档）就直接不放。 */
-  var vRaf = 0, vStart = 0, vLast = 0, VEIL_MS = 1150;
-  var vSeed = 0;
+  var vRaf = 0, vStart = 0, vLast = 0, VEIL_MS = 700;
+  var vOx = 0.5, vOy = 0.5, vOt = 0;   // 光圈起点：最近一次点击（CSS 像素占视口的比例）；没有就取屏幕中心
   function drawVeil(p) {
     var th = theme();
     vgl.clearColor(0, 0, 0, 0);
@@ -665,7 +629,7 @@
     vgl.vertexAttribPointer(loc, 2, vgl.FLOAT, false, 0, 0);
     vgl.uniform2f(pVeil.u.uRes, veil.width, veil.height);
     vgl.uniform1f(pVeil.u.uP, p);
-    vgl.uniform1f(pVeil.u.uSeed, vSeed);
+    vgl.uniform2f(pVeil.u.uO, vOx * veil.width, (1 - vOy) * veil.height);
     vgl.uniform1f(pVeil.u.uPx, veil.width / Math.max(1, window.innerWidth));   // 1 个 CSS 像素 = 几个画布像素
     vgl.uniform3fv(pVeil.u.uBg, th.bg);
     vgl.drawArrays(vgl.TRIANGLES, 0, 3);
@@ -692,7 +656,7 @@
     if (vRaf) cancelAnimationFrame(vRaf);
     vStart = 0;
     veil.classList.add('is-on');
-    vSeed = Math.random() * 6.0;
+    if (!(performance.now() - vOt < 1500)) { vOx = 0.5; vOy = 0.5; }   // 键盘 / 地址栏切换：从屏幕中心张开
     drawVeil(0.0);   // 先盖满（只是排进 GPU 命令，不等它画完）
     vRaf = requestAnimationFrame(veilFrame);
     return true;
