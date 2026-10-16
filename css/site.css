@@ -634,8 +634,8 @@ html[data-paper] .wb-head .crumbs { margin-bottom: 0; }
 
 /* 阅读进度：顶栏下沿一根虚线，纸飞机随进度往前飞 */
 html[data-paper] .wb-progress { position: fixed; left: 0; right: 0; top: 52px; height: 22px; z-index: 29; pointer-events: none; }
-html[data-paper] .wb-progress-line { position: absolute; left: 0; top: 10px; height: 1px; width: 0; background: repeating-linear-gradient(90deg, var(--wb-plane) 0 4px, transparent 4px 9px); opacity: .55; }
-html[data-paper] .wb-progress-plane { position: absolute; top: 1px; left: 4px; width: 18px; height: 18px; color: var(--wb-plane); }
+html[data-paper] .wb-progress-line { position: absolute; left: 0; top: 1px; height: 1px; width: 0; background: repeating-linear-gradient(90deg, var(--wb-plane) 0 4px, transparent 4px 9px); opacity: .55; }
+html[data-paper] .wb-progress-plane { position: absolute; top: 3px; left: 4px; width: 18px; height: 18px; color: var(--wb-plane); }
 
 /* 刊头：航迹 + 标题 + 小节目录，一张安静的纸 */
 html[data-paper] .wb-masthead { text-align: center; padding: clamp(40px, 9vh, 96px) 0 0; font-family: var(--wb-font); }

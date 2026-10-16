@@ -976,7 +976,7 @@
         var max = document.documentElement.scrollHeight - vh;
         var r = max > 0 ? clamp(y / max, 0, 1) : 0;
         var cw = document.documentElement.clientWidth;
-        if (bar && hud) bar.style.top = Math.max(0, hud.offsetHeight - 11) + 'px';
+        if (bar && hud) bar.style.top = Math.max(0, hud.offsetHeight) + 'px';
         if (line) line.style.width = (r * 100).toFixed(2) + '%';
         if (pl) pl.style.transform = 'translateX(' + Math.round(r * (cw - 22)) + 'px)';
         if (toTop) toTop.classList.toggle('is-shown', y > vh);
