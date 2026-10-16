@@ -3,6 +3,8 @@
 预览地址：`datode.com/_preview/weibo-v2/`。第一版 `_preview/weibo/` 原样保留，方便并排比较。
 线上页面（`index.html`、`js/app.js`、`css/site.css`）和 `weibo.md` 都没动。
 
+**已上线**：这一版后来正式换上了主站的 `#/weibo`（在主站单页里渲染，代码在 `js/app.js` 的 `weiboView()` / `initWeibo()`，样式在 `css/site.css` 里 `html[data-route="weibo"]` 下）。主站直接引用本目录的 `art/*.svg` 和 `fonts/wenkai-weibo.woff2`，只有这一份素材，**不要删除或改名本目录下的这些文件**。
+
 ## 相对第一版改了什么
 
 用户原话：「排的有点满，字有点多，不够简洁，单条内容是不是可以间距大一点，加一点一以贯之的设计元素比如纸飞机……根据文字内容生成一些手绘的插画元素并且就放在文字内容附近」。
@@ -69,12 +71,13 @@
 - 放得更轻：宽屏（≥1360px）收进左下角，不占正文栏；更窄时是标题下方一行小字 + 一个纸飞机按钮。
 - 预览时可以用 `?yt=<视频ID>` 临时换视频；播放器就绪后会核对标题/频道里有没有 `walters` 或 `i love you so`，不是就降级，不会放错歌。
 
-### 视频 ID 核实结果：**未核实**
+### 视频 ID 核实结果：**已核实**
 
-默认视频 ID 仍是第一版的 `ZtDDXF_VfZE`。第二版是在云端容器里做的，按要求请求了
-`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=ZtDDXF_VfZE&format=json`，
-但容器的出网代理拒绝连接 `www.youtube.com`（CONNECT 403），换 `noembed.com`、`i.ytimg.com` 也同样被拒，所以**没能核实这个 ID 是不是 The Walters《I Love You So》**。
-请在能上 YouTube 的网络里打开上面这个 oEmbed 链接看一眼 `title` / `author_name`；如果不对，改 `app.js` 里的 `DEFAULT_VIDEO_ID` 即可。在核实之前，上面说的标题核对能保证放错歌时自动降级为链接卡片。
+默认视频 ID 是 `NwFVSclD_uc`：The Walters 官方频道上传的原版，标题「The Walters -- I Love You So」。这是用户（站长）在 YouTube 上逐个打开核对过的。
+（第一版沿用下来的 `ZtDDXF_VfZE` 已确认失效，YouTube 显示 This video is unavailable，已从代码里换掉。）
+云端容器的出网代理仍然连不上 `www.youtube.com`，所以这次核实不是在容器里用 oEmbed 做的，而是用户本人在 YouTube 上确认的。标题核对照旧保留：万一这个视频以后被替换或下架，播放器就绪后核对不上标题 / 频道，就会自动降级为链接卡片，不会放错歌。
+
+主站正式版（`#/weibo`，代码在 `js/app.js`）用的是同一个 ID。
 
 ## 其他
 

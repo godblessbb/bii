@@ -181,7 +181,22 @@
       ],
       factsKicker: '它由三样东西组成',
       setlist: '曲目单 · 点歌名就能听',
-      visualizer: '音频可视化'
+      visualizer: '音频可视化',
+      wb: {
+        toc: '小节',
+        toTop: '回到顶部',
+        music: '背景音乐',
+        play: '播放 I Love You So', pause: '暂停 I Love You So',
+        armed: '轻触页面任意处开始',
+        starting: '起飞……',
+        tapPlayer: '请点一下播放器里的播放键',
+        playing: '正在播放',
+        paused: '暂停了',
+        ended: '放完了',
+        offline: '连不上，去别处听',
+        wrong: '视频不对，去别处听',
+        elsewhere: [['网易云音乐', 'https://music.163.com/#/search/m/?s=I%20Love%20You%20So%20The%20Walters'], ['Apple Music', 'https://music.apple.com/search?term=The%20Walters%20I%20Love%20You%20So'], ['Spotify', 'https://open.spotify.com/search/The%20Walters%20I%20Love%20You%20So'], ['YouTube', 'https://www.youtube.com/results?search_query=The+Walters+I+Love+You+So']]
+      }
     },
     en: {
       title: 'Crispy Cauliflower',
@@ -260,7 +275,22 @@
       ],
       factsKicker: 'It is made of three things',
       setlist: 'Setlist · tap a title to listen',
-      visualizer: 'Audio visualizer'
+      visualizer: 'Audio visualizer',
+      wb: {
+        toc: 'Sections',
+        toTop: 'Back to top',
+        music: 'Background music',
+        play: 'Play I Love You So', pause: 'Pause I Love You So',
+        armed: 'Tap anywhere on the page to start',
+        starting: 'Taking off…',
+        tapPlayer: 'Tap play inside the player',
+        playing: 'Now playing',
+        paused: 'Paused',
+        ended: 'Finished',
+        offline: 'Cannot reach the player, listen elsewhere',
+        wrong: 'Wrong video, listen elsewhere',
+        elsewhere: [['NetEase Cloud Music', 'https://music.163.com/#/search/m/?s=I%20Love%20You%20So%20The%20Walters'], ['Apple Music', 'https://music.apple.com/search?term=The%20Walters%20I%20Love%20You%20So'], ['Spotify', 'https://open.spotify.com/search/The%20Walters%20I%20Love%20You%20So'], ['YouTube', 'https://www.youtube.com/results?search_query=The+Walters+I+Love+You+So']]
+      }
     }
   };
 
@@ -344,6 +374,8 @@
         }
       }
     }
+    // 微博合辑：第二版版式，仍属「文章」栏目（导航高亮文章），<html data-route="weibo"> 用来把纸色样式圈在这一页
+    if (p === '/weibo') return { name: 'articles', route: 'weibo', scene: 'reading', article: true, render: function () { return weiboView(r.id); } };
     if (ARTICLE_RE.test(p)) {
       var path = p.slice(1);
       return { name: 'articles', scene: 'reading', article: true, render: function () { return articleView(path, r.id); } };
@@ -418,7 +450,7 @@
         var n = ARTICLES.indexOf(a) + 1;
         return '<li><a class="row" href="' + esc(hrefFor(a.path)) + '">' +
           '<span class="row-n">' + pad(n) + '</span>' +
-          '<span class="row-t">' + esc(L(a)) + '</span>' +
+          '<span class="row-t">' + esc(L(a)) + (a.path === 'weibo' ? '<svg class="row-plane" data-weibo-plane viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#plane"/></svg>' : '') + '</span>' +
           '<span class="row-d">' + esc(L(a, 'd')) + '</span>' +
           '<span class="row-go" aria-hidden="true">→</span>' +
           '</a></li>';
@@ -661,6 +693,404 @@
     });
   }
 
+  /* ---------------- 视图：微博合辑（第二版版式，见 _preview/weibo-v2/DESIGN.md） ----------------
+     正文仍然运行时读 weibo.md，一个字不改；只加样式钩子、纸飞机、贴着句子的小画和条间记号。
+     小画、字体直接引用 _preview/weibo-v2/ 下那一份素材，不另存拷贝。 */
+  var WB_ASSETS = '_preview/weibo-v2/';
+  // frag 是 weibo.md 里那一条的连续原文（去空白后匹配），画放在那条碎句旁边
+  var WB_SKETCHES = [
+    { frag: '机场出发大厅比婚礼现场见证了更多真挚的拥抱', src: 'art/airport-hug.svg' },
+    { frag: '上穷游看堪察加半岛落满积雪的火山', src: 'art/kamchatka-volcano.svg' },
+    { frag: '我在树下坐了一天', src: 'art/tree-sitting.svg' },
+    { frag: '喜欢一个遥不可及的人就像喜欢富士山', src: 'art/fuji-walk.svg' },
+    { frag: '洒落地球上的星光是遥远星辰的往事', src: 'art/starlight.svg' },
+    { frag: '滚油泼到辣椒和鲜肉上', src: 'art/sizzling-pot.svg' },
+    { frag: '中国最诚实的卖场就是股市', src: 'art/stock-drop.svg' },
+    { frag: '网上买了一只正宗顺德酥皮烧鹅', src: 'art/roast-goose.svg' },
+    { frag: '到巷尾你手上就拎满了手打柠檬茶', src: 'art/lemon-tea.svg' },
+    { frag: '耳畔别着一朵白玉兰', src: 'art/magnolia-basket.svg' },
+    { frag: '你站在下雪的阳台，像一幅我买不起的油画', src: 'art/snow-balcony.svg' },
+    { frag: '她在这张纸上歪歪斜斜地写满了我的名字', src: 'art/name-paper.svg' }
+  ];
+  var WB_SEPS = ['dot', 'num', 'line'];
+  var WB_SEP_DEFAULT = 'dot';    // 条间记号默认值；用户定了以后只改这里
+
+  // 纸飞机：全部 <use href="#plane">（index.html 里唯一的 symbol）
+  function wbPlane(cls, motif, viewBox, use, inner) {
+    return '<svg class="' + cls + '"' + (motif ? ' data-motif="' + motif + '"' : '') + ' viewBox="' + viewBox + '" aria-hidden="true" focusable="false">' +
+      (inner || '') + '<use href="#plane"' + (use || '') + '/></svg>';
+  }
+
+  function wbSquash(str) { return str.replace(/\s+/g, ''); }
+
+  // 把 marked 渲染出的正文按 h2 分节、挂钩子、放小画；节点原样搬，不碰文字
+  function wbDecorate(box) {
+    var nodes = Array.prototype.slice.call(box.childNodes);
+    var chapter = null;
+    var chapters = [];
+    var out = document.createDocumentFragment();
+    nodes.forEach(function (n) {
+      if (n.nodeType === 1 && n.tagName === 'H2') {
+        chapter = document.createElement('section');
+        chapter.className = 'wb-chapter';
+        out.appendChild(chapter);
+        chapters.push(chapter);
+      }
+      (chapter || out).appendChild(n);
+    });
+    box.appendChild(out);
+
+    Array.prototype.forEach.call(box.querySelectorAll('p'), function (p) {
+      if (p.textContent.replace(/[\s ]/g, '') === '') { p.className = 'wb-spacer'; p.setAttribute('aria-hidden', 'true'); }
+    });
+
+    var toc = [];
+    chapters.forEach(function (sec, i) {
+      var h = sec.querySelector('h2');
+      var title = h ? h.textContent.trim() : '';
+      sec.id = 'sec-' + i;
+      if (i === 0 && title === '按') { sec.classList.add('is-preface'); return; }
+      var mark = document.createElement('div');
+      mark.innerHTML = wbPlane('wb-mark', 'section', '0 0 24 24');
+      sec.insertBefore(mark.firstChild, h);
+      var tr = document.createElement('div');
+      tr.innerHTML = wbPlane('wb-trail', 'trail', '0 0 150 44', ' x="108" y="16" width="20" height="20"', '<path d="M6 8 C 40 6, 58 40, 106 28"/>');
+      sec.appendChild(tr.firstChild);
+      toc.push({ id: sec.id, title: title });
+    });
+
+    var entries = Array.prototype.slice.call(box.querySelectorAll('li'));
+    entries.forEach(function (li) { li.setAttribute('data-entry', ''); });
+    var keyed = entries.map(function (li) { return wbSquash(li.textContent); });
+    var side = 0;
+    WB_SKETCHES.forEach(function (sk) {
+      var idx = -1;
+      for (var i = 0; i < keyed.length; i++) if (keyed[i].indexOf(sk.frag) !== -1) { idx = i; break; }
+      if (idx === -1) return;   // 原文里找不到就不放，绝不改字去凑
+      var img = document.createElement('img');
+      img.className = 'wb-sketch ' + (side++ % 2 ? 'l' : 'r');
+      img.src = C(WB_ASSETS + sk.src);
+      img.width = 160;
+      img.height = 160;
+      img.alt = '';              // 点缀性插画，不进入正文文字
+      img.setAttribute('decoding', 'async');
+      img.setAttribute('loading', 'lazy');
+      img.setAttribute('data-illustrates', sk.frag);
+      entries[idx].appendChild(img);
+    });
+    return toc;
+  }
+
+  function weiboView(anchor) {
+    var s = S();
+    var w = s.wb;
+    var meta = findMeta('weibo');
+    return withMd('weibo', function (md) {
+      var box = document.createElement('div');
+      box.innerHTML = window.marked ? window.marked.parse(md, { gfm: true, breaks: false }) : '<pre>' + esc(md) + '</pre>';
+      var toc = wbDecorate(box);
+      var next = ARTICLES[ARTICLES.indexOf(meta) + 1];
+      var tocHtml = toc.length ? '<nav class="wb-toc" aria-label="' + esc(w.toc) + '"><ol lang="zh-CN">' + toc.map(function (t) {
+        return '<li><a href="#/weibo?id=' + esc(t.id) + '" data-anchor="' + esc(t.id) + '">' + esc(t.title) + '</a></li>';
+      }).join('') + '</ol></nav>' : '';
+      var elsewhere = w.elsewhere.map(function (x) { return '<li><a href="' + esc(x[1]) + '" target="_blank" rel="noopener">' + esc(x[0]) + '</a></li>'; }).join('');
+      return {
+        html: '<article class="article wb-page" data-weibo-page>' +
+          '<div class="wb-progress" data-motif="progress" aria-hidden="true"><span class="wb-progress-line" data-wb-progress-line></span>' +
+            wbPlane('wb-progress-plane', '', '0 0 24 24').replace('<svg ', '<svg data-wb-progress-plane ') + '</div>' +
+          '<header class="article-head wb-head">' +
+            '<p class="crumbs"><a href="#/articles">← ' + esc(s.sectionNames.articles) + '</a><span class="tag tag-weibo">' + esc(L(CATS.weibo, '')) + '</span><span>' + esc(meta.date) + '</span></p>' +
+            '<div class="wb-masthead">' +
+              '<svg class="wb-hero" data-motif="hero" viewBox="0 0 300 96" aria-hidden="true" focusable="false">' +
+                '<path class="wb-hero-trail" d="M8 84 C 60 84, 70 30, 118 34 C 160 38, 150 78, 124 72 C 100 66, 126 22, 182 26 C 222 29, 246 46, 270 30"/>' +
+                '<g class="wb-hero-plane"><use href="#plane" x="262" y="12" width="28" height="28"/></g></svg>' +
+              '<h1 class="article-title wb-title">' + esc(L(meta)) + '</h1>' +
+              tocHtml +
+            '</div>' +
+          '</header>' +
+          '<aside class="wb-music" data-music data-music-state="armed" aria-label="' + esc(w.music) + '">' +
+            '<div class="wb-music-stage"><div class="wb-music-player" data-music-player></div></div>' +
+            '<div class="wb-music-meta">' +
+              '<button class="wb-music-toggle" type="button" data-music-toggle aria-pressed="false" aria-label="' + esc(w.play) + '">' + wbPlane('', 'music', '0 0 24 24') + '</button>' +
+              '<p class="wb-music-title">I Love You So<span> · The Walters</span></p>' +
+              '<p class="wb-music-status" data-music-status aria-live="polite">' + esc(w.armed) + '</p>' +
+              '<div class="wb-music-offline" data-music-offline hidden><ul>' + elsewhere + '</ul></div>' +
+            '</div>' +
+          '</aside>' +
+          '<div class="wb-body" data-weibo-body data-sep="' + WB_SEP_DEFAULT + '" lang="zh-CN">' + box.innerHTML + '</div>' +
+          '<div class="wb-end">' +
+            wbPlane('wb-end-plane', 'end', '0 0 120 40', ' x="74" y="20" width="22" height="22"', '<path class="wb-end-trail" d="M4 10 C 30 10, 40 34, 72 32"/>') +
+            '<p class="article-end"><span>' + esc(s.endMark) + '</span><a href="#/articles">' + esc(s.backToList) + ' →</a></p>' +
+            '<nav class="pager"><span></span>' +
+              (next ? '<a class="pager-next" href="' + esc(hrefFor(next.path)) + '"><small>' + esc(s.next) + ' →</small><span>' + esc(L(next)) + '</span></a>' : '<span></span>') +
+            '</nav>' +
+          '</div>' +
+          '<button class="wb-to-top" type="button" data-motif="top" data-wb-to-top aria-label="' + esc(w.toTop) + '">' + wbPlane('', '', '0 0 24 24') + '</button>' +
+          '</article>',
+        title: L(meta),
+        anchor: anchor
+      };
+    }, function (err) {
+      if (err && err.status === 404) return notFoundView();
+      return { html: '<section class="empty"><h1 class="page-title">' + esc(s.notFound) + '</h1><p>' + esc(s.loadError) + '</p></section>' };
+    });
+  }
+
+  /* 条与条之间的记号：只看 [data-weibo-body] 上的 data-sep（dot / num / line），改这个属性就换，别的不用动。
+     记号是真元素（带 data-sep-mark），放在条与条之间的 <li> 里，不进 [data-entry]，正文文字不变。 */
+  function wbRenderSeps(body) {
+    var mode = body.getAttribute('data-sep');
+    if (WB_SEPS.indexOf(mode) < 0) mode = WB_SEP_DEFAULT;
+    Array.prototype.forEach.call(body.querySelectorAll('.wb-sep'), function (el) { el.parentNode.removeChild(el); });
+    var n = 0;
+    Array.prototype.forEach.call(body.querySelectorAll('ul'), function (ul) {
+      var prevEntry = false;
+      Array.prototype.slice.call(ul.children).forEach(function (li) {
+        if (!li.hasAttribute('data-entry')) return;
+        var mark = null;
+        if (mode === 'num') {
+          mark = document.createElement('span');
+          mark.textContent = String(++n);
+        } else if (prevEntry) {
+          mark = document.createElement('span');
+        }
+        prevEntry = true;
+        if (!mark) return;
+        mark.className = 'wb-sep-mark';
+        mark.setAttribute('data-sep-mark', mode);
+        var holder = document.createElement('li');
+        holder.className = 'wb-sep wb-sep-' + mode;
+        holder.setAttribute('aria-hidden', 'true');
+        holder.appendChild(mark);
+        ul.insertBefore(holder, li);
+      });
+    });
+    body.setAttribute('data-sep-ready', mode);
+  }
+
+  /* 音乐：The Walters《I Love You So》，只用 YouTube 官方嵌入播放器，仓库里不放音频。
+     浏览器只拦「页面上还没交互过就出声」：从站内点进来（点击算交互）当场起播；直接打开链接则 armed，等第一次点页面任意处。
+     data-music-state 如实反映：armed（等第一次点击）/ starting（播放器已在用户激活后创建、正在起播）/ playing / paused / unavailable（连不上或不是这首歌，降级成外链）。 */
+  var WB_VIDEO_ID = 'NwFVSclD_uc';   // The Walters 官方频道原版「The Walters -- I Love You So」
+  var WB_LOAD_TIMEOUT = 9000;
+  var WB_PLAY_CHECK = 2500;
+  var wbUserPaused = false;          // 在微博页上主动暂停过：重排（如切换语言）后不自动再放；离开这一页就清掉
+  var gestured = false;              // 这个文档里用户是否交互过（点击、按键）
+  function markGesture(e) {
+    if (e.type === 'keydown' && (e.key === 'Escape' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta')) return;
+    gestured = true;
+  }
+  document.addEventListener('pointerdown', markGesture, true);
+  document.addEventListener('keydown', markGesture, true);
+  document.addEventListener('click', markGesture, true);
+  function hasGesture() {
+    var ua = navigator.userActivation;
+    return gestured || !!(ua && ua.hasBeenActive);
+  }
+
+  function initWeibo() {
+    var page = view.querySelector('[data-weibo-page]');
+    if (!page) { if (!current || current.route !== 'weibo') wbUserPaused = false; return; }
+    var body = page.querySelector('[data-weibo-body]');
+    var w = S().wb;
+
+    // 条间记号
+    wbRenderSeps(body);
+    var mo = null;
+    if (window.MutationObserver) {
+      mo = new MutationObserver(function () { wbRenderSeps(body); });
+      mo.observe(body, { attributes: true, attributeFilter: ['data-sep'] });
+    }
+
+    // 阅读进度（顶栏下沿一根虚线，纸飞机随进度往前飞）& 回到顶部
+    var hud = document.querySelector('.hud');
+    var bar = page.querySelector('.wb-progress');
+    var line = page.querySelector('[data-wb-progress-line]');
+    var pl = page.querySelector('[data-wb-progress-plane]');
+    var toTop = page.querySelector('[data-wb-to-top]');
+    var rafId = 0;
+    function onWbScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(function () {
+        rafId = 0;
+        var y = window.scrollY || window.pageYOffset;
+        var vh = window.innerHeight || 1;
+        var max = document.documentElement.scrollHeight - vh;
+        var r = max > 0 ? clamp(y / max, 0, 1) : 0;
+        var cw = document.documentElement.clientWidth;
+        if (bar && hud) bar.style.top = Math.max(0, hud.offsetHeight - 11) + 'px';
+        if (line) line.style.width = (r * 100).toFixed(2) + '%';
+        if (pl) pl.style.transform = 'translateX(' + Math.round(r * (cw - 22)) + 'px)';
+        if (toTop) toTop.classList.toggle('is-shown', y > vh);
+      });
+    }
+    function onTop() {
+      window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' });
+      try { view.focus({ preventScroll: true }); } catch (e) {}
+    }
+    window.addEventListener('scroll', onWbScroll, { passive: true });
+    window.addEventListener('resize', onWbScroll);
+    if (toTop) toTop.addEventListener('click', onTop);
+    onWbScroll();
+
+    // 音乐
+    var music = page.querySelector('[data-music]');
+    var toggle = page.querySelector('[data-music-toggle]');
+    var statusEl = page.querySelector('[data-music-status]');
+    var playerEl = page.querySelector('[data-music-player]');
+    var offlineEl = page.querySelector('[data-music-offline]');
+    var state = 'armed';
+    var player = null;
+    var iframe = null;
+    var loadTimer = 0, playTimer = 0;
+    var alive = true;
+
+    function setStatus(t) { if (statusEl) statusEl.textContent = t; }
+    function setState(st, text) {
+      state = st;
+      music.setAttribute('data-music-state', st);
+      var on = st === 'playing';
+      toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+      toggle.setAttribute('aria-label', on ? w.pause : w.play);
+      if (text != null) setStatus(text);
+    }
+    function teardown() {
+      clearTimeout(loadTimer); clearTimeout(playTimer);
+      if (player && player.destroy) { try { player.destroy(); } catch (e) {} }
+      player = null;
+      iframe = null;
+      if (playerEl) playerEl.innerHTML = '';
+    }
+    function unavailable(text) {
+      if (!alive) return;
+      teardown();
+      if (offlineEl) offlineEl.hidden = false;
+      setState('unavailable', text || w.offline);
+    }
+    function looksLikeTheSong() {
+      // 第一版的标题核对：不是这首歌就降级，不会放错歌
+      try {
+        var d = player.getVideoData && player.getVideoData();
+        if (!d || (!d.title && !d.author)) return true;
+        var t = (d.title + ' ' + d.author).toLowerCase();
+        return t.indexOf('walters') !== -1 || t.indexOf('i love you so') !== -1;
+      } catch (e) { return true; }
+    }
+    function playNow() {
+      if (!player || !player.playVideo) return;
+      try {
+        if (player.unMute) player.unMute();
+        if (player.setVolume) player.setVolume(70);
+        player.playVideo();
+      } catch (e) { unavailable(); return; }
+      clearTimeout(playTimer);
+      playTimer = setTimeout(function () {
+        if (alive && state === 'starting') setStatus(w.tapPlayer);   // iOS 等只认播放器里的直接点击
+      }, WB_PLAY_CHECK);
+    }
+    function onReady() {
+      if (!alive) return;
+      clearTimeout(loadTimer);
+      if (!looksLikeTheSong()) { unavailable(w.wrong); return; }
+      if (state === 'starting') playNow();
+    }
+    function onStateChange(e) {
+      var YT = window.YT;
+      if (!alive || !YT || !YT.PlayerState) return;
+      if (e.data === YT.PlayerState.PLAYING) {
+        clearTimeout(loadTimer); clearTimeout(playTimer);
+        if (!looksLikeTheSong()) { unavailable(w.wrong); return; }
+        setState('playing', w.playing);
+      } else if (e.data === YT.PlayerState.PAUSED) {
+        setState('paused', w.paused);
+      } else if (e.data === YT.PlayerState.ENDED) {
+        setState('paused', w.ended);
+      }
+    }
+    function attachApi() {
+      if (!alive || !iframe || player) return;
+      try {
+        player = new window.YT.Player(iframe, {
+          events: { onReady: onReady, onStateChange: onStateChange, onError: function () { unavailable(); } }
+        });
+      } catch (e) { unavailable(); }
+    }
+    // 只在用户激活之后调用：当场创建带 allow="autoplay" 的官方嵌入播放器并起播
+    function start() {
+      if (!alive || state === 'starting' || state === 'playing' || state === 'unavailable') return;
+      wbUserPaused = false;
+      if (player && player.playVideo) { setState('starting', w.starting); playNow(); return; }
+      setState('starting', w.starting);
+      if (offlineEl) offlineEl.hidden = true;
+      iframe = document.createElement('iframe');
+      iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+      iframe.setAttribute('title', 'I Love You So · The Walters');
+      iframe.width = '200';
+      iframe.height = '200';
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + WB_VIDEO_ID +
+        '?enablejsapi=1&autoplay=1&playsinline=1&rel=0&modestbranding=1' +
+        (/^https?:/.test(location.origin) ? '&origin=' + encodeURIComponent(location.origin) : '');
+      playerEl.appendChild(iframe);
+      loadTimer = setTimeout(function () { if (state === 'starting' && !player) unavailable(); }, WB_LOAD_TIMEOUT);   // 官方脚本没到：当连不上
+      if (window.YT && window.YT.Player) { attachApi(); return; }
+      var prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = function () {
+        if (typeof prev === 'function') { try { prev(); } catch (e) {} }
+        attachApi();
+      };
+      if (!document.querySelector('script[data-yt-api]')) {
+        var sc = document.createElement('script');
+        sc.src = 'https://www.youtube.com/iframe_api';
+        sc.async = true;
+        sc.setAttribute('data-yt-api', '');
+        sc.onerror = function () { sc.parentNode && sc.parentNode.removeChild(sc); unavailable(); };
+        document.head.appendChild(sc);
+      }
+    }
+    function onToggle() {
+      if (state === 'unavailable') {
+        var first = offlineEl && offlineEl.querySelector('a');
+        if (first) first.focus();
+        return;
+      }
+      if (state === 'playing') {
+        wbUserPaused = true;
+        if (player && player.pauseVideo) { try { player.pauseVideo(); } catch (e) {} }
+        setState('paused', w.paused);
+        return;
+      }
+      if (state === 'starting') return;
+      start();
+    }
+    // 直接打开：第一次点页面任意处（或按回车 / 空格）就开始；点的是离开这一页的链接就不算
+    function onFirstGesture(e) {
+      if (state !== 'armed') return;
+      var t = e.target;
+      if (t && t.closest && t.closest('[data-music-toggle], [data-music-offline], a[href]:not([data-anchor])')) return;
+      if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
+      start();
+    }
+    toggle.addEventListener('click', onToggle);
+    document.addEventListener('pointerdown', onFirstGesture, true);
+    document.addEventListener('keydown', onFirstGesture, true);
+
+    if (hasGesture()) {
+      if (wbUserPaused) setState('paused', w.paused);
+      else start();          // 站内点进来：这次点击就是交互，当场起播
+    }
+
+    cleanups.push(function () {
+      alive = false;
+      if (mo) mo.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onWbScroll);
+      window.removeEventListener('resize', onWbScroll);
+      document.removeEventListener('pointerdown', onFirstGesture, true);
+      document.removeEventListener('keydown', onFirstGesture, true);
+      teardown();
+    });
+  }
+
   /* ---------------- 视图：关于 ---------------- */
   function aboutView() {
     var s = S();
@@ -737,9 +1167,9 @@
     if (typeof out === 'string') out = { html: out };
     runCleanups();
     view.innerHTML = out.html;
-    current = { name: target.name, article: !!target.article, path: r.path };
+    current = { name: target.name, route: target.route || target.name, article: !!target.article, path: r.path };
     root.classList.toggle('is-article', !!target.article);
-    root.setAttribute('data-route', target.name || 'lost');
+    root.setAttribute('data-route', target.route || target.name || 'lost');
     document.title = (out.title ? out.title + ' — ' : (target.name && target.name !== 'home' ? S().sectionNames[target.name] + ' — ' : '')) + S().title;
     markNav(target.name);
     window.scrollTo(0, 0);
@@ -785,6 +1215,8 @@
     bindRefract(view);
     initGallery();
     initWorks();
+    initWeibo();
+    if (current && current.route === 'articles') loadMd('weibo').catch(function () {});   // 点进微博合辑时正文已在缓存里，同步挂上、当场起播
     onScroll();
   }
 

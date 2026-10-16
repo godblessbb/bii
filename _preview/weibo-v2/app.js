@@ -191,9 +191,9 @@
   /* ---------------- 音乐（沿用第一版的方案与代码） ---------------- */
 
   // 歌：The Walters《I Love You So》。只用 YouTube 官方嵌入播放器播放，不在仓库里放任何音频。
-  // 视频 ID 在云端容器里没能用 oEmbed 核实（见 DESIGN.md），预览时可用 ?yt=<视频ID> 临时覆盖；
-  // 播放器就绪后会核对标题 / 频道，不是这首歌就降级为链接卡片，不会放错歌。
-  var DEFAULT_VIDEO_ID = 'ZtDDXF_VfZE';
+  // 视频 ID：The Walters 官方频道的原版「The Walters -- I Love You So」，已在 YouTube 上逐个核对（见 DESIGN.md）。
+  // 预览时仍可用 ?yt=<视频ID> 临时覆盖；播放器就绪后照旧核对标题 / 频道，不是这首歌就降级为链接卡片，不会放错歌。
+  var DEFAULT_VIDEO_ID = 'NwFVSclD_uc';
   var LOAD_TIMEOUT = 9000;
   var PLAY_CHECK = 2500;
 
