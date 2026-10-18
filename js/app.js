@@ -25,6 +25,9 @@
     { path: 'weibo', cat: 'weibo', date: '2012–2022',
       zh: '微博合辑（2012–2022）', en: 'Weibo anthology, 2012–2022',
       dzh: '十年老号被炸之后，挑了一百来条原创碎碎念留作纪念。', den: 'A hundred-odd original posts saved from a decade-old account that was shut down.' },
+    { path: 'baibian', cat: 'weibo', date: '2025–2026',
+      zh: '百变动态合集', en: 'Baibian posts, 2025–2026',
+      dzh: '在百变里发过的一百多条动态，从新到旧。', den: 'A hundred-odd posts from Baibian, newest first.' },
     { path: '_study/docsify', cat: 'study',
       zh: 'Docsify + Github 五分钟搭建一个博客网站', en: 'Build a blog in five minutes with Docsify and GitHub',
       dzh: '微博炸号以后，建站变成了刚需。', den: 'After losing the Weibo account, a website became a necessity.' },
@@ -107,7 +110,7 @@
   var CATS = {
     study: { zh: '学习笔记', en: 'Study notes' },
     works: { zh: '随笔杂文', en: 'Essays' },
-    weibo: { zh: '微博存档', en: 'Weibo archive' },
+    weibo: { zh: '动态存档', en: 'Posts archive' },
     about: { zh: '关于', en: 'About' }
   };
 
@@ -136,7 +139,7 @@
       manifesto: ['记录 Python、AI 和算法学习心得', '记录读书笔记、游记和影评食评', '记录出海业务搞钱思路和实践'],
       portalsKicker: '四个入口',
       sec: {
-        articles: ['文章', '学习笔记、随笔杂文与十年微博存档'],
+        articles: ['文章', '学习笔记、随笔杂文与动态存档'],
         tools: ['工具', '自己写来用的小工具，漂在空间里'],
         works: ['作品', 'Rapstar：一座说唱翻唱站'],
         about: ['关于', '从哪里讲起呢……']
@@ -146,7 +149,7 @@
       quote: '人的一生就是“I have a bright future ahead”里的每个字逐个拿掉的过程。',
       quoteCite: '—— 摘自微博存档',
       meet: '认识一下',
-      articlesLede: '学习笔记、随笔杂文和十年微博存档。正文保持原样；阅读时背景会安静下来。',
+      articlesLede: '学习笔记、随笔杂文和动态存档。正文保持原样；阅读时背景会安静下来。',
       toolsLede: '自己写来用的小工具，漂在一片空间里。拖动画布四处看看，悬停会折射，点一下就在站内外框里打开。',
       toolsLedeTouch: '自己写来用的小工具，随滚动漂流。点一下就在站内外框里打开。',
       dragHint: '按住拖动 · 浏览空间',
@@ -219,7 +222,7 @@
       manifesto: ['Notes on Python, machine learning and algorithms', 'Reading notes, travelogues, film and food reviews', 'Ideas and practice for earning money overseas'],
       portalsKicker: 'Four ways in',
       sec: {
-        articles: ['Articles', 'Study notes, essays and ten years of Weibo'],
+        articles: ['Articles', 'Study notes, essays and an archive of old posts'],
         tools: ['Tools', 'Small tools I built, floating in space'],
         works: ['Works', 'Rapstar: a rap cover-song site'],
         about: ['About', 'Where should I even begin…']
@@ -229,7 +232,7 @@
       quote: 'Life is the process of taking away, one word at a time, “I have a bright future ahead”.',
       quoteCite: '— from the Weibo archive',
       meet: 'Say hello',
-      articlesLede: 'Study notes, essays and ten years of Weibo posts. The texts stay in their original Chinese; the background goes quiet while you read.',
+      articlesLede: 'Study notes, essays and an archive of old posts. The texts stay in their original Chinese; the background goes quiet while you read.',
       toolsLede: 'Small tools I built for myself, floating in a space. Drag to look around, hover to see them refract, click to open one inside the site frame.',
       toolsLedeTouch: 'Small tools I built for myself, drifting as you scroll. Tap one to open it inside the site frame.',
       dragHint: 'Hold and drag · explore the space',
@@ -372,7 +375,9 @@
     }
     // 微博合辑：第二版版式，仍属「文章」栏目（导航高亮文章），<html data-route="weibo"> 用来把纸色样式圈在这一页
     // paper: true 的两种页面共用纸页版式，<html data-paper> 圈住共用的纸色样式
-    if (p === '/weibo') return { name: 'articles', route: 'weibo', paper: true, scene: 'reading', article: true, render: function () { return weiboView(r.id); } };
+    // 百变动态合集（#/baibian）与微博合辑同一套版式：同样 route: 'weibo'，只是不放小画（PAPER_COLLECTIONS）
+    var coll = p.slice(1);
+    if (PAPER_COLLECTIONS[coll]) return { name: 'articles', route: 'weibo', paper: true, scene: 'reading', article: true, render: function () { return weiboView(coll, r.id); } };
     if (ARTICLE_RE.test(p)) {
       var path = p.slice(1);
       if (PAPER_ESSAYS[path]) return { name: 'articles', route: 'essay', paper: true, scene: 'reading', article: true, render: function () { return paperEssayView(path, r.id); } };
@@ -446,7 +451,7 @@
       var items = LISTED.filter(function (a) { return a.cat === cat; });
       var rows = items.map(function (a) {
         var n = LISTED.indexOf(a) + 1;
-        var paper = a.path === 'weibo' || !!PAPER_ESSAYS[a.path];   // 纸页那一家：行样式与普通行一致，只多一段悬停过渡
+        var paper = !!PAPER_COLLECTIONS[a.path] || !!PAPER_ESSAYS[a.path];   // 纸页那一家：行样式与普通行一致，只多一段悬停过渡
         return '<li><a class="row"' + (paper ? ' data-paper-row' : '') + ' href="' + esc(hrefFor(a.path)) + '">' +
           '<span class="row-n">' + pad(n) + '</span>' +
           '<span class="row-t">' + esc(L(a)) + '</span>' +
@@ -711,6 +716,11 @@
     { frag: '你站在下雪的阳台，像一幅我买不起的油画', src: 'art/snow-balcony.svg' },
     { frag: '她在这张纸上歪歪斜斜地写满了我的名字', src: 'art/name-paper.svg' }
   ];
+  // 走微博合辑版式的合集：path → 小画。百变动态合集先不放画，等内容删定了再加
+  var PAPER_COLLECTIONS = {
+    weibo: { sketches: WB_SKETCHES },
+    baibian: { sketches: [] }
+  };
   var WB_SEPS = ['dot', 'num', 'line'];
   var WB_SEP_DEFAULT = 'num';    // 条间记号默认值；用户定了以后只改这里
 
@@ -800,7 +810,7 @@
 
   /* ---------------- 视图：微博合辑 ---------------- */
   // 把 marked 渲染出的正文按 h2 分节、挂钩子、放小画；节点原样搬，不碰文字
-  function wbDecorate(box) {
+  function wbDecorate(box, sketches) {
     var nodes = Array.prototype.slice.call(box.childNodes);
     var chapter = null;
     var chapters = [];
@@ -837,21 +847,21 @@
 
     var entries = Array.prototype.slice.call(box.querySelectorAll('li'));
     entries.forEach(function (li) { li.setAttribute('data-entry', ''); });
-    paperSketches(entries, WB_SKETCHES, WB_ASSETS, true);
+    paperSketches(entries, sketches || [], WB_ASSETS, true);
     return toc;
   }
 
-  function weiboView(anchor) {
+  function weiboView(path, anchor) {
     var s = S();
     var w = s.wb;
-    var meta = findMeta('weibo');
-    return withMd('weibo', function (md) {
+    var meta = findMeta(path);
+    return withMd(path, function (md) {
       var box = document.createElement('div');
       box.innerHTML = window.marked ? window.marked.parse(md, { gfm: true, breaks: false }) : '<pre>' + esc(md) + '</pre>';
-      var toc = wbDecorate(box);
+      var toc = wbDecorate(box, PAPER_COLLECTIONS[path].sketches);
       var nb = listNeighbours(meta);
       var tocHtml = toc.length ? '<nav class="wb-toc" aria-label="' + esc(w.toc) + '"><ol lang="zh-CN">' + toc.map(function (t) {
-        return '<li><a href="#/weibo?id=' + esc(t.id) + '" data-anchor="' + esc(t.id) + '">' + esc(t.title) + '</a></li>';
+        return '<li><a href="#/' + esc(path) + '?id=' + esc(t.id) + '" data-anchor="' + esc(t.id) + '">' + esc(t.title) + '</a></li>';
       }).join('') + '</ol></nav>' : '';
       return {
         html: paperPage({
@@ -1126,7 +1136,7 @@
     initWorks();
     initPaper();
     if (current && current.route === 'articles') {   // 点进纸页时正文已在缓存里，同步挂上、当场起播
-      ['weibo'].concat(Object.keys(PAPER_ESSAYS)).forEach(function (p) { loadMd(p).catch(function () {}); });
+      Object.keys(PAPER_COLLECTIONS).concat(Object.keys(PAPER_ESSAYS)).forEach(function (p) { loadMd(p).catch(function () {}); });
     }
     onScroll();
   }
