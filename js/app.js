@@ -446,10 +446,10 @@
       var items = LISTED.filter(function (a) { return a.cat === cat; });
       var rows = items.map(function (a) {
         var n = LISTED.indexOf(a) + 1;
-        var paper = a.path === 'weibo' || !!PAPER_ESSAYS[a.path];   // 纸页那一家：行尾一架小纸飞机，悬停透出纸色
+        var paper = a.path === 'weibo' || !!PAPER_ESSAYS[a.path];   // 纸页那一家：行样式与普通行一致，只多一段悬停过渡
         return '<li><a class="row"' + (paper ? ' data-paper-row' : '') + ' href="' + esc(hrefFor(a.path)) + '">' +
           '<span class="row-n">' + pad(n) + '</span>' +
-          '<span class="row-t">' + esc(L(a)) + (paper ? '<svg class="row-plane" data-weibo-plane viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#plane"/></svg>' : '') + '</span>' +
+          '<span class="row-t">' + esc(L(a)) + '</span>' +
           '<span class="row-d">' + esc(L(a, 'd')) + '</span>' +
           '<span class="row-go" aria-hidden="true">→</span>' +
           '</a></li>';
