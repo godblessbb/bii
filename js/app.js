@@ -573,7 +573,7 @@
     var p = fetch(url, { cache: 'no-cache' }).then(function (res) {
       if (!res.ok) { var err = new Error('HTTP ' + res.status); err.status = res.status; throw err; }
       return res.text();
-    }).then(function (t) { mdCache[path] = t; delete mdPending[path]; return t; }, function (e) { delete mdPending[path]; throw e; });
+    }).then(function (t) { t = editedMd(path, t); mdCache[path] = t; delete mdPending[path]; return t; }, function (e) { delete mdPending[path]; throw e; });
     mdPending[path] = p;
     return p;
   }
@@ -581,6 +581,43 @@
   function withMd(path, ok, fail) {
     if (mdCache[path] != null) return ok(mdCache[path]);
     return loadMd(path).then(ok, fail);
+  }
+
+  /* 站长在这台浏览器里刚保存过的正文（js/edit.js 保存成功后经 editBridge.setMd 记进 localStorage）：Pages 的 CDN 还在发旧版时先用它，
+     线上已是新版、或线上变成了别的版本、或过了一天，就删掉这条记录、照常用线上的。访客没有这条记录，什么都不变。 */
+  var EDITED_KEY = 'datode-edit-pending';
+  function mdHash(s) {
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return s.length + ':' + (h >>> 0).toString(16);
+  }
+  function editedAll() {
+    try { return JSON.parse(localStorage.getItem(EDITED_KEY) || 'null') || null; } catch (e) { return null; }
+  }
+  function editedMd(path, text) {
+    var all = editedAll();
+    var rec = all && all[path];
+    if (!rec) return text;
+    if (text !== rec.text && rec.stale && rec.stale.indexOf(mdHash(text)) >= 0 && Date.now() - rec.at < 864e5) return rec.text;
+    delete all[path];
+    try { if (Object.keys(all).length) localStorage.setItem(EDITED_KEY, JSON.stringify(all)); else localStorage.removeItem(EDITED_KEY); } catch (e) {}
+    return text;
+  }
+  function rememberEdited(path, before, after) {
+    var all = editedAll() || {};
+    var rec = all[path] || { stale: [] };
+    if (rec.stale.indexOf(mdHash(before)) < 0) rec.stale.push(mdHash(before));
+    rec.text = after;
+    rec.at = Date.now();
+    all[path] = rec;
+    try { localStorage.setItem(EDITED_KEY, JSON.stringify(all)); } catch (e) {}
+  }
+
+  // 所有正文都从这里过 marked；编辑模式下 js/edit.js 换上 mdHook，给每个顶层块标上序号，输出的 HTML 其余一字不差
+  var mdHook = null;
+  function parseMd(md, opts) {
+    if (!window.marked) return '<pre>' + esc(md) + '</pre>';
+    return mdHook ? mdHook(md, opts) : window.marked.parse(md, opts);
   }
 
   function resolvePath(dir, rel) {
@@ -602,7 +639,7 @@
 
   function renderMarkdown(md, path) {
     var dir = path.indexOf('/') >= 0 ? path.slice(0, path.lastIndexOf('/')) : '';
-    var html = window.marked ? window.marked.parse(md, { gfm: true, breaks: false }) : '<pre>' + esc(md) + '</pre>';
+    var html = parseMd(md, { gfm: true, breaks: false });
     var box = document.createElement('div');
     box.innerHTML = html;
 
@@ -857,7 +894,7 @@
     var meta = findMeta(path);
     return withMd(path, function (md) {
       var box = document.createElement('div');
-      box.innerHTML = window.marked ? window.marked.parse(md, { gfm: true, breaks: false }) : '<pre>' + esc(md) + '</pre>';
+      box.innerHTML = parseMd(md, { gfm: true, breaks: false });
       var toc = wbDecorate(box, PAPER_COLLECTIONS[path].sketches);
       var nb = listNeighbours(meta);
       var tocHtml = toc.length ? '<nav class="wb-toc" aria-label="' + esc(w.toc) + '"><ol lang="zh-CN">' + toc.map(function (t) {
@@ -934,7 +971,7 @@
     var meta = findMeta(path) || { path: path, cat: 'works', zh: path.split('/').pop(), en: path.split('/').pop() };
     return withMd(path, function (md) {
       var box = document.createElement('div');
-      box.innerHTML = window.marked ? window.marked.parse(md, { gfm: true, breaks: true }) : '<pre>' + esc(md) + '</pre>';
+      box.innerHTML = parseMd(md, { gfm: true, breaks: true });
       var h1 = box.firstElementChild;
       if (h1 && h1.tagName === 'H1') box.removeChild(h1);   // 标题由刊头给出
       var paras = box.querySelectorAll('p');
@@ -1096,6 +1133,7 @@
     setScene(target.scene);
     if (out.anchor) requestAnimationFrame(function () { scrollToAnchor(out.anchor, true); });
     if (!instant) { try { view.focus({ preventScroll: true }); } catch (e) {} }
+    if (editApi) editApi.mounted();
   }
 
   function markNav(name) {
@@ -1550,6 +1588,76 @@
     onScroll();
   }
   onChange(mqReduce, onMotionPref);
+
+  /* ---------------- 站长编辑：入口 ----------------
+     焦点不在输入框里时，1 秒内连按三次 E（不带 Ctrl / ⌘ / Alt / Shift）才去加载 js/edit.js；
+     编辑器、它的样式和它对 GitHub 的请求全在那个文件里，访客不按就什么都不加载。
+     editBridge 是交给编辑器的几个口子：当前页对应哪个 .md、换渲染钩子、按新正文重排当前页。 */
+  var editApi = null, editLoading = false, editKeys = [];
+  function editablePath() {
+    if (!current) return null;
+    if (current.route === 'about') return 'README';
+    var p = current.path.slice(1);
+    return current.article && (ARTICLE_RE.test(current.path) || PAPER_COLLECTIONS[p]) ? p : null;
+  }
+  function remount() {
+    var r = parseHash();
+    var target = resolveRoute(r);
+    var out = target.render();
+    if (!out || typeof out.then === 'function') return;
+    if (typeof out === 'string') out = { html: out };
+    var y = window.scrollY || window.pageYOffset;
+    ++navToken;
+    mount(target, r, { html: out.html, title: out.title }, true);
+    window.scrollTo(0, y);
+  }
+  // 用给定的正文把当前页排一遍（不挂到页面上），给编辑器做预览、查小画还在不在
+  function renderWith(path, md) {
+    var keep = mdCache[path];
+    var out;
+    mdCache[path] = md;
+    try { out = resolveRoute(parseHash()).render(); } finally { if (keep == null) delete mdCache[path]; else mdCache[path] = keep; }
+    return !out || typeof out.then === 'function' ? '' : typeof out === 'string' ? out : out.html;
+  }
+  var editBridge = {
+    view: view,
+    editablePath: editablePath,
+    paper: function (path) { return !!PAPER_COLLECTIONS[path] || !!PAPER_ESSAYS[path]; },
+    sketches: function (path) {
+      if (PAPER_COLLECTIONS[path]) return PAPER_COLLECTIONS[path].sketches.map(function (sk) { return { frag: sk.frag, src: WB_ASSETS + sk.src }; });
+      return PAPER_ESSAYS[path] ? (PAPER_ESSAYS[path].sketches || []).slice() : [];
+    },
+    getMd: function (path) { return mdCache[path]; },
+    setMd: function (path, before, after) { mdCache[path] = after; rememberEdited(path, before, after); },
+    setHook: function (fn) { mdHook = fn || null; },
+    remount: remount,
+    renderWith: renderWith
+  };
+  function openEditor() {
+    if (editApi) { editApi.open(); return; }
+    if (editLoading) return;
+    editLoading = true;
+    var s = document.createElement('script');
+    s.src = 'js/edit.js?v=20261018';
+    s.onload = function () {
+      s.parentNode.removeChild(s);
+      editLoading = false;
+      if (typeof window.DatodeEdit === 'function') { editApi = window.DatodeEdit(editBridge); editApi.open(); }
+    };
+    s.onerror = function () { s.parentNode.removeChild(s); editLoading = false; };
+    document.head.appendChild(s);
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.code !== 'KeyE' || e.repeat || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.isComposing) return;
+    var t = e.target;
+    if (t && t.nodeType === 1 && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    var now = Date.now();
+    editKeys = editKeys.filter(function (x) { return now - x < 1000; });
+    editKeys.push(now);
+    if (editKeys.length < 3) return;
+    editKeys = [];
+    openEditor();
+  });
 
   /* ---------------- 启动 ---------------- */
   var glOk = window.Scene ? Scene.init({ avatar: C('IMG_0205.PNG'), onFrame: onFrame }) : false;

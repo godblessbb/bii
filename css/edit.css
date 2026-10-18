@@ -1,0 +1,87 @@
+/* 站长编辑器的样式：只由 js/edit.js 在呼出编辑时挂上，退出编辑就摘掉，访客页面从不加载。
+   不另起一套风格：颜色、字体全用 site.css 的变量（深浅色、纸页的纸色都跟着变），按钮直接用站点的 .btn / .btn-solid，
+   提示条的样子取自正文引用块（左边一道色条）。 */
+
+/* 可改的块：悬停描一圈虚线，旁边浮一个小提示 */
+html[data-editing] [data-edit-block] { cursor: text; outline: 1px dashed transparent; outline-offset: 6px; border-radius: 2px; transition: outline-color .2s var(--ease); }
+html[data-editing] [data-edit-block]:hover { outline-color: var(--acc); }
+.ed-hidden { display: none !important; }
+.ed-hint {
+  position: absolute; z-index: 25; pointer-events: none;
+  padding: 3px 10px; border-radius: 999px; background: var(--acc); color: var(--acc-ink);
+  font: 500 12px/1.5 var(--f-sans); letter-spacing: 0; white-space: nowrap;
+}
+.ed-hint[hidden] { display: none; }
+
+/* 底部的编辑模式条 */
+.ed-bar {
+  position: fixed; left: var(--gut); bottom: 18px; z-index: 40;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  max-width: calc(100vw - 2 * var(--gut) - 64px); padding: 7px 7px 7px 16px;
+  border: 1px solid var(--line-2); border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  font: 400 13px/1.4 var(--f-sans); color: var(--ink-2);
+}
+.ed-bar-t { font: 500 12px/1 var(--f-mono); color: var(--ink); white-space: nowrap; }
+.ed-bar-t::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: var(--acc); vertical-align: 1px; }
+.ed-bar-s a { color: var(--acc); text-underline-offset: 3px; }
+.ed-bar .btn { padding: 7px 14px; font-size: 13px; }
+
+/* 第一次呼出：贴 Token */
+.ed-dialog {
+  position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: var(--gut);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.ed-card {
+  width: min(100%, 31rem); padding: 26px 26px 22px;
+  border: 1px solid var(--line-2); border-radius: 16px; background: var(--bg-2); color: var(--ink);
+  font: 400 15px/1.75 var(--f-sans);
+}
+.ed-card .kicker { margin-bottom: 10px; }
+.ed-card-t { margin: 0 0 10px; font-size: 22px; font-weight: 900; line-height: 1.3; letter-spacing: -.01em; }
+.ed-card-d { color: var(--ink-2); font-size: 14px; }
+.ed-input {
+  display: block; width: 100%; margin: 18px 0 0; padding: 11px 16px;
+  border: 1px solid var(--line-2); border-radius: 999px; background: var(--bg); color: var(--ink);
+  font: 400 13px/1.4 var(--f-mono);
+}
+.ed-input:focus { outline: none; border-color: var(--acc); }
+.ed-msg { min-height: 1.6em; margin-top: 10px; font-size: 14px; color: var(--acc-2); }
+
+/* 就地出现的编辑框：替在被改的那一块的位置上 */
+.ed-panel {
+  margin: 1.2em 0; padding: 14px 16px 14px;
+  border: 1px solid var(--line-2); border-radius: 12px; background: var(--bg-2); color: var(--ink);
+  font: 400 15px/1.7 var(--f-sans); text-align: left; text-indent: 0; letter-spacing: 0;
+}
+.ed-where { margin: 0 0 10px; font: 400 12px/1.5 var(--f-mono); color: var(--ink-2); overflow-wrap: anywhere; }
+.ed-area {
+  display: block; width: 100%; min-height: 5.5em; max-height: 70vh; padding: 12px 14px; resize: vertical;
+  border: 1px solid var(--line-2); border-radius: 10px; background: var(--bg); color: var(--ink);
+  font: 400 15px/1.75 var(--f-sans);
+}
+.ed-area:focus { outline: none; border-color: var(--acc); }
+.ed-area[hidden] { display: none; }
+.ed-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+.ed-actions .btn { padding: 8px 16px; }
+.ed-actions .btn:disabled { opacity: .5; cursor: progress; }
+.ed-status { font-size: 13px; color: var(--ink-2); }
+.ed-status[data-kind="err"], .ed-status[data-kind="warn"] { color: var(--acc-2); }
+.ed-note {
+  margin-top: 10px; padding: 8px 12px; border-left: 3px solid var(--acc-2); border-radius: 0 10px 10px 0;
+  background: color-mix(in srgb, var(--ink) 5%, transparent); font-size: 14px; color: var(--ink);
+}
+.ed-note.is-info { border-left-color: var(--acc); color: var(--ink-2); }
+.ed-note b { font-weight: 500; color: var(--ink); letter-spacing: .1em; }
+.ed-lost { margin: 6px 0 0; padding-left: 1.2em; }
+.ed-lost li { margin: 2px 0; }
+.ed-lost code { font: 400 12px var(--f-mono); }
+
+/* 预览：按新原文、走同一条渲染路径排出来的这一块，虚线框住 */
+.ed-preview-node { outline: 1px dashed var(--acc); outline-offset: 6px; }
+
+@media (max-width: 760px) {
+  .ed-bar { left: 12px; bottom: 12px; border-radius: 16px; }
+}
