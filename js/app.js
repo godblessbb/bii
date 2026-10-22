@@ -1638,7 +1638,7 @@
     if (editLoading) return;
     editLoading = true;
     var s = document.createElement('script');
-    s.src = 'js/edit.js?v=20261018';
+    s.src = 'js/edit.js?v=20261022-gb';
     s.onload = function () {
       s.parentNode.removeChild(s);
       editLoading = false;

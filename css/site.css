@@ -601,7 +601,7 @@ html[data-paper] {
   --wb-leading: 2.05;
   --wb-measure: 30em;          /* 每行至多 30 字 */
   --wb-gap: 3.6em;             /* 两条碎句之间 ≈ 61px */
-  --wb-font: "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif;
+  --wb-font: "WeiboWenKai", "WenKaiGB", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -693,8 +693,8 @@ html[data-route="weibo"] .wb-sep + [data-entry] { margin-top: 0; }
 
 /* 纸页随笔：诗一样的分行短句。一行一块（.wb-line），一段一节，节与节之间用微博两条之间的那段留白；
    没有分节标记和条间编号。小画贴在那一行上，规则与微博的条目一样（宽屏放在那一行旁边，窄屏放在它下面）。 */
-html[data-route="essay"] .wb-page[data-font="fuji"] { --wb-font: "FujiWenKai", "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif; }
-html[data-route="weibo"] .wb-page[data-font="baibian"] { --wb-font: "BaibianWenKai", "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif; }
+html[data-route="essay"] .wb-page[data-font="fuji"] { --wb-font: "FujiWenKai", "WenKaiGB", "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif; }
+html[data-route="weibo"] .wb-page[data-font="baibian"] { --wb-font: "BaibianWenKai", "WenKaiGB", "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif; }
 html[data-route="essay"] .wb-dek { margin: 1.4rem auto 0; max-width: 30em; font-size: .9375rem; line-height: 1.9; color: var(--wb-faint); }
 html[data-route="essay"] .wb-body > p { max-width: var(--wb-measure); margin: var(--wb-gap) auto 0; }
 html[data-route="essay"] .wb-body > p:first-child { margin-top: 5rem; }

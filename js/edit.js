@@ -378,14 +378,30 @@
         x.innerHTML = html;
         return x;
       }
-      // 纸页用的是只含现有字的文楷子集：原文件里没有的字，子集里多半也没有
+      // 纸页先用只含现有字的文楷小子集，缺的字落到按 GB2312 切片的整套文楷（css/wenkai-gb.css，7445 字，用到哪片才下载哪片）。
+      // 只有这两层都没有的字才会退回系统字体；覆盖范围直接读那份 CSS 声明的 unicode-range，不另存一份名单
+      var gbRanges = null;
+      function gbCovers(ch) {
+        if (!gbRanges) {
+          gbRanges = [];
+          document.fonts.forEach(function (f) {
+            if (f.family.replace(/["']/g, '') !== 'WenKaiGB') return;
+            f.unicodeRange.split(',').forEach(function (r) {
+              var m = /U\+([0-9A-F]+)(?:-([0-9A-F]+))?/i.exec(r.trim());
+              if (m) gbRanges.push([parseInt(m[1], 16), parseInt(m[2] || m[1], 16)]);
+            });
+          });
+        }
+        var cp = ch.codePointAt(0);
+        return cp < 0x80 || gbRanges.some(function (r) { return cp >= r[0] && cp <= r[1]; });
+      }
       function checkGlyphs() {
         if (!paper) return;
         var seen = {}, miss = [];
         Array.from(draft()).forEach(function (ch) {
-          if (!/\s/.test(ch) && !known[ch] && !seen[ch]) { seen[ch] = true; miss.push(ch); }
+          if (!/\s/.test(ch) && !known[ch] && !gbCovers(ch) && !seen[ch]) { seen[ch] = true; miss.push(ch); }
         });
-        note('glyph', miss.length ? '这些字原文里没有，字体子集里可能也没有，会用系统字体显示：<b>' + esc(miss.join(' ')) + '</b>' : '', 'info');
+        note('glyph', miss.length ? '这些字不在文楷常用字库（GB2312）里，会用系统字体显示：<b>' + esc(miss.join(' ')) + '</b>' : '', 'info');
       }
       // 用 app.js 同一条渲染路径排新旧两版，看哪张小画在新版里挂不上了
       function lostSketches(newText) {
