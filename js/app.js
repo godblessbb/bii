@@ -756,7 +756,7 @@
   // 走微博合辑版式的合集：path → 小画。百变动态合集先不放画，等内容删定了再加
   var PAPER_COLLECTIONS = {
     weibo: { sketches: WB_SKETCHES },
-    baibian: { sketches: [] }
+    baibian: { sketches: [], font: 'baibian' }   // 这篇有 300 多个字不在微博那份文楷子集里，另有一份子集 fonts/wenkai-baibian.woff2
   };
   var WB_SEPS = ['dot', 'num', 'line'];
   var WB_SEP_DEFAULT = 'num';    // 条间记号默认值；用户定了以后只改这里
@@ -902,7 +902,7 @@
       }).join('') + '</ol></nav>' : '';
       return {
         html: paperPage({
-          meta: meta, attrs: ' data-weibo-page', masthead: tocHtml,
+          meta: meta, attrs: ' data-weibo-page' + (PAPER_COLLECTIONS[path].font ? ' data-font="' + esc(PAPER_COLLECTIONS[path].font) + '"' : ''), masthead: tocHtml,
           bodyAttrs: ' data-weibo-body data-sep="' + WB_SEP_DEFAULT + '"', body: box.innerHTML,
           prev: nb.prev, next: nb.next
         }),

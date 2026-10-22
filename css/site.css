@@ -568,6 +568,14 @@ html[lang="en"] .foot-big { font-weight: 700; letter-spacing: -.05em; }
   font-style: normal;
   font-display: swap;
 }
+/* 百变动态合集里有 300 多个字不在微博那份子集里：同一款霞鹜文楷 Lite，按这篇的字另切一份 */
+@font-face {
+  font-family: "BaibianWenKai";
+  src: url("../fonts/wenkai-baibian.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 html[data-paper] {
   --bg: #f6f1e7;
@@ -686,6 +694,7 @@ html[data-route="weibo"] .wb-sep + [data-entry] { margin-top: 0; }
 /* 纸页随笔：诗一样的分行短句。一行一块（.wb-line），一段一节，节与节之间用微博两条之间的那段留白；
    没有分节标记和条间编号。小画贴在那一行上，规则与微博的条目一样（宽屏放在那一行旁边，窄屏放在它下面）。 */
 html[data-route="essay"] .wb-page[data-font="fuji"] { --wb-font: "FujiWenKai", "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif; }
+html[data-route="weibo"] .wb-page[data-font="baibian"] { --wb-font: "BaibianWenKai", "WeiboWenKai", "LXGW WenKai", "LXGW WenKai Lite", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif; }
 html[data-route="essay"] .wb-dek { margin: 1.4rem auto 0; max-width: 30em; font-size: .9375rem; line-height: 1.9; color: var(--wb-faint); }
 html[data-route="essay"] .wb-body > p { max-width: var(--wb-measure); margin: var(--wb-gap) auto 0; }
 html[data-route="essay"] .wb-body > p:first-child { margin-top: 5rem; }
