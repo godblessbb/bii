@@ -712,6 +712,75 @@ html[data-paper] .wb-sketch.l { margin: 1.1rem auto 0 0; }
   html[data-paper] .wb-sketch.l { right: calc(100% + 22px); }
 }
 
+/* 配图：一条动态的图紧跟在它的文字下面（js/app.js 的 paperPics）。
+   1 张按原比例，框不超过 24rem 宽、21rem 高；2、4 张两列，3、5、6 张三列，格子一样大（两列那组只占三列的三分之二宽），
+   与朋友圈九宫格一个思路。方角、一道发丝边、不加阴影，和纸上的小画同一种素净；深色下照片不调色。
+   长图在格子里只露上面一截，底下一道渐隐 + 纸飞机蓝的一个小箭头，点开再看全图。 */
+html[data-paper] .wb-pics { --pic-gap: 4px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--pic-gap); margin-top: 1rem; }
+html[data-paper] .wb-pics[data-n="2"], html[data-paper] .wb-pics[data-n="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); width: calc((100% - 2 * var(--pic-gap)) / 3 * 2 + var(--pic-gap)); }
+html[data-paper] .wb-pics[data-n="1"] { display: block; }
+html[data-paper] .wb-pic { position: relative; display: block; aspect-ratio: 1 / 1; overflow: hidden; background: var(--bg-2); cursor: zoom-in; -webkit-tap-highlight-color: transparent; }
+html[data-paper] .wb-pics[data-n="1"] .wb-pic { aspect-ratio: 1 / var(--r, 1); width: min(100%, 24rem, calc(21rem / var(--r, 1))); }
+html[data-paper] .wb-pic img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 0; outline: 1px solid var(--line); outline-offset: -1px; transition: opacity .25s; }
+html[data-paper] .wb-pic:hover img { opacity: .9; }
+html[data-paper] .wb-pic:focus-visible { outline: 2px solid var(--wb-plane); outline-offset: 2px; }
+html[data-paper] .wb-pic.is-long img { object-position: 50% 0; }
+html[data-paper] .wb-pic.is-long::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--bg) 82%, transparent)); pointer-events: none; }
+html[data-paper] .wb-pic.is-long::after {
+  content: ""; position: absolute; left: 50%; bottom: 6px; width: 16px; height: 16px; margin-left: -8px; background: var(--wb-plane); pointer-events: none;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 4.5l5 4 5-4M3 9l5 4 5-4' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 4.5l5 4 5-4M3 9l5 4 5-4' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* 看大图：一层几乎不透明的纸，原图居中；按钮是回到顶部那种细边圆钮，箭头就是那只纸飞机 */
+html.wb-lb-open { overflow: hidden; }
+html[data-paper] .wb-lb { position: fixed; inset: 0; z-index: 70; background: var(--bg); animation: wb-lb-in .2s ease-out; }
+@keyframes wb-lb-in { from { opacity: 0; } to { opacity: 1; } }
+html[data-paper] .wb-lb-stage {
+  --pad: 64px;
+  position: absolute; inset: 0; display: flex; overflow: auto; overscroll-behavior: contain; touch-action: pan-y pinch-zoom; cursor: zoom-out;
+  padding: var(--pad) calc(var(--pad) + 12px);
+}
+html[data-paper] .wb-lb-frame {
+  position: relative; display: block; margin: auto; flex: none; aspect-ratio: var(--ar, 1);
+  width: min(100vw - 2 * var(--pad) - 24px, (100vh - 2 * var(--pad)) * var(--ar, 1));
+  width: min(100vw - 2 * var(--pad) - 24px, (100dvh - 2 * var(--pad)) * var(--ar, 1));
+  background: var(--bg-2); outline: 1px solid var(--line); outline-offset: -1px;
+}
+/* 底下垫缩略图；原图解码上屏前透明（is-ready 由 decode() 之后挂上），好了以后缩略图藏起来 */
+html[data-paper] .wb-lb-ph { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+html[data-paper] .wb-lb-img { position: relative; display: block; width: 100%; height: auto; opacity: 0; transition: opacity .2s; cursor: default; }
+html[data-paper] .wb-lb.is-ready .wb-lb-img { opacity: 1; }
+html[data-paper] .wb-lb.is-ready .wb-lb-ph { visibility: hidden; }
+html[data-paper] .wb-lb.is-big .wb-lb-img { cursor: zoom-in; }
+html[data-paper] .wb-lb.is-zoom .wb-lb-stage { touch-action: auto; }
+html[data-paper] .wb-lb.is-zoom .wb-lb-frame { width: calc(var(--nw, 0) * 1px); max-width: none !important; }
+html[data-paper] .wb-lb.is-zoom .wb-lb-img { cursor: zoom-out; }
+html[data-paper] .wb-lb.is-long .wb-lb-frame { width: min(100vw - 2 * var(--pad) - 24px, 40rem); margin-top: 0; }
+html[data-paper] .wb-lb-count { position: absolute; left: 0; right: 0; bottom: 22px; margin: 0; text-align: center; pointer-events: none; font: 400 12px/1 var(--f-mono); letter-spacing: .08em; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+html[data-paper] .wb-lb-btn { position: absolute; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--wb-hair); border-radius: 50%; background: var(--bg); color: var(--wb-plane); cursor: pointer; opacity: .85; transition: opacity .2s; }
+html[data-paper] .wb-lb-btn:hover { opacity: 1; }
+html[data-paper] .wb-lb-btn:focus-visible { outline: 2px solid var(--wb-plane); outline-offset: 3px; }
+html[data-paper] .wb-lb-btn svg { width: 20px; height: 20px; }
+html[data-paper] .wb-lb-close { top: 12px; right: 12px; }
+html[data-paper] .wb-lb-close path { fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; }
+html[data-paper] .wb-lb-prev, html[data-paper] .wb-lb-next { top: 50%; margin-top: -22px; }
+html[data-paper] .wb-lb-prev { left: 12px; }
+html[data-paper] .wb-lb-next { right: 12px; }
+html[data-paper] .wb-lb-prev svg { transform: rotate(-135deg); }
+html[data-paper] .wb-lb-next svg { transform: rotate(45deg); }
+html[data-paper] .wb-lb:not(.is-multi) .wb-lb-prev, html[data-paper] .wb-lb:not(.is-multi) .wb-lb-next { display: none; }
+@media (max-width: 600px) {
+  /* 手机：图贴满屏宽，左右切换按钮挪到底下，和张数排成一行 */
+  html[data-paper] .wb-lb-stage { --pad: 60px; padding-left: 0; padding-right: 0; }
+  html[data-paper] .wb-lb-frame { width: min(100vw, (100vh - 2 * var(--pad)) * var(--ar, 1)); width: min(100vw, (100dvh - 2 * var(--pad)) * var(--ar, 1)); }
+  html[data-paper] .wb-lb.is-long .wb-lb-frame { width: 100vw; }
+  html[data-paper] .wb-lb-prev, html[data-paper] .wb-lb-next { top: auto; bottom: 8px; margin-top: 0; }
+  html[data-paper] .wb-lb-prev { left: calc(50% - 96px); }
+  html[data-paper] .wb-lb-next { right: calc(50% - 96px); }
+  html[data-paper] .wb-lb-count { bottom: 24px; }
+}
+
 /* 页尾：飞机落地，然后是主站的「返回列表」和「下一篇」 */
 html[data-paper] .wb-end { max-width: 52rem; margin: 0 auto; padding-top: 8rem; }
 html[data-paper] .wb-end-plane { display: block; width: 120px; height: 40px; margin: 0 auto 6rem; overflow: visible; color: var(--wb-plane); }
@@ -736,4 +805,5 @@ html[data-paper] .wb-to-top:focus-visible { outline: 2px solid var(--wb-plane); 
 /* 减少动态效果：纸页的动画全部停下（上面的全局规则已经停掉 animation / transition，这里把位移也归零） */
 @media (prefers-reduced-motion: reduce) {
   html[data-paper] .wb-hero-plane { animation: none !important; transform: none; }
+  html[data-paper] .wb-lb { animation: none !important; }
 }

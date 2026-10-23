@@ -76,6 +76,8 @@ html[data-editing] [data-edit-block]:hover { outline-color: var(--acc); }
 .ed-note.is-info { border-left-color: var(--acc); color: var(--ink-2); }
 .ed-note b { font-weight: 500; color: var(--ink); letter-spacing: .1em; }
 .ed-lost { margin: 6px 0 0; padding-left: 1.2em; }
+/* 编辑框插在纸页正文里：不吃 .wb-body ul 那套居中、大上边距、无圆点的列表样式 */
+html .ed-panel ul.ed-lost { max-width: none; margin: 6px 0 0; padding-left: 1.2em; list-style: disc; }
 .ed-lost li { margin: 2px 0; }
 .ed-lost code { font: 400 12px var(--f-mono); }
 

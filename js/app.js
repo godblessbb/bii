@@ -196,7 +196,12 @@
       visualizer: '音频可视化',
       wb: {
         toc: '小节',
-        toTop: '回到顶部'
+        toTop: '回到顶部',
+        pic: '看大图',
+        viewer: '大图',
+        close: '关闭',
+        prevPic: '上一张',
+        nextPic: '下一张'
       }
     },
     en: {
@@ -279,7 +284,12 @@
       visualizer: 'Audio visualizer',
       wb: {
         toc: 'Sections',
-        toTop: 'Back to top'
+        toTop: 'Back to top',
+        pic: 'View full image',
+        viewer: 'Full image',
+        close: 'Close',
+        prevPic: 'Previous image',
+        nextPic: 'Next image'
       }
     }
   };
@@ -885,7 +895,47 @@
     var entries = Array.prototype.slice.call(box.querySelectorAll('li'));
     entries.forEach(function (li) { li.setAttribute('data-entry', ''); });
     paperSketches(entries, sketches || [], WB_ASSETS, true);
+    paperPics(entries);
     return toc;
+  }
+
+  /* 配图：md 里一条动态的文字下面紧跟一行缩略图标记 ![](media/baibian/s/<id>_<NN>-<宽>x<高>.jpg)，
+     原图是同一目录下去掉 s/ 和 -宽x高 的 <id>_<NN>.jpg（逐字节原样）。这一条里的缩略图按原顺序收进一个 .wb-pics 图组，
+     每张包一个指向原图的链接（点开由 paperViewer 接管，没有脚本时链接本身也能看原图）。
+     宽高写在文件名里：图还没下载就能占好位置；高宽比超过 2.2 的算长图，格子里只露上面一截。 */
+  var PIC_RE = /^(.*\/)s\/([^\/]+)-(\d+)x(\d+)\.jpg$/;
+  var PIC_LONG = 2.2;
+  function paperPics(entries) {
+    var s = S();
+    entries.forEach(function (li) {
+      var imgs = Array.prototype.filter.call(li.querySelectorAll('img'), function (img) { return PIC_RE.test(img.getAttribute('src') || ''); });
+      if (!imgs.length) return;
+      var box = document.createElement('div');
+      box.className = 'wb-pics';
+      box.setAttribute('data-n', String(imgs.length));
+      imgs.forEach(function (img, i) {
+        var m = PIC_RE.exec(img.getAttribute('src'));
+        var w = +m[3], h = +m[4], r = h / w;
+        var a = document.createElement('a');
+        a.className = 'wb-pic' + (r > PIC_LONG ? ' is-long' : '');
+        a.href = C(m[1] + m[2] + '.jpg');
+        a.setAttribute('data-thumb', C(img.getAttribute('src')));
+        a.setAttribute('aria-label', s.wb.pic + (imgs.length > 1 ? ' ' + (i + 1) + ' / ' + imgs.length : ''));
+        a.style.setProperty('--r', String(Math.round(Math.min(r, r > PIC_LONG ? 4 / 3 : r) * 1e4) / 1e4));   // 单张长图按 3:4 的框显示
+        var parent = img.parentNode;
+        img.setAttribute('src', C(img.getAttribute('src')));
+        img.setAttribute('alt', '');
+        img.setAttribute('width', String(w));
+        img.setAttribute('height', String(h));
+        img.setAttribute('loading', 'lazy');
+        img.setAttribute('decoding', 'async');
+        a.appendChild(img);
+        box.appendChild(a);
+        // 标记那一行只剩空白就一并去掉，正文文字一个不碰
+        if (parent && parent !== li && !parent.textContent.trim() && !parent.querySelector('img')) parent.parentNode.removeChild(parent);
+      });
+      li.appendChild(box);
+    });
   }
 
   function weiboView(path, anchor) {
@@ -893,8 +943,10 @@
     var w = s.wb;
     var meta = findMeta(path);
     return withMd(path, function (md) {
-      var box = document.createElement('div');
-      box.innerHTML = parseMd(md, { gfm: true, breaks: false });
+      // 先在 <template> 里排（惰性文档，不会提前去下载配图），挂上页面时缩略图已经带着 loading="lazy"
+      var tpl = document.createElement('template');
+      tpl.innerHTML = parseMd(md, { gfm: true, breaks: false });
+      var box = tpl.content;
       var toc = wbDecorate(box, PAPER_COLLECTIONS[path].sketches);
       var nb = listNeighbours(meta);
       var tocHtml = toc.length ? '<nav class="wb-toc" aria-label="' + esc(w.toc) + '"><ol lang="zh-CN">' + toc.map(function (t) {
@@ -903,7 +955,7 @@
       return {
         html: paperPage({
           meta: meta, attrs: ' data-weibo-page' + (PAPER_COLLECTIONS[path].font ? ' data-font="' + esc(PAPER_COLLECTIONS[path].font) + '"' : ''), masthead: tocHtml,
-          bodyAttrs: ' data-weibo-body data-sep="' + WB_SEP_DEFAULT + '"', body: box.innerHTML,
+          bodyAttrs: ' data-weibo-body data-sep="' + WB_SEP_DEFAULT + '"', body: tpl.innerHTML,
           prev: nb.prev, next: nb.next
         }),
         title: L(meta),
@@ -1037,13 +1089,139 @@
     window.addEventListener('resize', onWbScroll);
     if (toTop) toTop.addEventListener('click', onTop);
     onWbScroll();
+    var viewer = page.querySelector('.wb-pic') ? paperViewer(page) : null;
 
     cleanups.push(function () {
+      if (viewer) viewer.destroy();
       if (mo) mo.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', onWbScroll);
       window.removeEventListener('resize', onWbScroll);
     });
+  }
+
+  /* 看大图：点配图打开一层纸色浮层，放的是原图文件。缩略图（页面上已经下好的那张）垫在底下，
+     原图下载、解码上屏之前一直透明，好了才盖上去 —— 不会出现空框，也不会露出下载到一半的半张图。
+     同一条动态的几张左右切换（按钮、← →、手机左右滑）；Esc、点空白处、关闭按钮退出，焦点回到点开的那张。
+     普通图整张放进屏幕，比屏幕还大的点一下看原尺寸；长图按屏宽排开、上下滚着看。按钮沿用回到顶部那只纸飞机。 */
+  function paperViewer(page) {
+    var s = S();
+    var lb = null, group = [], at = 0, opener = null, img = null, ph = null, frame = null, stage = null, count = null, touch = null, swiped = 0;
+
+    function btn(kind, label, inner) {
+      return '<button class="wb-lb-btn wb-lb-' + kind + '" type="button" data-lb="' + kind + '" aria-label="' + esc(label) + '">' + inner + '</button>';
+    }
+    function show(i) {
+      at = (i + group.length) % group.length;
+      var a = group[at];
+      var full = a.getAttribute('href');
+      var m = PIC_RE.exec(a.getAttribute('data-thumb') || '');
+      var ar = m ? +m[3] / +m[4] : 1;
+      lb.classList.remove('is-zoom', 'is-big', 'is-ready');
+      lb.classList.toggle('is-long', 1 / ar > PIC_LONG);
+      frame.style.setProperty('--ar', String(ar));
+      frame.style.maxWidth = '';
+      ph.setAttribute('src', a.getAttribute('data-thumb'));
+      img.removeAttribute('src');
+      var mine = img;
+      // load 只说明下载完了、还没解码上屏：等 decode() 之后才让原图显出来（底下的缩略图随之藏起）。切走了的旧回调一律不管
+      function painted() {
+        if (img !== mine || img.getAttribute('src') !== full) return;
+        if (!lb.classList.contains('is-long')) {
+          frame.style.setProperty('--nw', String(img.naturalWidth));
+          frame.style.maxWidth = img.naturalWidth + 'px';    // 小图不放大
+          lb.classList.toggle('is-big', img.naturalWidth > frame.clientWidth + 1);
+        }
+        lb.classList.add('is-ready');
+      }
+      img.onload = function () {
+        if (img !== mine || img.getAttribute('src') !== full) return;
+        if (img.decode) img.decode().then(painted, painted); else painted();
+      };
+      img.setAttribute('src', full);
+      stage.scrollTop = 0; stage.scrollLeft = 0;
+      count.textContent = group.length > 1 ? (at + 1) + ' / ' + group.length : '';
+      lb.classList.toggle('is-multi', group.length > 1);
+      if (group.length > 1) { var pre = new Image(); pre.src = group[(at + 1) % group.length].getAttribute('href'); }
+    }
+    function open(a) {
+      group = Array.prototype.slice.call(a.parentNode.querySelectorAll('.wb-pic'));
+      opener = a;
+      lb = document.createElement('div');
+      lb.className = 'wb-lb';
+      lb.setAttribute('role', 'dialog');
+      lb.setAttribute('aria-modal', 'true');
+      lb.setAttribute('aria-label', s.wb.viewer);
+      lb.innerHTML = '<div class="wb-lb-stage" data-lb="stage"><div class="wb-lb-frame"><img class="wb-lb-ph" alt="" aria-hidden="true"><img class="wb-lb-img" alt="" decoding="async"></div></div>' +
+        '<p class="wb-lb-count" aria-live="polite"></p>' +
+        btn('close', s.wb.close, '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>') +
+        btn('prev', s.wb.prevPic, paperPlane('', '', '0 0 24 24')) +
+        btn('next', s.wb.nextPic, paperPlane('', '', '0 0 24 24'));
+      img = lb.querySelector('.wb-lb-img');
+      ph = lb.querySelector('.wb-lb-ph');
+      frame = lb.querySelector('.wb-lb-frame');
+      stage = lb.querySelector('.wb-lb-stage');
+      count = lb.querySelector('.wb-lb-count');
+      lb.addEventListener('click', onClick);
+      lb.addEventListener('pointerdown', onDown);
+      lb.addEventListener('pointerup', onUp);
+      lb.addEventListener('pointercancel', function () { touch = null; });
+      document.addEventListener('keydown', onKey, true);
+      document.body.appendChild(lb);
+      root.classList.add('wb-lb-open');
+      show(group.indexOf(a));
+      lb.querySelector('[data-lb="close"]').focus({ preventScroll: true });
+    }
+    function close() {
+      if (!lb) return;
+      document.removeEventListener('keydown', onKey, true);
+      img.onload = null;
+      lb.parentNode.removeChild(lb);
+      lb = img = ph = frame = stage = count = null;
+      root.classList.remove('wb-lb-open');
+      if (opener && document.contains(opener)) { try { opener.focus({ preventScroll: true }); } catch (e) {} }
+      opener = null;
+    }
+    function onClick(e) {
+      var k = e.target.closest ? e.target.closest('[data-lb]') : null;
+      var kind = k ? k.getAttribute('data-lb') : 'stage';
+      if (kind === 'stage' && Date.now() - swiped < 400) return;   // 刚滑过一张：这一下抬手不算点空白（按钮照常）
+      if (kind === 'prev') return show(at - 1);
+      if (kind === 'next') return show(at + 1);
+      if (e.target === img || e.target === ph) {   // 点图：比屏幕大的普通图切换「整张 / 原尺寸」
+        if (lb.classList.contains('is-big')) lb.classList.toggle('is-zoom');
+        return;
+      }
+      close();   // 关闭按钮，或图以外的空白处
+    }
+    function onKey(e) {
+      if (!lb) return;
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); return; }
+      if (e.key === 'ArrowLeft' && group.length > 1) { e.preventDefault(); show(at - 1); return; }
+      if (e.key === 'ArrowRight' && group.length > 1) { e.preventDefault(); show(at + 1); return; }
+      if (e.key === 'Tab') {   // 焦点留在浮层里
+        var f = Array.prototype.filter.call(lb.querySelectorAll('button'), function (b) { return b.offsetParent !== null; });
+        var i = f.indexOf(document.activeElement);
+        e.preventDefault();
+        f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+    }
+    // 手机：左右滑切换（放大看原尺寸时不抢横向滚动）
+    function onDown(e) { touch = e.pointerType !== 'mouse' && group.length > 1 && !lb.classList.contains('is-zoom') ? { x: e.clientX, y: e.clientY } : null; }
+    function onUp(e) {
+      if (!touch) return;
+      var dx = e.clientX - touch.x, dy = e.clientY - touch.y;
+      touch = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) { swiped = Date.now(); show(at + (dx < 0 ? 1 : -1)); }
+    }
+    function onPage(e) {
+      var a = e.target.closest ? e.target.closest('.wb-pic') : null;
+      if (!a || !page.contains(a) || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;   // ⌘ / Ctrl 点照旧在新标签页打开原图
+      e.preventDefault();
+      open(a);
+    }
+    page.addEventListener('click', onPage);
+    return { destroy: function () { page.removeEventListener('click', onPage); close(); } };
   }
 
   /* ---------------- 视图：关于 ---------------- */
@@ -1638,7 +1816,7 @@
     if (editLoading) return;
     editLoading = true;
     var s = document.createElement('script');
-    s.src = 'js/edit.js?v=20261022-gb';
+    s.src = 'js/edit.js?v=20261022-pics';
     s.onload = function () {
       s.parentNode.removeChild(s);
       editLoading = false;

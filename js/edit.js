@@ -14,7 +14,7 @@
   var API = 'https://api.github.com';
   var REPO = 'godblessbb/bii';
   var TOKEN_KEY = 'datode-edit-token';
-  var CSS_HREF = 'css/edit.css?v=20261018';
+  var CSS_HREF = 'css/edit.css?v=20261022-pics';
   var KIND = { paragraph: '段落', heading: '标题', list: '列表', blockquote: '引用', table: '表格', code: '代码', hr: '分隔线', html: 'HTML' };
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -47,6 +47,76 @@
     var i = 0, k = 0;
     while (k < n && i < text.length) { i += text.charAt(i) === '\r' && text.charAt(i + 1) === '\n' ? 2 : 1; k++; }
     return i;
+  }
+
+  /* ---------------- 配图标记 ----------------
+     百变动态合集里，一条动态的文字下面紧跟一行只有缩略图标记的 ![](media/…/s/<id>_<NN>-<宽>x<高>.jpg)（app.js 的 paperPics 把它排成图组）。
+     这一行不是正文：编辑框里不放它，框下说明这一块有几条带图；保存 / 预览时按「它跟着哪条文字」放回去 ——
+     那条文字没动就原样放回原处；改过字的，放回改后最像它的那一条（只在改过 / 新加的条目里找）；
+     那条被删了、找不到了，就和插画一样先警告「会消失」，确认了才保存。 */
+  var PIC_LINE = /^[ \t]+(?:!\[[^\]]*\]\([^()\s]*\/s\/[^()\s\/]+-\d+x\d+\.jpg\))+[ \t]*$/;
+  var ITEM_START = /^ {0,3}(?:[-*+]|\d{1,9}[.)])(?: |$)/;
+  function picText(s) { return s.replace(/^ {0,3}(?:[-*+]|\d{1,9}[.)]) ?/, '').replace(/<br\s*\/?>/gi, '').replace(/\s+/g, ''); }
+  // 一段原文切成条目：每条从列表标记那一行起，到下一条之前；last 是这一条最后一个非空行
+  function picItems(lines) {
+    var items = [], cur = null;
+    lines.forEach(function (l, i) {
+      if (ITEM_START.test(l)) { cur = { first: i, last: i, text: '' }; items.push(cur); }
+      if (!cur) return;
+      if (l.trim()) cur.last = i;
+      cur.text += picText(l);
+    });
+    return items;
+  }
+  // 去掉配图行：{ shown: 编辑框里的字, groups: [{ line, text }] }；配图行不紧跟在一条文字后面时返回 null（不拆，原样给人看）
+  function splitPics(core) {
+    var lines = core.split('\n'), kept = [], groups = [], item = null;
+    for (var i = 0; i < lines.length; i++) {
+      if (ITEM_START.test(lines[i])) item = { text: '' };
+      if (PIC_LINE.test(lines[i])) {
+        if (!item || !kept.length || !kept[kept.length - 1].trim()) return null;
+        groups.push({ line: lines[i], text: item.text, item: item });
+        continue;
+      }
+      if (item) item.text += picText(lines[i]);
+      kept.push(lines[i]);
+    }
+    if (!groups.length) return null;
+    var out = { shown: kept.join('\n'), groups: groups };
+    return joinPics(out, out.shown).text === core ? out : null;
+  }
+  function bigrams(s) { var a = Array.from(s), o = {}; for (var i = 0; i + 1 < a.length; i++) o[a[i] + a[i + 1]] = (o[a[i] + a[i + 1]] || 0) + 1; return o; }
+  function likeness(a, b) {
+    if (!a || !b) return 0;
+    var x = bigrams(a), y = bigrams(b), both = 0, n = 0, k;
+    for (k in x) { n += x[k]; if (y[k]) both += Math.min(x[k], y[k]); }
+    for (k in y) n += y[k];
+    return n ? 2 * both / n : 0;
+  }
+  // 把配图行放回 draft：{ text: 完整原文, lost: [没处放的组] }
+  function joinPics(sp, draft) {
+    var lines = draft.split('\n'), items = picItems(lines), owner = new Array(sp.groups.length), taken = {};
+    var before = {};
+    sp.groups.forEach(function (g) { before[g.item.text] = true; });
+    picItems(sp.shown.split('\n')).forEach(function (it) { before[it.text] = true; });
+    sp.groups.forEach(function (g, gi) {
+      for (var i = 0; i < items.length; i++) if (!taken[i] && items[i].text === g.item.text) { owner[gi] = i; taken[i] = true; return; }
+    });
+    sp.groups.forEach(function (g, gi) {
+      if (owner[gi] != null) return;
+      var best = -1, score = 0.5;
+      for (var i = 0; i < items.length; i++) {
+        if (taken[i] || before[items[i].text]) continue;
+        var r = likeness(items[i].text, g.item.text);
+        if (r >= score) { score = r; best = i; }
+      }
+      if (best >= 0) { owner[gi] = best; taken[best] = true; }
+    });
+    var after = {};
+    owner.forEach(function (i, gi) { if (i != null) after[items[i].last] = sp.groups[gi].line; });
+    var out = [];
+    lines.forEach(function (l, i) { out.push(l); if (after[i] != null) out.push(after[i]); });
+    return { text: out.join('\n'), lost: sp.groups.filter(function (g, gi) { return owner[gi] == null; }) };
   }
 
   /* ---------------- GitHub ---------------- */
@@ -296,6 +366,8 @@
       for (var i = 0; i < idx; i++) start += tokens[i].raw.length;
       var raw = tok.raw;
       var core = raw.replace(/\n+$/, '');          // 块后面的换行 / 空行不放进编辑框，保存时原样留着
+      var pics = splitPics(core);                  // 有配图行：框里只放文字，配图行另记着
+      var shown = pics ? pics.shown : core;
       var visible = 0;
       for (var j = 0; j <= idx; j++) if (tokens[j].type !== 'space') visible++;
       var line0 = n.slice(0, start).split('\n').length;
@@ -331,7 +403,7 @@
       var known = {};
       Array.from(text).forEach(function (ch) { known[ch] = true; });
 
-      area.value = core;
+      area.value = shown;
       function grow() {
         area.style.height = 'auto';
         area.style.height = Math.min(area.scrollHeight + 2, Math.round(window.innerHeight * 0.7)) + 'px';
@@ -347,7 +419,9 @@
           var lis = Array.prototype.filter.call(b.children, function (c) { return c.tagName === 'LI' && !c.classList.contains('wb-sep'); });
           var k = lis.indexOf(li), pos = 0;
           for (var m = 0; m <= k && m < tok.items.length; m++) {
-            var at = core.indexOf(tok.items[m].raw.replace(/\n+$/, ''), pos);
+            var itemRaw = tok.items[m].raw.replace(/\n+$/, '');
+            if (pics) itemRaw = itemRaw.split('\n').filter(function (l) { return !PIC_LINE.test(l); }).join('\n').replace(/\n+$/, '');
+            var at = shown.indexOf(itemRaw, pos);
             if (at < 0) break;
             caret = at;
             pos = at + 1;
@@ -357,9 +431,9 @@
       area.focus({ preventScroll: true });
       area.setSelectionRange(caret, caret);
       if (caret) {
-        area.value = core.slice(0, caret);
+        area.value = shown.slice(0, caret);
         var h = area.scrollHeight;
-        area.value = core;
+        area.value = shown;
         area.setSelectionRange(caret, caret);
         area.scrollTop = Math.max(0, h - area.clientHeight / 3);
       }
@@ -368,7 +442,8 @@
       if (pr.top < 80 || pr.bottom > window.innerHeight - 70) window.scrollBy(0, pr.top - 90);
 
       function draft() { return area.value.replace(/\n+$/, ''); }
-      function draftText() { return n.slice(0, start) + draft() + n.slice(start + core.length); }
+      function joined() { return pics ? joinPics(pics, draft()) : { text: draft(), lost: [] }; }   // 放回配图行之后的这一块
+      function draftText(j) { return n.slice(0, start) + (j || joined()).text + n.slice(start + core.length); }
       function say(msg, kind) { status.textContent = msg; status.setAttribute('data-kind', kind || ''); }
       function note(key, html, kind) {
         var x = notes.querySelector('[data-note="' + key + '"]');
@@ -417,10 +492,18 @@
         var before = hung(n), after = hung(newText);
         return sk.filter(function (s) { return before[s.frag] && !after[s.frag]; });
       }
-      function sketchNote(lost, withButtons) {
-        if (!lost.length) { note('sketch', ''); return null; }
-        var html = '<div>改完以后，下面' + (lost.length > 1 ? '这些插画' : '这张插画') + '在正文里找不到原来那句话，会消失：</div><ul class="ed-lost">' +
+      function sketchNote(lost, withButtons, lostPics) {
+        lostPics = lostPics || [];
+        if (!lost.length && !lostPics.length) { note('sketch', ''); return null; }
+        var html = '';
+        if (lost.length) html += '<div>改完以后，下面' + (lost.length > 1 ? '这些插画' : '这张插画') + '在正文里找不到原来那句话，会消失：</div><ul class="ed-lost">' +
           lost.map(function (s) { return '<li><code>' + esc(s.src.split('/').pop()) + '</code> 原句「' + esc(s.frag) + '」</li>'; }).join('') + '</ul>';
+        if (lostPics.length) html += '<div>改完以后，下面' + (lostPics.length > 1 ? '这几条动态' : '这条动态') + '的配图找不到原来那条文字，会消失：</div><ul class="ed-lost">' +
+          lostPics.map(function (g) {
+            var names = g.line.match(/[^\/()]+-\d+x\d+\.jpg/g) || [];
+            var head = Array.from(g.item.text);
+            return '<li><code>' + esc(names.map(function (x) { return x.replace(/-\d+x\d+\.jpg$/, '.jpg'); }).join(' ')) + '</code> 原文「' + esc(head.slice(0, 24).join('') + (head.length > 24 ? '…' : '')) + '」</li>';
+          }).join('') + '</ul>';
         if (withButtons) html += '<div class="ed-actions"><button class="btn btn-solid" type="button" data-ed="force">仍然保存</button><button class="btn" type="button" data-ed="back">回去改</button></div>';
         var x = note('sketch', html, 'warn');
         if (withButtons) {
@@ -438,7 +521,8 @@
       }
       function preview() {
         if (previewNodes.length) { clearPreview(); area.focus(); return; }
-        var t2 = draftText();
+        var j = joined();
+        var t2 = draftText(j);
         var t = document.createElement('template');
         t.innerHTML = site.renderWith(path, t2);
         var delta = Math.max(0, window.marked.lexer(t2, { gfm: true }).length - tokens.length);
@@ -456,7 +540,7 @@
         if (!previewNodes.length) say('这一块预览出来是空的。', 'warn');
         area.hidden = true;
         btnPrev.textContent = '接着改';
-        sketchNote(lostSketches(t2), false);
+        sketchNote(lostSketches(t2), false, j.lost);
       }
 
       function close() {
@@ -477,12 +561,13 @@
       function save(force) {
         if (busy) return;
         var d = draft();
-        if (d === core) { say('还没有改动。'); return; }
+        if (d === shown) { say('还没有改动。'); return; }
         if (!d.trim()) { say('这一块不能留空。', 'warn'); return; }
-        var t2 = draftText();
+        var j = joined();
+        var t2 = draftText(j);
         if (!force) {
           var lost = lostSketches(t2);
-          if (lost.length) { sketchNote(lost, true); say('有插画会消失，确认后再保存。', 'warn'); return; }
+          if (lost.length || j.lost.length) { sketchNote(lost, true, j.lost); say((lost.length ? '有插画' : '有配图') + '会消失，确认后再保存。', 'warn'); return; }
         }
         busy = true;
         btnSave.disabled = true;
@@ -504,7 +589,7 @@
           var seg = text.slice(s, e);
           var eol = /\r\n/.test(seg) ? '\r\n' : /\n/.test(seg) ? '\n' : /\r\n/.test(text) ? '\r\n' : '\n';
           var bs = bom + utf8(text.slice(0, s)).length, be = bs + utf8(seg).length;
-          var newBytes = concatBytes([bytes.subarray(0, bs), utf8(d.replace(/\n/g, eol)), bytes.subarray(be)]);
+          var newBytes = concatBytes([bytes.subarray(0, bs), utf8(j.text.replace(/\n/g, eol)), bytes.subarray(be)]);
           var after = decodeUtf8(newBytes);
           var head = d.replace(/\s+/g, ' ').trim();
           var message = '网页编辑：' + file + ' ' + label + '\n\n改后开头：' + (Array.from(head).length > 40 ? Array.from(head).slice(0, 40).join('') + '…' : head);
@@ -522,6 +607,10 @@
       }
 
       area.addEventListener('input', function () { grow(); checkGlyphs(); note('sketch', ''); say(''); });
+      if (pics) {
+        var nPics = pics.groups.reduce(function (k, g) { return k + (g.line.match(/!\[/g) || []).length; }, 0);
+        note('pics', '这一块里有 ' + pics.groups.length + ' 条动态带图（共 ' + nPics + ' 张）。图片标记不在框里，保存时会自动放回原来那条文字下面；改字不影响，整条删掉的话它的图也会消失（保存前会提醒）。', 'info');
+      }
       area.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); save(false); }
       });
@@ -532,7 +621,7 @@
 
       var api = {
         has: function (x) { return els.indexOf(x) >= 0 || els.indexOf(x.parentNode) >= 0; },
-        dirty: function () { return draft() !== core; },
+        dirty: function () { return draft() !== shown; },
         say: say,
         focus: function () { if (!area.hidden) area.focus(); },
         close: close

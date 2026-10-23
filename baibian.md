@@ -11,8 +11,10 @@
 - 你的审美不值钱，你的喜欢就不值钱
 
 - 练舞室的镜子更容易出片怎么回事
+  ![](media/baibian/s/p43c0c0ffd4546b31_01-640x1138.jpg)
 
 - 我发现我并不需要一枚金牌来证明自己是个好人。那个小女孩那么喜欢我，我又能坏到哪去呢。
+  ![](media/baibian/s/p28b9f53b7c90a34b_01-342x2000.jpg)![](media/baibian/s/p28b9f53b7c90a34b_02-349x2000.jpg)![](media/baibian/s/p28b9f53b7c90a34b_03-379x2000.jpg)
 
 - 之所以蝴蝶飞不过沧海，谁都不忍心责怪。因为情绪价值本就是美而无用的，向情绪价值索要功利意义的“有用”就是焚琴煮鹤，你不会需要一个能当充电宝的拉布布，也不需要铺满打折商品和小吃摊的迪士尼乐园。那一份又浪漫又有用的爱情何尝不也是苛责蝴蝶去飞越太平洋呢
 
@@ -21,14 +23,18 @@
 - 维特根斯坦认为：一切命题的含义在于证实它的方法。比如“我爱你”三个字毫无意义，你爱得五内翻腾也不过是茶壶里的风暴，真正有意义的，是过去现在和未来我们去证明我爱你的方式。
 
 - 命运对勇士低语，你无法抵御风暴。<br>勇士低声回应，我就是风暴。
+  ![](media/baibian/s/pb8675af3affed6cb_01-640x800.jpg)
 
 - CP好像是什么又好像什么都不是，上过头花过钱，最后孑然一身，像是彼此的玩具，在某个长大了的午后拿起把玩一番再放下，就是永诀，道理我都懂。我想起《玩具总动员2》伍迪面对巴斯光年的劝说，平静做出的那个决定：“你说得对，安迪迟早会离开我，我不想错过这个过程。”<br>玩具可以很伟大，如果陪伴很伟大。
+  ![](media/baibian/s/p1667f6fe2b8db7a5_01-640x853.jpg)
 
 - 可能是北京千元价位最好吃的怀石，当然，就像最美不是下雨天，是和你一起躲过雨的屋檐，食物更值得回味的部分总在食物之外。
+  ![](media/baibian/s/p113e106c89f24126_01-640x853.jpg)![](media/baibian/s/p113e106c89f24126_02-640x853.jpg)![](media/baibian/s/p113e106c89f24126_03-640x853.jpg)
 
 - 突然觉得，在一个男的崩小妞女的崩老头，上头可以上船没门，互相算计着提防着把对方当情绪出口和工具人的平台上，那些一言不合锁房就卡的江湖儿女反倒率真可爱得很。
 
 - 如何用一碗面比喻爱情？<br>爱情需要恰到好处的时差——慢热的会遇上慢冷，滚烫的面条要配凉透的小葱，热恋的疯话总撞上冰镇的沉默。<br>面作不得主菜——不是它不够好。它太直白，汤是汤面是面，教人一眼看穿碗底。它太诚实，汤会冷面会沱，赏味期多不过五分钟。<br>像爱无关宏旨，爱只是爱。<br>伟大的爱情到头来也只是爱。
+  ![](media/baibian/s/p243c4984deacb92b_01-640x853.jpg)
 
 - Happy Anniversary!
 
@@ -41,8 +47,10 @@
 - 今天晴天<br>刮风<br>纸被风吹皱了<br>一个角<br>笔是满的<br>我是空的<br>坐在纸前<br>想写点什么<br>写了“今天的风”<br>擦掉了<br>写了“阳光很好”<br>又擦掉了<br>写了你的名字<br>飞快地涂成一团黑<br>纸还空着<br>风还在吹<br>笔在指间转了第三圈<br>算了
 
 - 人的一生就是“I have a bright future ahead”里的每个字逐个拿掉的过程，顺序是 bright，I，have，a，future，最后 ahead。
+  ![](media/baibian/s/p7b66655a93817771_01-640x853.jpg)
 
 - 保持羁绊的唯一条件是双方都不愿松开的手。就像 TCP 通信协议，任何连接都始于客户端和服务端的“三次握手”，只问“在吗”不够，收到“我在”也不够，到“很高兴你还在”才算数。
+  ![](media/baibian/s/p0adb3a1bd52111d4_01-640x1138.jpg)
 
 - 如是我闻，dm 带本没有不油的，不走心的话术古怪的腔调程式化的台本，偏偏还带着一种“我是专业的”迷之自信，浑身散发着自以为松弛实则让人出戏的愚蠢，这本司空见惯，但是连 cpdd 本都能带得这么油，本农村人也是开眼了。
 
@@ -53,16 +61,20 @@
 - 当 AI 能力强大到人类望尘莫及，harness engineering 就成了显学。所以 AI 和人类一样，没有天生的好人，只有被约束的文明者。
 
 - 练了三个月还是脂包肌，家人们谁懂啊
+  ![](media/baibian/s/pa651de042f80f2e0_01-640x961.jpg)
 
 - 还是破戒去安慰人了，今天很不法拉利<br>全世界的水都会重逢，我们也都会再见到深爱过的人。“送你一朵小红花，遮住你今天新添的伤疤。”
+  ![](media/baibian/s/p743acfae2d77f78f_01-544x544.jpg)
 
 - 法拉利男人 Rule No.1：永远不去安慰任何人。如果她要去撞南墙，就鼓励她去，不要劝，人性就是你劝了也不听，听了又不改，改了还会犯，迟早还是一头撞上去。等她真撞上去了还掉头找你安慰，我能安慰什么呢？“我早说什么来着”，田丰就是这么被袁绍宰了的。最后只能说，我看，你还是去刷会儿抖音吧。
 
 - 每个人有每个人送蛋糕的方式，都很感动，谢谢。
+  ![](media/baibian/s/p56ca6d95d1b582d7_01-622x833.jpg)![](media/baibian/s/p56ca6d95d1b582d7_02-640x1385.jpg)![](media/baibian/s/p56ca6d95d1b582d7_03-640x781.jpg)![](media/baibian/s/p56ca6d95d1b582d7_04-640x881.jpg)
 
 - 有缘的人会相聚，就像全世界的水迟早会重逢，落在斯堪地那维亚山间的雨雾霜雪、山顶的万年冰川，一定曾经在尼罗河上空的云层里拥抱过。
 
 - 我在想把我的聊天记录喂给AI让它给我总结出一套人格 prompt，会培养出一个什么祸害……
+  ![](media/baibian/s/p10241b1f4e691a07_01-640x640.jpg)
 
 - “你应该是台高级的法拉利，配的人才能坐，而不是什么人都能上去摸一把。”
 
@@ -71,10 +83,12 @@
 ## 2025–2026 · 冬
 
 - 第一次看灯会，但我发觉这地方过去一年好像来过很多次，或跟大陈的公主或北宁国的皇妹或林家的大小姐，我们求过佛牌香囊平安符猜过灯谜还买过一只兔子灯，她祝我平安喜乐一生顺遂，她祈愿和我共赴云清山看日出，她是我的眼前人心上人。<br>今夕何夕，她们都老了吧，<br>她们在哪里呀，我们就这样，<br>各自奔天涯。
+  ![](media/baibian/s/p3404652da4d3ebe4_01-1138x640.jpg)![](media/baibian/s/p3404652da4d3ebe4_02-640x1138.jpg)
 
 - 当你不知道结局的时候，结局最重要，当你知道结局的时候，过程最重要，当你不在乎结局的时候，当下最重要。很多年前我玩过一个网游，NPC的一段寄语我记忆犹新：年轻人，祝你拥有一段不悔的爱情。Farewell 啦 my almost love<br>@22<br>七日 CP 完结快乐！
 
 - 最近疯狂迷恋英语狼人杀，说什么不重要，玩个氛围感。昨晚玩两把狼赢两把，还票死预言家两次。我现在自信到觉得日语韩语粤语狼人杀也不是不能玩，甚至想试试河南话狼人杀：恁俺不中，恁咋不早说恁是狼。
+  ![](media/baibian/s/pea94baff55c8a166_01-800x640.jpg)
 
 - 每周的 leg day 结束，深蹲得人睾酮爆炸，我感觉现在的自己能打十个吴京。
 
@@ -83,10 +97,13 @@
 - 毕业后就很少提笔写字，<br>那天我百无聊赖抓起一支笔在白纸上写写画画<br>一开始是李杜的诗东坡的词<br>再来是滑稽的老头，云彩下奔驰着车子，<br>最后我若有所思地在纸上<br>一遍遍写起你的名字。
 
 - 点播一首孙悦老师的<br>《祝你平安》
+  ![](media/baibian/s/p01be0a66f87bc0c5_01-640x1558.jpg)
 
 - 这几年圣诞节不管人在哪，一定要抽空吃一份烧鹅饭，庆祝玛丽亚大妈生了个争气的好鹅子。
+  ![](media/baibian/s/pc8ad6c26d992af16_01-1138x640.jpg)
 
 - 像寂寞圣诞，雪花路上弥漫，大地上我这里最暗淡。
+  ![](media/baibian/s/p699a637bbbfaa1ee_01-640x853.jpg)
 
 - 如果用一道菜形容初恋，我想是泰式芥末虾球。洗净的虎虾裹酱过油，<br>入口，虾仁负责青春稚嫩的口感；<br>袭人的清爽，间或带着酸涩——来自柠檬汁；<br>跟着蛋黄酱在舌尖绽开浓到化不开的温柔和甜；<br>直到反复咀嚼，<br>无声无息让人潸然泪下的，是芥末。<br>讲究的泰餐师傅摆盘时还会点缀几朵三色堇，<br>花语是——请想念我。
 
@@ -95,16 +112,20 @@
 - 讨论一个愚蠢的人是否清澈温暖善良没有丝毫意义，愚蠢本身就是魔鬼。
 
 - 五年四季，谢幕离场，我的青春也结束了。<br>世界再黯淡，热爱喜剧的人万紫千红。
+  ![](media/baibian/s/p928a31936b536851_01-1136x640.jpg)![](media/baibian/s/p928a31936b536851_02-640x1139.jpg)
 
 - “往后余生，人生的每个路口，<br>路过的每辆卡车，都像你。”
+  ![](media/baibian/s/pdbc3fcf72e0f029c_01-640x850.jpg)
 
 &nbsp;
 
 ## 2025 · 秋
 
 - 经济下行，简单吃点。
+  ![](media/baibian/s/p6ce2d1b5c200314a_01-640x853.jpg)![](media/baibian/s/p6ce2d1b5c200314a_02-640x853.jpg)![](media/baibian/s/p6ce2d1b5c200314a_03-640x853.jpg)
 
 - 英语里形容孤独的词有很多<br>alone、lonely、isolated<br>最让人心碎的那个应该是<br>I Miss You，<br>我总是在想你的时候，最孤独。
+  ![](media/baibian/s/pfb098c61bc1d3799_01-640x853.jpg)
 
 - 已确认，我的百变三大遗憾，<br>要永远成为遗憾了。<br>ps. 不要提年岁昭昭，会不幸。
 
@@ -113,8 +134,10 @@
 - 我也知道这不是我的月亮<br>但有那么一刻，月光确实照在了我身上<br>我幸运地拥有过这束光，<br>天亮时还给了太阳。
 
 - 不想来 KTV 上班，得罪了领班，最近派给我的都是来过六十大寿的姐姐们
+  ![](media/baibian/s/p946711ae30490772_01-641x640.jpg)
 
 - 整条街都是恋爱的人，我独自走在暖风的夜
+  ![](media/baibian/s/p2dc4a2d3f7ee1d64_01-640x850.jpg)![](media/baibian/s/p2dc4a2d3f7ee1d64_02-640x850.jpg)![](media/baibian/s/p2dc4a2d3f7ee1d64_03-640x853.jpg)![](media/baibian/s/p2dc4a2d3f7ee1d64_04-640x850.jpg)![](media/baibian/s/p2dc4a2d3f7ee1d64_05-640x850.jpg)![](media/baibian/s/p2dc4a2d3f7ee1d64_06-640x853.jpg)
 
 - 酥酥老师说得没错，我不属于这里，time to go。在狗百变的四个月换了好几茬朋友，现在轮到我被换掉了，很荣幸认识过这么多有趣的人，大家再会，我是水汪汪的满记-真的好饱-好饱没吃饱
 
@@ -125,92 +148,122 @@
 - 《我将星光藏于指间》<br>避雷屿漫署名的所有本<br>我将星光藏于指间<br>房间1
 
 - 昨夜的潮汐，<br>今晨已褪去，<br>归来的渔民叫卖着刚刚经历的风雨。<br>教堂里举行着婚礼<br>我路过感到甜蜜，<br>也让我想到我和你。
+  ![](media/baibian/s/p88d4744d56914f54_01-853x640.jpg)![](media/baibian/s/p88d4744d56914f54_02-853x640.jpg)![](media/baibian/s/p88d4744d56914f54_03-854x640.jpg)![](media/baibian/s/p88d4744d56914f54_04-853x640.jpg)![](media/baibian/s/p88d4744d56914f54_05-853x640.jpg)![](media/baibian/s/p88d4744d56914f54_06-640x853.jpg)
 
 - 整个北京创赛穿得最像 rapper 的
+  ![](media/baibian/s/p97fec6ffde5d92cc_01-1138x640.jpg)![](media/baibian/s/p97fec6ffde5d92cc_02-1138x640.jpg)![](media/baibian/s/p97fec6ffde5d92cc_03-640x1165.jpg)![](media/baibian/s/p97fec6ffde5d92cc_04-854x640.jpg)![](media/baibian/s/p97fec6ffde5d92cc_05-854x640.jpg)![](media/baibian/s/p97fec6ffde5d92cc_06-640x1138.jpg)
 
 - 几年不来侨福芳草地，这地方现在好美的精神状态
+  ![](media/baibian/s/p5fbdb68b52c0f5b1_01-640x1138.jpg)![](media/baibian/s/p5fbdb68b52c0f5b1_02-640x1138.jpg)![](media/baibian/s/p5fbdb68b52c0f5b1_03-640x1138.jpg)![](media/baibian/s/p5fbdb68b52c0f5b1_04-640x1138.jpg)![](media/baibian/s/p5fbdb68b52c0f5b1_05-640x1138.jpg)![](media/baibian/s/p5fbdb68b52c0f5b1_06-640x1138.jpg)
 
 - “哎呀饱总今天你请，他们中午这两份菜单，你看是选这份呢，还是另外那份一看就贼有诚意的呢？”
+  ![](media/baibian/s/p8667bf532903413c_01-1138x640.jpg)![](media/baibian/s/p8667bf532903413c_02-640x640.jpg)![](media/baibian/s/p8667bf532903413c_03-1136x640.jpg)![](media/baibian/s/p8667bf532903413c_04-1136x640.jpg)![](media/baibian/s/p8667bf532903413c_05-640x1138.jpg)![](media/baibian/s/p8667bf532903413c_06-640x1807.jpg)
 
 - 开会间隙，简单对付一下
+  ![](media/baibian/s/p737a04f0c44355ed_01-640x1138.jpg)![](media/baibian/s/p737a04f0c44355ed_02-640x640.jpg)![](media/baibian/s/p737a04f0c44355ed_03-640x640.jpg)![](media/baibian/s/p737a04f0c44355ed_04-640x640.jpg)![](media/baibian/s/p737a04f0c44355ed_05-640x1138.jpg)![](media/baibian/s/p737a04f0c44355ed_06-640x1138.jpg)
 
 - 越在乎的人越小心安抚<br>反而连一个吻也留不住
+  ![](media/baibian/s/pb7893db5d19d5a16_01-640x640.jpg)
 
 - 单恋就像在雨夜抱着一个熟睡的婴儿匆匆赶路<br>明明淋着雨，又怕惊扰你<br>喜欢你就是这夜路上，最慌张也最轻的脚步<br>纪念一下昨天北京下的雨
 
 - 爱情发生时就像水煮鱼出锅前，一勺滚油泼到花椒干辣椒、葱蒜和裹着厚重勾芡的鱼片上，“嘶！”“砰！”，剧烈反应，爆炸，久已干朽的寡淡的人生自此被激出一股奇香。感慨完，干饭！
+  ![](media/baibian/s/p575191b653eaa991_01-640x640.jpg)
 
 - 中秋节猛猛吃韭菜 taco，但愿人长韭
+  ![](media/baibian/s/pc20a0f57b7c24f17_01-854x640.jpg)
 
 - A cloudy day in Beijing.<br>你站在那，仿佛一幅我买不起的油画。
+  ![](media/baibian/s/pe1b7f52fee61d712_01-640x853.jpg)![](media/baibian/s/pe1b7f52fee61d712_02-640x853.jpg)![](media/baibian/s/pe1b7f52fee61d712_03-640x853.jpg)![](media/baibian/s/pe1b7f52fee61d712_04-854x640.jpg)![](media/baibian/s/pe1b7f52fee61d712_05-640x853.jpg)![](media/baibian/s/pe1b7f52fee61d712_06-854x640.jpg)
 
 - 永远相信真心，也永远相信真心瞬息万变。
 
 - 来前：京<br>就这破房子一个月租50个达不溜？<br>来后：得什么家庭配阳台正对东华门……
+  ![](media/baibian/s/p157a1f01f55a75b6_01-854x640.jpg)![](media/baibian/s/p157a1f01f55a75b6_02-854x640.jpg)![](media/baibian/s/p157a1f01f55a75b6_03-854x640.jpg)![](media/baibian/s/p157a1f01f55a75b6_04-640x640.jpg)
 
 - 那么是哪个小可爱终于回北京了呢？
+  ![](media/baibian/s/p1a3ed3ab08f05af5_01-640x853.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_02-640x640.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_03-640x640.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_04-640x1138.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_05-640x640.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_06-640x1138.jpg)
 
 - 如果此生不复相见，我们该如何告别呢？
+  ![](media/baibian/s/p39fed893bcb80d40_01-640x1670.jpg)
 
 - 我相信有人正在慢慢地艰难地爱上我<br>别的人都不会，除非你<br>退了，江湖再见家人们
 
 - 人道洛阳花似锦，偏我来时不逢春。
 
 - 热衷收集世界各地的塔，东京的札幌的北京的苏州的常州的，还有我自己的。
+  ![](media/baibian/s/p7dafcf2537d4d9f2_01-640x853.jpg)![](media/baibian/s/p7dafcf2537d4d9f2_02-640x640.jpg)![](media/baibian/s/p7dafcf2537d4d9f2_03-640x1137.jpg)![](media/baibian/s/p7dafcf2537d4d9f2_04-640x853.jpg)![](media/baibian/s/p7dafcf2537d4d9f2_05-640x853.jpg)![](media/baibian/s/p7dafcf2537d4d9f2_06-640x853.jpg)
 
 - 那时我已经吐了两次，桌上杯盘狼藉，大家酒酣耳热说着肝胆相照的话，帝王蟹还不住让我把酒满上。这时我心底响起一个声音，他跟我说：一个人一生中最光辉的一天并非功成名就的那天，而是他从绝望和苦闷中醒悟自己是谁，要去向哪，拿出勇气和意志迎头冲向自己的命运。好饱，喝下去，这是你的命运。然后我吐了第三次。
+  ![](media/baibian/s/p3cc5814b2e5ec520_01-640x853.jpg)![](media/baibian/s/p3cc5814b2e5ec520_02-640x853.jpg)![](media/baibian/s/p3cc5814b2e5ec520_03-640x853.jpg)![](media/baibian/s/p3cc5814b2e5ec520_04-640x853.jpg)![](media/baibian/s/p3cc5814b2e5ec520_05-640x853.jpg)![](media/baibian/s/p3cc5814b2e5ec520_06-640x853.jpg)
 
 - 土鳖开眼了，带着青草香的世界第一好吃的田鸡饺子，饺子皮是田鸡本鸡
+  ![](media/baibian/s/pa92e4850955c445f_01-854x640.jpg)![](media/baibian/s/pa92e4850955c445f_02-640x853.jpg)![](media/baibian/s/pa92e4850955c445f_03-640x853.jpg)
 
 &nbsp;
 
 ## 2025 · 夏
 
 - 减脂期吃点清淡的
+  ![](media/baibian/s/pb8635b9c43af9277_01-640x640.jpg)![](media/baibian/s/pb8635b9c43af9277_02-640x640.jpg)![](media/baibian/s/pb8635b9c43af9277_03-640x640.jpg)
 
 - 玩狗百变前，我以为即使是块石头，捂的时间够久也总该捂热的。现在我不这么想了，赤道的烈日烤不化乞力马扎罗的雪，北极的霜雪几时冰封过摩尔曼斯克的海。
+  ![](media/baibian/s/p876882c25e233b4b_01-853x640.jpg)
 
 - 人生是一卷厕纸<br>爱情是写在厕纸上的一千行诗。<br>好消息是无论多次的纸，诗都是美的；<br>坏消息是总不免会碰到几个ass\*hole
+  ![](media/baibian/s/pd7e142c4f64be945_01-640x1138.jpg)
 
 - 像一束阳光倏忽穿透一片棱镜散作一地的彩虹，阳光是你，棱镜是我，彩虹是你在我心头的倒影
 
 - 笑起来很命苦的样子
+  ![](media/baibian/s/p8ff2e8ea5c045111_01-640x640.jpg)
 
 - 从今以后就是百变第一死夹子，玩科技饱总不可能输给你们。
+  ![](media/baibian/s/pf3edaf48f6b4a8ab_01-640x853.jpg)
 
 - 继续粗茶淡饭
 
 - 晚上打这个本，缺个气场强大的女 HR 和若干小牛马，上车的老师们举下手手，照例卡口音卡输出能力
+  ![](media/baibian/s/pc1c592797c5cc819_01-640x1385.jpg)
 
 - 新玩具，就这玩应，一个十万
+  ![](media/baibian/s/p77873bb60ef08252_01-640x1138.jpg)
 
 - 当然，爱情是一起走过的街一起迷过的路，一起并肩看过的长河落日千山暮雪，不过有没有可能，爱情也存在于某些瞬间，当你想开口又哑然微笑，当你想触碰又松开手。
+  ![](media/baibian/s/pfcd0a3009212bb34_01-854x640.jpg)
 
 - 圣经里写夏娃经不起蛇的诱惑，偷吃禁果遭上帝逐出伊甸园。人战胜不了内心的欲望，夏娃偷吃禁果时一定很爽，可我觉得在这个故事里，引诱人破戒的蛇应该是更爽的那个
 
 - 好吃惨了，感觉像轻舟已过万重山，决定和这个世界和解一个小时
+  ![](media/baibian/s/p29365c137c74b4e0_01-640x640.jpg)![](media/baibian/s/p29365c137c74b4e0_02-640x640.jpg)![](media/baibian/s/p29365c137c74b4e0_03-640x640.jpg)![](media/baibian/s/p29365c137c74b4e0_04-640x640.jpg)![](media/baibian/s/p29365c137c74b4e0_05-640x640.jpg)![](media/baibian/s/p29365c137c74b4e0_06-640x640.jpg)
 
 - 不过话说回来，你呀，真的是我的一束光，刚才我在你家楼下喊你的名字，整栋楼的走廊都亮了，你好厉害，你会发光你知道吗？
 
 - 已经发展到情感本里有人跟我说“你是我的一束光”会当场回怼“我是你 daye”，望周知。
 
 - 我在树下坐了一天，树跟我谈某年春天遇上的一拂风，我跟树谈某年春天遇上的一个你。<br>树抱怨春天迟迟不来，我说春天迟迟不来，是因为你迟迟未来。
+  ![](media/baibian/s/p96323fa4c291b35b_01-854x640.jpg)![](media/baibian/s/p96323fa4c291b35b_02-640x853.jpg)
 
 - 建议国家立法，打情感本以后谁都不许说“你是我的一束光”，说的三年起步。
 
 - 那一天我二十一岁，在我一生的黄金时代。我有好多奢望：我想爱，想吃，还想在一瞬间变成天上半明半暗的云。
 
 - 你是一周里的礼拜六，你是一年里的大年初一<br>你是发薪日的第一杯焦糖玛奇朵<br>和红酒<br>和鹅肝寿司鳌虾带子鱼籽酱，<br>……<br>还有信用卡账单
+  ![](media/baibian/s/pc7f65bbe3cc989bd_01-640x853.jpg)
 
 - 简单吃点fa国菜
+  ![](media/baibian/s/p5ddabc95b80dacee_01-640x640.jpg)![](media/baibian/s/p5ddabc95b80dacee_02-640x640.jpg)![](media/baibian/s/p5ddabc95b80dacee_03-640x640.jpg)![](media/baibian/s/p5ddabc95b80dacee_04-640x640.jpg)![](media/baibian/s/p5ddabc95b80dacee_05-640x640.jpg)
 
 - 打卡常州最好吃的汽锅牛肉，以下是饭后感
+  ![](media/baibian/s/pf45066213de9e2c7_01-640x640.jpg)![](media/baibian/s/pf45066213de9e2c7_02-640x640.jpg)![](media/baibian/s/pf45066213de9e2c7_03-640x1173.jpg)
 
 - 鄙人的一贯宗旨就是吃不到葡萄——祝葡萄幸福
+  ![](media/baibian/s/p5ca5ec724bdf5b26_01-640x960.jpg)
 
 - 我问格斗教练：<br>在实战中我如何击倒比我强壮许多、招式凶狠的对手？<br>教练说：实战取胜的关键啊，就是要攻击敌人最薄弱的地方，你先使出一招十字固锁住他，然后在他耳边说——“其实啊她根本没有爱过你，一直是你自作多情。”
 
 - 当你愿意告诉一个人一件开心的事一件难过的事，那么你们已经是好朋友了；<br>当你愿意跟他分享一片微不足道的云一朵无人问津的花，那么你是爱上他了。
+  ![](media/baibian/s/p5fc76eecd0847c06_01-854x640.jpg)![](media/baibian/s/p5fc76eecd0847c06_02-851x640.jpg)![](media/baibian/s/p5fc76eecd0847c06_03-1448x640.jpg)
 
 - 优雅，这该死的优雅
 
@@ -219,29 +272,41 @@
 - 怀石料理Ozaki，米一，清蒸北海道冷水毛蟹
 
 - 我和你对于你和我，是一簇梦幻的泡沫，凄艳有时，寂灭有时。你爱的是一个幻影，我的爱是自作多情。人都想抓住转瞬即逝的美好，可要如何去拥有一道彩虹，又如何去拥抱一夏天的风？<br>泡沫过了赏味期限就成了枷锁，一千次椎心泣血不如一次怀抱的温度。也许就不如回到上邪写好的结局，祝你平安喜乐一生顺遂，从此江湖无故人。
+  ![](media/baibian/s/p5f81ad621fe9c0d4_01-640x1138.jpg)
 
 - 呐，意大利菜正不正宗，主要也不看牛排意面鹅肝，得看餐厅里有没有个长得像马里奥大叔的大师傅AA
+  ![](media/baibian/s/p1e04fe04a23fa18b_01-640x640.jpg)![](media/baibian/s/p1e04fe04a23fa18b_02-640x640.jpg)![](media/baibian/s/p1e04fe04a23fa18b_03-640x640.jpg)![](media/baibian/s/p1e04fe04a23fa18b_04-640x640.jpg)![](media/baibian/s/p1e04fe04a23fa18b_05-640x640.jpg)![](media/baibian/s/p1e04fe04a23fa18b_06-640x640.jpg)
 
 - 遇上却没爱上你可能是世界第二难的事，而世界第一难的事就是爱过却要忘记你。
+  ![](media/baibian/s/p6599c5acc5c956de_01-1136x640.jpg)
 
 - 粗茶淡饭，甘之如饴
+  ![](media/baibian/s/p6ab8c8b735ce1cbc_01-640x853.jpg)![](media/baibian/s/p6ab8c8b735ce1cbc_02-640x853.jpg)![](media/baibian/s/p6ab8c8b735ce1cbc_03-640x853.jpg)![](media/baibian/s/p6ab8c8b735ce1cbc_04-640x853.jpg)![](media/baibian/s/p6ab8c8b735ce1cbc_05-640x853.jpg)![](media/baibian/s/p6ab8c8b735ce1cbc_06-640x853.jpg)
 
 - 七八九月的天气<br>像我和你需要下一场雨
+  ![](media/baibian/s/p0b37ec99958e4c04_01-854x640.jpg)
 
 - 路过，为你们开心
+  ![](media/baibian/s/pf39b710e450f4749_01-640x853.jpg)
 
 - 周六不喝酒白来世上走
+  ![](media/baibian/s/p0001_01-854x640.jpg)![](media/baibian/s/p0001_02-854x640.jpg)
 
 - 吃吃喝喝走走停停
+  ![](media/baibian/s/p573ba4256b7878fe_01-640x853.jpg)![](media/baibian/s/p573ba4256b7878fe_02-1136x640.jpg)![](media/baibian/s/p573ba4256b7878fe_03-640x640.jpg)![](media/baibian/s/p573ba4256b7878fe_04-640x800.jpg)![](media/baibian/s/p573ba4256b7878fe_05-854x640.jpg)![](media/baibian/s/p573ba4256b7878fe_06-640x854.jpg)
 
 - to 我的阿月@云朵！！
+  ![](media/baibian/s/p65f621cd4002c462_01-558x2000.jpg)
 
 - 简单吃点
+  ![](media/baibian/s/pee2d4ec7f9118168_01-640x853.jpg)![](media/baibian/s/pee2d4ec7f9118168_02-640x853.jpg)
 
 - 刮风这天我试过握着你手，但偏偏，雨渐渐，大到我看你不见，还要多久我才能在你身边。
 
 - 英雄怕见老街坊，我如今贵为少帅，当初也命如草芥，替顾家扛过大包，这些陈年往事我羞于启齿，原谅我方才有所保留。<br>我送你的这是一轮弯月三束星光，月亮代表梦，珍珠叮当代表声，趁着这月光，让这束银代表我的心：海上月是天上月，眼前人是心上人”<br>“你可不是那些莺莺燕燕，You are special.”
+  ![](media/baibian/s/pc58ce3d7f214dd16_01-640x904.jpg)
 
 - 小黄更美貌的扣1，小花更美貌的扣2
 
 - 最喜欢的一个BE结局，烟花散尽却不悲凉，两个相爱的人在另一个平行宇宙不再相遇、相爱，不再经历离别苦，前一世默默许下又落空的心愿，幻化成这一世映照二人的月光，何尝不是另一种 happy ending
+  ![](media/baibian/s/p397dbaf6dfaab682_01-640x1385.jpg)
