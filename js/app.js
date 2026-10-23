@@ -1816,7 +1816,7 @@
     if (editLoading) return;
     editLoading = true;
     var s = document.createElement('script');
-    s.src = 'js/edit.js?v=20261022-pics';
+    s.src = 'js/edit.js?v=20261022-del';
     s.onload = function () {
       s.parentNode.removeChild(s);
       editLoading = false;

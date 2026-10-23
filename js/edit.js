@@ -7,14 +7,15 @@
    - 块：正文按 marked.lexer 的顶层 token 切，编辑框里是这一块的 token.raw（markdown 原文）。
    - 保存：从 Contents API 取当前文件和 sha，只替换这一块原文对应的那段字节（BOM、换行、其余每个字节原样），
      带着 sha PUT 回去；sha 对不上（409）就不覆盖。
-   - 渲染：仍是 app.js 那条路径（marked + 现有装饰），这里只换上一个给顶层块标序号的钩子。 */
+   - 渲染：仍是 app.js 那条路径（marked + 现有装饰），这里只换上一个给顶层块标序号的钩子。
+   - 按编号删一条（微博合辑 / 百变动态合集）：见下面「按编号删除」一节，md 修改和删图走 Git Data API 合成一个提交。 */
 (function () {
   'use strict';
 
   var API = 'https://api.github.com';
   var REPO = 'godblessbb/bii';
   var TOKEN_KEY = 'datode-edit-token';
-  var CSS_HREF = 'css/edit.css?v=20261022-pics';
+  var CSS_HREF = 'css/edit.css?v=20261022-del';
   var KIND = { paragraph: '段落', heading: '标题', list: '列表', blockquote: '引用', table: '表格', code: '代码', hr: '分隔线', html: 'HTML' };
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -160,6 +161,34 @@
 
   function readToken() { try { return localStorage.getItem(TOKEN_KEY) || ''; } catch (e) { return ''; } }
 
+  /* ---------------- 一段 md 里引用的站内图片 ----------------
+     ![](…) 和 <img src="…">，按 md 所在目录解析成仓库路径（与 app.js 的 resolvePath 同一规则）；外链、data: 不算。
+     配图缩略图 <dir>/s/<名>-<宽>x<高>.jpg 和它的原图 <dir>/<名>.jpg 算同一张：要删一起删，要留一起留。 */
+  var THUMB_RE = /^(.*\/)s\/([^\/]+)-(\d+)x(\d+)\.jpg$/;
+  function repoPath(dir, src) {
+    var parts = src.charAt(0) === '/' ? [] : (dir ? dir.split('/') : []);
+    src.split(/[?#]/)[0].split('/').forEach(function (seg) {
+      if (seg === '..') parts.pop();
+      else if (seg !== '.' && seg !== '') parts.push(seg);
+    });
+    try { return decodeURIComponent(parts.join('/')); } catch (e) { return parts.join('/'); }
+  }
+  function picGroups(md, dir) {
+    var out = [], seen = {}, m;
+    var re = /!\[[^\]]*\]\(\s*<?([^()\s<>]+)>?(?:\s+["'][^"']*["'])?\s*\)|<img\b[^>]*?\bsrc\s*=\s*["']([^"']+)["']/gi;
+    while ((m = re.exec(md))) {
+      var src = (m[1] || m[2]).trim();
+      if (/^([a-z][a-z0-9+.-]*:|\/\/)/i.test(src)) continue;
+      var p = repoPath(dir, src);
+      if (!p || seen[p]) continue;
+      seen[p] = true;
+      var t = THUMB_RE.exec(p);
+      out.push(t ? [p, t[1] + t[2] + '.jpg'] : [p]);
+    }
+    return out;
+  }
+  function baseName(p) { return p.slice(p.lastIndexOf('/') + 1); }
+
   window.DatodeEdit = function (site) {
     var root = document.documentElement;
     var view = site.view;
@@ -168,6 +197,8 @@
     var cssLink = null, bar = null, dialog = null, hint = null;
     var editor = null;      // 正在改的那一块
     var lexCache = [];      // [{ md, tokens }]：渲染时切出来的顶层 token，点哪一块就按它的序号回到原文
+    var dels = null, delsRO = null, delsRaf = 0;   // 每条编号旁边的「删除」按钮层
+    var asking = null;      // 正开着的删除确认框
 
     /* ---------------- 渲染钩子：每个顶层 token 单独过 marked，第一个元素标上 data-edit-block ---------------- */
     function hook(md, opts) {
@@ -233,8 +264,8 @@
           input.value = '';
           try { localStorage.setItem(TOKEN_KEY, t); } catch (e) { msg.textContent = '这台浏览器不让存 localStorage，没法记住 Token。'; return; }
           token = t;
+          enter();          // 先进编辑模式再关对话框：关的时候 on 已经是 true，不会把刚挂上的 edit.css 一起摘掉
           closeDialog();
-          enter();
         });
       }
       go.addEventListener('click', submit);
@@ -272,6 +303,8 @@
     }
 
     function teardownUi() {
+      clearDels();
+      if (asking) asking.close();
       [bar, hint, dialog, cssLink].forEach(function (n) { if (n && n.parentNode) n.parentNode.removeChild(n); });
       bar = hint = dialog = cssLink = null;
     }
@@ -290,6 +323,7 @@
       site.setHook(hook);
       if (site.editablePath()) site.remount();
       defaultBarText();
+      buildDels();
       document.addEventListener('click', onClick, true);
       document.addEventListener('mouseover', onOver);
       window.addEventListener('beforeunload', onLeave);
@@ -318,7 +352,9 @@
       if (!on) return;
       editor = null;
       if (hint) hint.hidden = true;
+      if (asking && !asking.busy()) asking.close();
       defaultBarText();
+      buildDels();
     }
 
     /* ---------------- 悬停提示 ---------------- */
@@ -392,6 +428,7 @@
           '<span class="ed-status" aria-live="polite"></span>' +
         '</div>');
       anchor.parentNode.insertBefore(panel, anchor.nextSibling);
+      queuePlace();
       var area = panel.querySelector('.ed-area');
       var notes = panel.querySelector('.ed-notes');
       var status = panel.querySelector('.ed-status');
@@ -548,6 +585,7 @@
         if (panel.parentNode) panel.parentNode.removeChild(panel);
         els.forEach(function (x) { x.classList.remove('ed-hidden'); });
         if (editor === api) editor = null;
+        queuePlace();
       }
 
       function fail(r) {
@@ -627,6 +665,284 @@
         close: close
       };
       editor = api;
+    }
+
+    /* ---------------- 按编号删除（微博合辑 / 百变动态合集） ----------------
+       编辑模式下，每条带编号的条目（顶层列表里的一条 [data-entry]）编号右边有一个「删除」。按钮不进 #view（正文 DOM 仍与访客一字不差），
+       而是浮在 body 上的一层里、对准编号摆；正文尺寸一变就重摆，被编辑框替下去的那一块不显示。
+       点了先确认：编号、正文开头、附带几张图；这一节只剩这一条的，写明整节一起删。取消不发任何请求。
+       确认后做成一个提交（Git Data API：blob → tree → commit → 非强制更新分支）：
+         - md 去掉这一条（正文、续行、配图行，连同它和相邻条目之间的空行）；删到空的那一节从 ## 标题起到下一个 ## 之前整节去掉；其余字节原样。
+         - 去掉的这段原文引用的图片（缩略图 + 原图），仓库里别的 .md 和删完以后的这份 md 都不再引用的，才从仓库删掉。
+         - 分支上的这份 md 和页面显示的不一样、或者这期间分支被别处推进了（不是快进），都不覆盖。 */
+    function entryLis() {
+      var body = view.querySelector('[data-weibo-body]');
+      return body ? Array.prototype.slice.call(body.querySelectorAll('ul[data-edit-block] > li[data-entry]')) : [];
+    }
+    // 与 app.js 的 wbRenderSeps 同一种数法：正文里每个 ul 的直属条目，按文档顺序从 1 数起，补足三位
+    function entryNo(li) {
+      var n = 0, at = 0;
+      Array.prototype.some.call(li.closest('[data-weibo-body]').querySelectorAll('ul'), function (ul) {
+        return Array.prototype.some.call(ul.children, function (x) {
+          if (x.hasAttribute('data-entry')) n++;
+          if (x === li) at = n;
+          return x === li;
+        });
+      });
+      return ('00' + at).slice(-3);
+    }
+
+    function clearDels() {
+      if (delsRO) { delsRO.disconnect(); delsRO = null; }
+      window.removeEventListener('resize', queuePlace);
+      if (delsRaf) { cancelAnimationFrame(delsRaf); delsRaf = 0; }
+      if (dels && dels.box.parentNode) dels.box.parentNode.removeChild(dels.box);
+      dels = null;
+    }
+    function buildDels() {
+      clearDels();
+      var lis = on ? entryLis() : [];
+      if (!lis.length) return;
+      var box = el('div', 'ed-dels');
+      dels = { box: box, items: lis.map(function (li) {
+        var no = entryNo(li);
+        var b = el('button', 'btn ed-del', '删除');
+        b.type = 'button';
+        b.setAttribute('data-ed', 'del');
+        b.setAttribute('data-no', no);
+        b.setAttribute('aria-label', '删除第 ' + no + ' 条');
+        b.addEventListener('click', function () { askDelete(li, no, b); });
+        box.appendChild(b);
+        return { b: b, li: li };
+      }) };
+      document.body.appendChild(box);
+      placeDels();
+      if (window.ResizeObserver) { delsRO = new ResizeObserver(queuePlace); delsRO.observe(view); }
+      window.addEventListener('resize', queuePlace);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(queuePlace);
+    }
+    function queuePlace() { if (dels && !delsRaf) delsRaf = requestAnimationFrame(placeDels); }
+    // 摆在编号那一行、编号右边；没有编号（条间记号换成了点 / 线）就摆在这一条左上角的上方
+    function placeDels() {
+      delsRaf = 0;
+      if (!dels) return;
+      var sx = window.scrollX, sy = window.scrollY;
+      dels.items.forEach(function (it) {
+        var sep = it.li.previousElementSibling;
+        var mark = sep && sep.classList.contains('wb-sep-num') ? sep.querySelector('.wb-sep-mark') : null;
+        var r = (mark || it.li).getBoundingClientRect();
+        it.b.hidden = !it.li.isConnected || !r.width;
+        if (it.b.hidden) return;
+        var h = it.b.offsetHeight;
+        it.b.style.left = Math.round(sx + (mark ? r.right + 10 : r.left)) + 'px';
+        it.b.style.top = Math.round(sy + (mark ? r.top + (r.height - h) / 2 : r.top - h - 6)) + 'px';
+      });
+    }
+
+    function askDelete(li, no, btn) {
+      if (asking || !li.isConnected) return;
+      if (editor) {
+        if (editor.dirty()) { editor.say('先把正在改的这一块保存或取消，再去删别的。', 'warn'); editor.focus(); return; }
+        editor.close();
+      }
+      var plan = planDelete(li);
+      if (typeof plan === 'string') { barSay(esc(plan)); return; }
+      plan.no = no;
+      confirmDelete(plan, btn);
+    }
+
+    // 只看本地：这一条在原文里是 [a, b) 这一段（换行归一后的下标），要不要连整节一起去掉，去掉的这段引用了哪些图
+    function planDelete(li) {
+      var path = site.editablePath();
+      var text = path ? site.getMd(path) : null;
+      if (text == null) return '这一页没有可以改的正文';
+      var n = norm(text);
+      var tokens = tokensFor(text);
+      if (tokens.map(function (t) { return t.raw; }).join('') !== n) return '这一页的原文切块对不上，为了不碰坏别的字，不在网页里删。';
+      var ul = li.parentNode;
+      var idx = +ul.getAttribute('data-edit-block');
+      var tok = tokens[idx];
+      var lis = Array.prototype.filter.call(ul.children, function (c) { return c.tagName === 'LI' && !c.classList.contains('wb-sep'); });
+      var k = lis.indexOf(li);
+      if (!tok || tok.type !== 'list' || tok.items.length !== lis.length || k < 0) return '这一条和原文对不上，为了不碰坏别的字，不在网页里删。';
+      var off = [0], at, i;
+      for (i = 0; i < tokens.length; i++) off.push(off[i] + tokens[i].raw.length);
+      at = [off[idx]];
+      for (i = 0; i < tok.items.length; i++) at.push(at[i] + tok.items[i].raw.length);
+      function bodyEnd(j) { return at[j] + tok.items[j].raw.replace(/(?:\n[ \t]*)+$/, '').length; }   // 这一条最后一个字之后（不含它后面的空行）
+      // 这一条所在的节：前面最近的 ## 标题起，到下一个 ## 标题之前
+      function h2(t) { return t.type === 'heading' && t.depth === 2; }
+      var hs = -1, he = tokens.length, count = 0;
+      for (i = idx - 1; i >= 0; i--) if (h2(tokens[i])) { hs = i; break; }
+      for (i = idx + 1; i < tokens.length; i++) if (h2(tokens[i])) { he = i; break; }
+      for (i = hs + 1; i < he; i++) if (tokens[i].type === 'list') count += tokens[i].items.length;
+      var chapter = li.closest('.wb-chapter');
+      var heading = chapter && chapter.querySelector('h2');
+      var title = heading ? heading.textContent.trim() : hs >= 0 ? tokens[hs].text : '';
+      // 只有「删到空」才删节：md 里这一节只剩这一条，页面上这一节也只有这一条
+      var whole = hs >= 0 && count === 1 && !!chapter && chapter.querySelectorAll('[data-entry]').length === 1;
+      var a, b;
+      if (whole) { a = off[hs]; b = off[he]; }
+      else if (k < tok.items.length - 1) { a = at[k]; b = at[k + 1]; }      // 连同它和下一条之间的空行
+      else if (k > 0) { a = bodyEnd(k - 1); b = bodyEnd(k); }                // 列表最后一条：去掉它和上一条之间的空行，列表后面的空行留着
+      else { a = off[idx]; b = off[idx + 1] + (tokens[idx + 1] && tokens[idx + 1].type === 'space' ? tokens[idx + 1].raw.length : 0); }   // 列表里只有它、这一节还有别的条目
+      var dir = path.indexOf('/') >= 0 ? path.slice(0, path.lastIndexOf('/')) : '';
+      var words = Array.from(li.textContent.replace(/\s+/g, ' ').trim());
+      return {
+        path: path, file: path + '.md', text: text, a: a, b: b, whole: whole, title: title,
+        head: words.slice(0, 30).join('') + (words.length > 30 ? '…' : ''),
+        nPics: picGroups(tok.items[k].raw, dir).length,
+        pics: picGroups(n.slice(a, b), dir)
+      };
+    }
+
+    function confirmDelete(plan, btn) {
+      var busy = false;
+      var box = el('div', 'ed-dialog',
+        '<div class="ed-card" role="alertdialog" aria-modal="true" aria-labelledby="ed-del-t" aria-describedby="ed-del-d">' +
+          '<h2 class="ed-card-t" id="ed-del-t">删除第 ' + esc(plan.no) + ' 条？</h2>' +
+          '<div class="ed-card-d ed-del-d" id="ed-del-d">' +
+            '<p>「' + esc(plan.head) + '」</p>' +
+            '<p>' + (plan.nPics ? '附带 ' + plan.nPics + ' 张图' : '不带图') + '</p>' +
+            (plan.whole ? '<p>「' + esc(plan.title) + '」这一节也会一起删掉</p>' : '') +
+          '</div>' +
+          '<div class="ed-msg" role="alert"></div>' +
+          '<div class="ed-actions"><button class="btn btn-solid" type="button" data-ed="del-go">删除</button><button class="btn" type="button" data-ed="del-cancel">取消</button></div>' +
+        '</div>');
+      document.body.appendChild(box);
+      var msg = box.querySelector('.ed-msg');
+      var go = box.querySelector('[data-ed="del-go"]');
+      var cancel = box.querySelector('[data-ed="del-cancel"]');
+      function close() {
+        if (box.parentNode) box.parentNode.removeChild(box);
+        if (asking === api) asking = null;
+        if (btn && btn.isConnected) btn.focus({ preventScroll: true });
+      }
+      go.addEventListener('click', function () {
+        if (busy) return;
+        busy = true;
+        go.disabled = cancel.disabled = true;
+        msg.textContent = '正在删除……';
+        runDelete(plan).then(function (res) {
+          busy = false;
+          close();
+          site.setMd(plan.path, plan.text, res.after);
+          site.remount();
+          var sha = res.commit.sha ? String(res.commit.sha).slice(0, 7) : '';
+          var url = res.commit.html_url && /^https:\/\/github\.com\//.test(res.commit.html_url) ? res.commit.html_url : '';
+          barSay('已删除第 ' + esc(plan.no) + ' 条' + (plan.whole ? '和「' + esc(plan.title) + '」这一节' : '') +
+            (res.gone.length ? '，' + res.gone.length + ' 个图片文件一起删了' : '') +
+            (res.kept.length ? '，' + res.kept.length + ' 个图片文件别处还在用、留着' : '') +
+            (sha ? '（提交 ' + (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(sha) + '</a>' : esc(sha)) + '）' : '') + '，线上约半分钟后更新');
+        }, function (why) {
+          busy = false;
+          go.disabled = cancel.disabled = false;
+          msg.textContent = why;
+        });
+      });
+      cancel.addEventListener('click', close);
+      box.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !busy) close(); });
+      var api = { close: close, busy: function () { return busy; } };
+      asking = api;
+      cancel.focus();
+    }
+
+    // 成功：{ after: 删完以后的正文, commit, gone: 删掉的图片路径, kept: 别处还在用、留下的图片路径 }；失败：一句给人看的原因
+    function runDelete(plan) {
+      var R = '/repos/' + REPO;
+      var branch, head, treeSha, files, mdEntry, newBytes, after, commit;
+      var gone = [], kept = [];
+      function need(r, status) {
+        if (r.status !== (status || 200) || !r.json) throw r;
+        return r.json;
+      }
+      function branchPath() { return branch.split('/').map(encodeURIComponent).join('/'); }
+      function message() {
+        var page = document.title.split(' — ')[0].trim();
+        var lines = ['网页编辑：删除 ' + plan.file + (plan.title ? '「' + plan.title + '」' : '') + '第 ' + plan.no + ' 条', '',
+          '页面：' + (page ? page + '（' + plan.file + '）' : plan.file)];
+        if (plan.title) lines.push('分类：' + plan.title + (plan.whole ? '（这一节删到空了，整节去掉）' : ''));
+        lines.push('原编号：' + plan.no, '正文开头：' + plan.head);
+        if (gone.length) lines = lines.concat('', '删除图片：', gone.map(function (p) { return '- ' + p; }));
+        if (kept.length) lines = lines.concat('', '保留图片（别的 .md 还在引用）：', kept.map(function (p) { return '- ' + p; }));
+        return lines.join('\n');
+      }
+      return gh(token, 'GET', R).then(function (r) {
+        branch = need(r).default_branch || 'main';
+        return gh(token, 'GET', R + '/git/ref/heads/' + branchPath());
+      }).then(function (r) {
+        head = need(r).object && r.json.object.sha;
+        if (typeof head !== 'string') throw r;
+        return gh(token, 'GET', R + '/git/commits/' + head);
+      }).then(function (r) {
+        treeSha = need(r).tree && r.json.tree.sha;
+        if (typeof treeSha !== 'string') throw r;
+        return gh(token, 'GET', R + '/git/trees/' + treeSha + '?recursive=1');
+      }).then(function (r) {
+        var t = need(r);
+        if (t.truncated || !Array.isArray(t.tree)) throw 'GitHub 没给全仓库的文件列表，没法确认图片别处有没有在用，这次没有删除。';
+        files = {};
+        t.tree.forEach(function (x) { if (x.type === 'blob') files[x.path] = x; });
+        mdEntry = files[plan.file];
+        if (!mdEntry) throw 'GitHub 上找不到 ' + plan.file + '，这次没有删除。';
+        return gh(token, 'GET', R + '/git/blobs/' + mdEntry.sha);
+      }).then(function (r) {
+        var blob = need(r);
+        if (blob.encoding !== 'base64') throw r;
+        var bytes = fromB64(blob.content);
+        var bom = bytes.length >= 3 && bytes[0] === 0xEF && bytes[1] === 0xBB && bytes[2] === 0xBF ? 3 : 0;
+        var remote;
+        try { remote = decodeUtf8(bytes); } catch (e) { throw 'GitHub 上的文件不是合法的 UTF-8，不在网页里改。'; }
+        if (remote !== plan.text) throw 'GitHub 上的 ' + plan.file + ' 已经和这页显示的不一样了（可能别处刚改过），这次没有删除。刷新页面后重试；线上更新可能要等一两分钟。';
+        // 原文里 [s, e) 这一段原样拿掉，其余字节（BOM、换行写法）不动
+        var text = plan.text, s = origIndex(text, plan.a), e = origIndex(text, plan.b);
+        var bs = bom + utf8(text.slice(0, s)).length, be = bs + utf8(text.slice(s, e)).length;
+        newBytes = concatBytes([bytes.subarray(0, bs), bytes.subarray(be)]);
+        after = decodeUtf8(newBytes);
+        // 仓库里确实有的图，才看它别处还用不用：别的 .md 全文、删完以后的这份 md 里出现了它（缩略图或原图）的文件名就留着
+        var cand = plan.pics.filter(function (g) { return g.some(function (p) { return files[p]; }); });
+        if (!cand.length) return;
+        var others = Object.keys(files).filter(function (p) { return /\.md$/i.test(p) && p !== plan.file; });
+        return Promise.all(others.map(function (p) {
+          return gh(token, 'GET', R + '/git/blobs/' + files[p].sha).then(function (r2) {
+            var b2 = need(r2);
+            if (b2.encoding !== 'base64') throw r2;
+            return new TextDecoder('utf-8').decode(fromB64(b2.content));
+          });
+        })).then(function (texts) {
+          texts.push(after);
+          cand.forEach(function (g) {
+            var used = texts.some(function (t) { return g.some(function (p) { return t.indexOf(baseName(p)) >= 0; }); });
+            g.forEach(function (p) {
+              var list = used ? kept : gone;
+              if (files[p] && list.indexOf(p) < 0) list.push(p);
+            });
+          });
+        });
+      }).then(function () {
+        return gh(token, 'POST', R + '/git/blobs', { content: toB64(newBytes), encoding: 'base64' });
+      }).then(function (r) {
+        var tree = [{ path: plan.file, mode: mdEntry.mode, type: 'blob', sha: need(r, 201).sha }].concat(gone.map(function (p) {
+          return { path: p, mode: files[p].mode, type: 'blob', sha: null };   // sha: null = 从树里去掉这个文件
+        }));
+        return gh(token, 'POST', R + '/git/trees', { base_tree: treeSha, tree: tree });
+      }).then(function (r) {
+        return gh(token, 'POST', R + '/git/commits', { message: message(), tree: need(r, 201).sha, parents: [head] });
+      }).then(function (r) {
+        commit = need(r, 201);
+        return gh(token, 'PATCH', R + '/git/refs/heads/' + branchPath(), { sha: commit.sha, force: false });
+      }).then(function (r) {
+        if (r.status === 422 || r.status === 409) throw 'GitHub 上的分支在别处更新过了（不是快进），这次没有覆盖。请刷新页面后重试。';
+        need(r);
+        return { after: after, commit: commit, gone: gone, kept: kept };
+      }).catch(function (x) {
+        if (typeof x === 'string') throw x;
+        if (x && typeof x.status === 'number') {
+          if (x.status === 422) throw 'GitHub 没收下这次删除：' + ((x.json && x.json.message) || 'HTTP 422');
+          throw authReason(x) || '删除失败（GitHub 返回 HTTP ' + x.status + '）。';
+        }
+        throw '连不上 api.github.com，没有删除。';
+      });
     }
 
     return { open: open, mounted: mounted };

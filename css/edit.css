@@ -81,6 +81,14 @@ html .ed-panel ul.ed-lost { max-width: none; margin: 6px 0 0; padding-left: 1.2e
 .ed-lost li { margin: 2px 0; }
 .ed-lost code { font: 400 12px var(--f-mono); }
 
+/* 微博 / 百变：每条编号右边的「删除」。按钮浮在正文外面的一层里（不进 #view），对准编号那一行；样子就是站点的 .btn，只缩到编号那一行的大小 */
+.ed-dels { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 4; }
+.ed-del { position: absolute; padding: 2px 10px; font-size: 12px; line-height: 1.5; white-space: nowrap; }
+.ed-del[hidden] { display: none; }
+/* 删除确认：沿用贴 Token 的那张卡片 */
+.ed-del-d p { margin: 6px 0 0; }
+.ed-del-d p:first-child { margin-top: 0; color: var(--ink); }
+
 /* 预览：按新原文、走同一条渲染路径排出来的这一块，虚线框住 */
 .ed-preview-node { outline: 1px dashed var(--acc); outline-offset: 6px; }
 
