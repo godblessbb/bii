@@ -10,7 +10,7 @@
       gtag('config', 'G-Y5CXD1W4K6');
     </script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a0a14">
 <title>Payphone (Wiz Khalifa Verse Cover)</title>
@@ -35,8 +35,9 @@
 <meta name="twitter:description" content="A personal cover of Wiz Khalifa&#39;s verse from Maroon 5&#39;s Payphone. 04bot · Personal Mix.">
 <meta name="twitter:image" content="https://datode.com/rapstar/payphone-cover-card.png">
 
-<link rel="icon" type="image/png" href="https://datode.com/rapstar/bao.png">
-<link rel="apple-touch-icon" href="https://datode.com/rapstar/bao.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/rapstar/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/rapstar/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/rapstar/apple-touch-icon.png">
 
 <!-- Schema.org MusicRecording -->
 <script type="application/ld+json">
@@ -54,10 +55,10 @@
 </script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* No height:100% / overflow:hidden here: on short screens (phone landscape)
+     the page must grow and scroll so the controls stay reachable. */
   html, body {
-    height: 100%;
     width: 100%;
-    overflow: hidden;
     background: #0a0a14;
     color: #e8e8f0;
     font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -187,14 +188,27 @@
     flex-direction: column;
     gap: 10px;
   }
+  /* 24px touch target around a 4px track; negative margins keep the layout of the old 4px bar */
   .progress-bar {
+    width: 100%;
+    height: 24px;
+    margin: -10px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    touch-action: none;
+    outline: none;
+  }
+  .progress-track {
     width: 100%;
     height: 4px;
     background: rgba(255,255,255,0.08);
     border-radius: 4px;
-    cursor: pointer;
     position: relative;
-    overflow: visible;
+  }
+  .progress-bar:focus-visible .progress-track {
+    box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.7);
   }
   .progress-fill {
     height: 100%;
@@ -218,7 +232,10 @@
     opacity: 0;
     transition: opacity 0.2s;
   }
-  .progress-bar:hover .progress-fill::after { opacity: 1; }
+  .progress-bar:hover .progress-fill::after,
+  .progress-bar:focus-visible .progress-fill::after,
+  .progress-bar.dragging .progress-fill::after { opacity: 1; }
+  .progress-bar.dragging .progress-fill { transition: none; }
 
   .progress-time {
     display: flex;
@@ -246,6 +263,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    touch-action: manipulation;
   }
   .btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
   .btn:active { transform: scale(0.92); }
@@ -344,8 +362,11 @@
     <div class="waveform" id="waveform"></div>
 
     <div class="progress">
-      <div class="progress-bar" id="progressBar">
-        <div class="progress-fill" id="progressFill"></div>
+      <div class="progress-bar" id="progressBar" role="slider" tabindex="0" aria-label="播放进度"
+           aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="0:00 / 0:00">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
       </div>
       <div class="progress-time">
         <span id="currentTime">0:00</span>
@@ -382,6 +403,7 @@
 (function() {
   const SONG_SLUG = "payphone-cover";
   const SONG_TITLE = "Payphone (Wiz Khalifa Verse Cover)";
+  const SONG_CARD = "payphone-cover-card.png";
   const audio = document.getElementById('audio');
   const playBtn = document.getElementById('playBtn');
   const playIcon = document.getElementById('playIcon');
@@ -566,24 +588,89 @@
 
   playBtn.addEventListener('click', togglePlay);
 
+  // ---- Seeking ----
+  let dragging = false;
+  let dragPct = 0;
+
+  function showPosition(sec) {
+    const dur = audio.duration;
+    if (!dur) return;
+    progressFill.style.width = (sec / dur * 100) + '%';
+    currentTimeEl.textContent = fmtTime(sec);
+    progressBar.setAttribute('aria-valuenow', Math.floor(sec));
+    progressBar.setAttribute('aria-valuetext', fmtTime(sec) + ' / ' + fmtTime(dur));
+  }
+  function seekTo(sec) {
+    const dur = audio.duration;
+    if (!isFinite(dur) || !dur) return;
+    sec = Math.max(0, Math.min(dur, sec));
+    audio.currentTime = sec;
+    if (!dragging) showPosition(sec);
+  }
+
   rewindBtn.addEventListener('click', () => {
-    audio.currentTime = Math.max(0, audio.currentTime - 10);
+    seekTo(audio.currentTime - 10);
     gaEvent('song_rewind', { event_category: 'rapstar' });
   });
   forwardBtn.addEventListener('click', () => {
-    audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10);
+    seekTo(audio.currentTime + 10);
     gaEvent('song_forward', { event_category: 'rapstar' });
   });
+
+  // ---- Media Session (lock screen / headphones / notification controls) ----
+  const mediaSession = 'mediaSession' in navigator ? navigator.mediaSession : null;
+  function updatePositionState() {
+    if (!mediaSession || !mediaSession.setPositionState) return;
+    const dur = audio.duration;
+    if (!isFinite(dur) || !dur) return;
+    try {
+      mediaSession.setPositionState({
+        duration: dur,
+        playbackRate: audio.playbackRate || 1,
+        position: Math.max(0, Math.min(dur, audio.currentTime))
+      });
+    } catch (e) {}
+  }
+  if (mediaSession) {
+    try {
+      mediaSession.metadata = new MediaMetadata({
+        title: SONG_TITLE,
+        artist: '04bot',
+        album: 'Personal Mix',
+        artwork: [{ src: new URL(SONG_CARD, location.href).href, sizes: '1200x630', type: 'image/png' }]
+      });
+    } catch (e) {}
+    const actions = {
+      play: () => { if (audio.paused) togglePlay(); },
+      pause: () => { if (!audio.paused) togglePlay(); },
+      seekbackward: (d) => seekTo(audio.currentTime - ((d && d.seekOffset) || 10)),
+      seekforward: (d) => seekTo(audio.currentTime + ((d && d.seekOffset) || 10)),
+      seekto: (d) => {
+        if (!d || !isFinite(d.seekTime)) return;
+        seekTo(d.seekTime);
+        updatePositionState();
+      }
+    };
+    Object.keys(actions).forEach((name) => {
+      try { mediaSession.setActionHandler(name, actions[name]); } catch (e) {}
+    });
+    audio.addEventListener('play', () => { mediaSession.playbackState = 'playing'; });
+    audio.addEventListener('pause', () => { mediaSession.playbackState = 'paused'; });
+    ['loadedmetadata', 'play', 'pause', 'seeked', 'ratechange'].forEach((ev) => {
+      audio.addEventListener(ev, updatePositionState);
+    });
+  }
 
   // ---- Progress ----
   audio.addEventListener('loadedmetadata', () => {
     totalTimeEl.textContent = fmtTime(audio.duration);
+    progressBar.setAttribute('aria-valuemax', Math.floor(audio.duration));
+    showPosition(audio.currentTime);
   });
   audio.addEventListener('timeupdate', () => {
     if (!audio.duration) return;
     const pct = (audio.currentTime / audio.duration) * 100;
-    progressFill.style.width = pct + '%';
-    currentTimeEl.textContent = fmtTime(audio.currentTime);
+    if (!dragging) showPosition(audio.currentTime);
 
     // Engagement quartiles (each fires once)
     if (!progressMarks.q1 && pct >= 25) {
@@ -601,6 +688,7 @@
   });
   audio.addEventListener('ended', () => {
     playIcon.setAttribute('d', PLAY_PATH);
+    playBtn.setAttribute('aria-label', '播放');
     cover.classList.remove('playing');
     pulse.classList.remove('active');
     stopWave();
@@ -617,26 +705,55 @@
   audio.addEventListener('canplay', () => loading.classList.remove('active'));
   audio.addEventListener('playing', () => loading.classList.remove('active'));
 
-  // ---- Click / drag progress ----
-  function seekFromEvent(e) {
+  // ---- Click / drag progress (Pointer Events: mouse, touch and pen) ----
+  // While dragging only the bar and time label preview the target; the seek happens on release.
+  function pctFromX(clientX) {
     const rect = progressBar.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
-    const pct = x / rect.width;
-    if (audio.duration) {
-      audio.currentTime = pct * audio.duration;
-      progressFill.style.width = (pct * 100) + '%';
+    return rect.width ? Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)) : 0;
+  }
+  function endDrag(commit) {
+    if (!dragging) return;
+    dragging = false;
+    progressBar.classList.remove('dragging');
+    if (commit) {
+      seekTo(dragPct * audio.duration);
       gaEvent('song_seek', {
         event_category: 'rapstar',
-        position_pct: Math.floor(pct * 100)
+        position_pct: Math.floor(dragPct * 100)
       });
+    } else {
+      showPosition(audio.currentTime);
     }
   }
-  progressBar.addEventListener('click', seekFromEvent);
-  progressBar.addEventListener('touchstart', (e) => {
+  progressBar.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0 || !audio.duration) return;
     e.preventDefault();
-    seekFromEvent(e);
-  }, { passive: false });
+    dragging = true;
+    progressBar.classList.add('dragging');
+    try { progressBar.setPointerCapture(e.pointerId); } catch (err) {}
+    dragPct = pctFromX(e.clientX);
+    showPosition(dragPct * audio.duration);
+  });
+  progressBar.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    dragPct = pctFromX(e.clientX);
+    showPosition(dragPct * audio.duration);
+  });
+  progressBar.addEventListener('pointerup', () => endDrag(true));
+  progressBar.addEventListener('pointercancel', () => endDrag(false));
+  progressBar.addEventListener('lostpointercapture', () => endDrag(true));
+
+  // ---- Keyboard seek on the slider ----
+  progressBar.addEventListener('keydown', (e) => {
+    const step = {
+      ArrowLeft: -5, ArrowDown: -5, ArrowRight: 5, ArrowUp: 5, PageDown: -10, PageUp: 10
+    }[e.key];
+    if (step !== undefined) seekTo(audio.currentTime + step);
+    else if (e.key === 'Home') seekTo(0);
+    else if (e.key === 'End') seekTo(audio.duration);
+    else return;
+    e.preventDefault();
+  });
 
   // ---- iOS unlock on first touch ----
   function unlockAudio() {
