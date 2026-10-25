@@ -222,6 +222,7 @@
   ![](media/baibian/s/pf3edaf48f6b4a8ab_01-640x853.jpg)
 
 - 继续粗茶淡饭
+  ![](media/baibian/s/pdf09ee549346893d_01-640x640.jpg)![](media/baibian/s/pdf09ee549346893d_02-640x640.jpg)![](media/baibian/s/pdf09ee549346893d_03-640x640.jpg)![](media/baibian/s/pdf09ee549346893d_04-640x853.jpg)![](media/baibian/s/pdf09ee549346893d_05-640x640.jpg)![](media/baibian/s/pdf09ee549346893d_06-640x640.jpg)
 
 - 晚上打这个本，缺个气场强大的女 HR 和若干小牛马，上车的老师们举下手手，照例卡口音卡输出能力
   ![](media/baibian/s/pc1c592797c5cc819_01-640x1385.jpg)
