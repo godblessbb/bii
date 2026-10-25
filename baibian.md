@@ -170,9 +170,6 @@
 
 - 永远相信真心，也永远相信真心瞬息万变。
 
-- 来前：京<br>就这破房子一个月租50个达不溜？<br>来后：得什么家庭配阳台正对东华门……
-  ![](media/baibian/s/p157a1f01f55a75b6_01-854x640.jpg)![](media/baibian/s/p157a1f01f55a75b6_02-854x640.jpg)![](media/baibian/s/p157a1f01f55a75b6_03-854x640.jpg)![](media/baibian/s/p157a1f01f55a75b6_04-640x640.jpg)
-
 - 那么是哪个小可爱终于回北京了呢？
   ![](media/baibian/s/p1a3ed3ab08f05af5_01-640x853.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_02-640x640.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_03-640x640.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_04-640x1138.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_05-640x640.jpg)![](media/baibian/s/p1a3ed3ab08f05af5_06-640x1138.jpg)
 
