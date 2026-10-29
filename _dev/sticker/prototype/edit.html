@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Size and finish — Peelings</title>
+<meta name="description" content="Turn a photo of the people and pets you love into real die-cut stickers. Printed and mailed in the US.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/app.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body data-page="edit">
+<header class="site-head" data-head></header>
+<main class="flow"><div class="wrap">
+<ol class="stepper" data-stepper aria-label="Progress"></ol>
+<div class="flow-grid">
+  <div class="stage" data-stage></div>
+  <form data-form onsubmit="return false">
+    <h1>Make it yours</h1>
+    <div class="field"><div class="label">Shape</div><div class="seg" data-f="shape"></div></div>
+    <div class="field" data-border-wrap><div class="label"><label for="border">White border</label><span data-border-label></span></div><input type="range" id="border" name="border"></div>
+    <div class="field"><div class="label">Size <span class="muted small">longest side</span></div><div class="seg" data-f="size"></div></div>
+    <div class="field"><div class="label">How many</div><div class="seg" data-f="qty"></div></div>
+    <div class="field"><div class="label">Finish</div><div class="seg" data-f="finish"></div></div>
+    <div class="summary">
+      <div class="row"><span>Your pack</span><span class="muted" data-unit></span></div>
+      <div class="row"><span class="total" data-total></span><span class="muted small">shipping included</span></div>
+    </div>
+    <div class="actions-row">
+      <a class="btn ghost" href="style.html">Back</a>
+      <a class="btn accent" href="preview.html" data-next>See it for real</a>
+    </div>
+  </form>
+</div>
+</div></main>
+<footer class="site-foot" data-foot></footer>
+</body>
+</html>

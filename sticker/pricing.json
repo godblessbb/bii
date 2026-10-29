@@ -1,0 +1,57 @@
+{
+  "version": "2026-10-29.1",
+  "currency": "usd",
+  "notes": "Single source of truth for prices. The frontend displays from this file; the Worker (sticker-api/) re-prices every order from this file and never trusts a client price. cost_model is for margin math only and must never be sent to the browser as a price.",
+  "pricing_rule": "unit_cents = round_half_up(unit_price_cents[size][qty] * (100 + finish.surcharge_pct) / 100); line_cents = unit_cents * qty; subtotal = sum(line_cents); shipping per shipping.methods; total = subtotal + shipping.",
+  "sizes": [
+    { "id": "2", "label": "2 in", "inches": 2 },
+    { "id": "3", "label": "3 in", "inches": 3 },
+    { "id": "4", "label": "4 in", "inches": 4 }
+  ],
+  "quantities": [10, 25, 50],
+  "display_quantities": [10, 25, 50],
+  "unit_price_cents": {
+    "2": { "10": 320, "25": 248, "50": 220 },
+    "3": { "10": 390, "25": 304, "50": 272 },
+    "4": { "10": 520, "25": 404, "50": 364 }
+  },
+  "finishes": [
+    { "id": "glossy", "label": "Glossy", "surcharge_pct": 0, "enabled": true },
+    { "id": "matte", "label": "Matte", "surcharge_pct": 0, "enabled": true },
+    { "id": "holographic", "label": "Holographic", "surcharge_pct": 35, "enabled": false }
+  ],
+  "shapes": [
+    { "id": "diecut", "label": "Die-cut" },
+    { "id": "circle", "label": "Circle" },
+    { "id": "square", "label": "Square" }
+  ],
+  "borders_in": [
+    { "inches": 0.0625, "label": "1/16 in" },
+    { "inches": 0.125, "label": "1/8 in" },
+    { "inches": 0.1875, "label": "3/16 in" },
+    { "inches": 0.25, "label": "1/4 in" }
+  ],
+  "shipping": {
+    "methods": [
+      { "id": "standard", "label": "Free US shipping", "price_cents": 0, "free_over_cents": 0, "estimate_business_days": [7, 10], "countries": ["US"] }
+    ]
+  },
+  "ai": { "free_tries_per_photo": 6 },
+  "limits": { "max_lines_per_order": 10, "max_upload_bytes": 20971520, "min_short_side_px": 600 },
+  "cost_model": {
+    "supplier": "stickermule_manual",
+    "basis": "Sticker Mule die-cut, shipping included. 3 in x 10 = $20 and 3 in x 50 = $72 are the 'normal price' figures on stickermule.com deal pages (seen via search summary 2026-10-29). Everything else is 推断 and must be checked in the Sticker Mule cart before launch.",
+    "supplier_pack_cost_cents": {
+      "3": { "10": 2000, "25": 3950, "50": 7200 }
+    },
+    "supplier_pack_cost_verified": { "3": { "10": true, "25": false, "50": true } },
+    "size_cost_multiplier": { "2": 0.8, "3": 1.0, "4": 1.35 },
+    "size_cost_multiplier_verified": false,
+    "stripe_pct": 2.9,
+    "stripe_fixed_cents": 30,
+    "ai_cost_per_order_cents": 80,
+    "ai_cost_assumption": "FLUX.1 Kontext pro $0.04 per image x 3 tries per design / 15% of designers who buy = $0.80 per paid order (推断)",
+    "reprint_allowance_pct": 3,
+    "target_min_margin_pct": 40
+  }
+}

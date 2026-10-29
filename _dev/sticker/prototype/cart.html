@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart — Peelings</title>
+<meta name="description" content="Turn a photo of the people and pets you love into real die-cut stickers. Printed and mailed in the US.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/app.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body data-page="cart">
+<header class="site-head" data-head></header>
+<main class="flow"><div class="wrap">
+<h1>Your cart</h1>
+<div class="alert warn" data-canceled hidden role="status"><strong>Payment canceled</strong>Nothing was charged. Your stickers are still here.</div>
+<div class="flow-grid">
+  <ul class="lines" data-lines></ul>
+  <aside class="panel" data-summary>
+    <div class="summary" style="border:0;margin:0;padding:0">
+      <div class="row"><span>Subtotal</span><span data-sub></span></div>
+      <div class="row"><span>Shipping</span><span data-ship></span></div>
+      <div class="row small muted"><span data-ship-hint></span></div>
+      <div class="row" style="margin-top:8px"><span class="total">Total</span><span class="total" data-grand></span></div>
+      <p class="small muted">Sales tax, if any, is calculated at checkout.</p>
+    </div>
+    <div class="actions-row"><button class="btn accent" type="button" data-checkout>Check out</button></div>
+    <p class="small muted" style="margin-top:12px">Payment is handled by Stripe. We never see your card number.</p>
+    <p class="small" style="margin-top:12px"><a href="upload.html">Make another design</a></p>
+  </aside>
+</div>
+</div></main>
+<footer class="site-foot" data-foot></footer>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout (simulated Stripe)</title>
+<meta name="description" content="Turn a photo of the people and pets you love into real die-cut stickers. Printed and mailed in the US.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/app.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body data-page="checkout">
+<div class="stripe-shell">
+<form class="cols" data-form>
+  <div class="left">
+    <p style="color:#697386;font-size:14px">&larr; <a href="cart.html?canceled=1" data-cancel style="color:#697386">Peelings</a> &nbsp;·&nbsp; <span style="background:#ffde92;color:#5c3b00;border-radius:4px;padding:1px 6px;font-size:12px">Prototype</span></p>
+    <p style="color:#697386;margin-top:28px">Pay Peelings</p>
+    <p style="font-size:36px;font-weight:600" data-amount></p>
+    <div data-items></div>
+    <p style="color:#697386;font-size:13px;margin-top:22px">This page stands in for Stripe Checkout. In production the cart page asks our server for a Checkout Session and sends you to checkout.stripe.com.</p>
+  </div>
+  <div class="right">
+    <label for="email">Email</label><input id="email" type="email" value="you@example.com" autocomplete="email">
+    <label for="ship">Shipping address</label><input id="ship" value="123 Example St, Portland, OR 97201">
+    <label for="card">Card information</label><input id="card" value="4242 4242 4242 4242" inputmode="numeric">
+    <button class="pay" type="submit" data-pay>Pay</button>
+    <a class="cancel" href="cart.html?canceled=1" data-cancel>Cancel and return to cart</a>
+  </div>
+</form>
+</div>
+</body>
+</html>
