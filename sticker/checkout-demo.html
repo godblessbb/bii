@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo checkout · Peelings</title>
+<meta name="description" content="Turn a photo of the people and pets you love into real die-cut stickers. Pick a drawing style, choose size and finish, and we mail a pack anywhere in the US.">
+<meta name="theme-color" content="#f5f0e6">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/site.css">
+<script type="module" src="js/page-demo-checkout.js"></script>
+</head>
+<body data-page="checkout-demo">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="./"><span data-brand>Peelings</span><span aria-hidden="true">.</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a class="hide-sm" href="./#how">How it works</a>
+    <a class="hide-sm" href="./#pricing">Pricing</a>
+    <a class="hide-sm" href="./#faq">FAQ</a>
+    <a class="cart-link" href="cart.html" data-cart-link>Cart <span class="cart-count" data-cart-count>0</span></a>
+  </nav>
+</div></header>
+<main id="main" class="flow">
+<div class="wrap demo-page">
+<h1>Demo checkout</h1>
+<p class="sub">Ordering isn&rsquo;t open yet, so this page stands in for the secure Stripe checkout. Nothing is charged, nothing is shipped, and no card details are asked for.</p>
+<div class="alert err" data-error hidden role="alert"></div>
+<div class="flow-grid">
+  <section class="panel" aria-labelledby="sum-h" data-order hidden>
+    <h2 id="sum-h" style="font-size:24px;margin-bottom:12px">Order <span data-order-id></span></h2>
+    <ul class="order-lines" data-lines></ul>
+    <div class="summary" style="border:0;margin-top:10px;padding-top:0">
+      <div class="row"><span>Shipping</span><span data-ship></span></div>
+      <div class="row"><span class="total">Total</span><span class="total" data-grand></span></div>
+      <p class="small muted-strong">Priced again from our price list when the order was created, the same way the real checkout will be.</p>
+    </div>
+  </section>
+  <div>
+    <p>On the real checkout you would enter a US shipping address, your email and your card on Stripe&rsquo;s page, then come back here.</p>
+    <div class="actions-row">
+      <a class="btn ghost" href="cart.html?canceled=1" data-cancel>Cancel and go back</a>
+      <a class="btn accent" href="success.html" data-pay aria-disabled="true">Finish demo order</a>
+    </div>
+  </div>
+</div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <p><span data-brand>Peelings</span> &middot; photo stickers, printed and mailed in the US.</p>
+  <nav aria-label="Footer"><a href="./#faq">Shipping &amp; returns</a><a href="./#faq">What we can&rsquo;t print</a><a href="./#faq">Your photos &amp; privacy</a></nav>
+</div></footer>
+</body>
+</html>

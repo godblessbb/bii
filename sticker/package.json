@@ -1,0 +1,6 @@
+{
+  "name": "peelings-sticker-site",
+  "private": true,
+  "type": "module",
+  "description": "Static storefront under datode.com/sticker/. No build step and no dependencies; tests run with node --test sticker/tests/*.test.mjs"
+}

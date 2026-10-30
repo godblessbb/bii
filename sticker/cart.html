@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart · Peelings</title>
+<meta name="description" content="Turn a photo of the people and pets you love into real die-cut stickers. Pick a drawing style, choose size and finish, and we mail a pack anywhere in the US.">
+<meta name="theme-color" content="#f5f0e6">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/site.css">
+<script type="module" src="js/page-cart.js"></script>
+</head>
+<body data-page="cart">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="./"><span data-brand>Peelings</span><span aria-hidden="true">.</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a class="hide-sm" href="./#how">How it works</a>
+    <a class="hide-sm" href="./#pricing">Pricing</a>
+    <a class="hide-sm" href="./#faq">FAQ</a>
+    <a class="cart-link" href="cart.html" data-cart-link>Cart <span class="cart-count" data-cart-count>0</span></a>
+  </nav>
+</div></header>
+<main id="main" class="flow">
+<div class="wrap">
+<h1>Your cart</h1>
+<div class="alert warn" data-canceled hidden role="status"><strong>Payment canceled</strong>Nothing was charged. Your stickers are still here.</div>
+<div class="alert warn" data-dropped hidden role="status"></div>
+<div class="flow-grid">
+  <ul class="lines" data-lines aria-label="Designs in your cart"><li class="empty"><p class="muted">Loading your cart&hellip;</p></li></ul>
+  <aside class="panel" data-summary hidden aria-label="Order summary">
+    <div class="summary" style="border:0;margin:0;padding:0">
+      <div class="row"><span>Subtotal</span><span data-sub></span></div>
+      <div class="row"><span>Shipping</span><span data-ship></span></div>
+      <div class="row small muted-strong"><span data-ship-hint></span></div>
+      <div class="row" style="margin-top:8px"><span class="total">Total</span><span class="total" data-grand></span></div>
+      <p class="small muted-strong">Sales tax, if any, is calculated at checkout.</p>
+    </div>
+    <div class="alert err" data-error hidden role="alert"></div>
+    <div class="actions-row"><button class="btn accent" type="button" data-checkout>Check out</button></div>
+    <p class="checkout-status" data-status role="status" aria-live="polite"></p>
+    <p class="small muted-strong">Payment is handled by Stripe. We never see your card number.</p>
+    <p class="demo-note" data-demo-note hidden>Ordering isn&rsquo;t open yet: checkout runs in demo mode, so nothing is charged and nothing ships.</p>
+    <p class="small" style="margin-top:12px"><a href="upload.html">Make another design</a></p>
+  </aside>
+</div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <p><span data-brand>Peelings</span> &middot; photo stickers, printed and mailed in the US.</p>
+  <nav aria-label="Footer"><a href="./#faq">Shipping &amp; returns</a><a href="./#faq">What we can&rsquo;t print</a><a href="./#faq">Your photos &amp; privacy</a></nav>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload a photo · Peelings</title>
+<meta name="description" content="Turn a photo of the people and pets you love into real die-cut stickers. Pick a drawing style, choose size and finish, and we mail a pack anywhere in the US.">
+<meta name="theme-color" content="#f5f0e6">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/site.css">
+<script type="module" src="js/page-upload.js"></script>
+</head>
+<body data-page="upload">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="./"><span data-brand>Peelings</span><span aria-hidden="true">.</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a class="hide-sm" href="./#how">How it works</a>
+    <a class="hide-sm" href="./#pricing">Pricing</a>
+    <a class="hide-sm" href="./#faq">FAQ</a>
+    <a class="cart-link" href="cart.html" data-cart-link>Cart <span class="cart-count" data-cart-count>0</span></a>
+  </nav>
+</div></header>
+<main id="main" class="flow">
+<div class="wrap">
+<ol class="stepper" data-stepper aria-label="Steps"></ol>
+<div class="flow-grid">
+  <div>
+    <h1>Start with a photo</h1>
+    <p class="sub">A clear photo where faces are in focus works best. Group photos are fine, up to about four people or pets.</p>
+    <label class="dropzone" data-dropzone>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+      <b>Choose a photo</b>
+      <span class="muted-strong small">or drop it here &middot; JPG, PNG, WebP or HEIC &middot; up to <span data-max-mb>20</span> MB</span>
+      <input type="file" id="file" data-file>
+    </label>
+    <div class="upload-alt">
+      <label class="btn ghost small camera-btn">Take a photo<input type="file" accept="image/*" capture="environment" data-camera></label>
+      <span>No photo handy? <button class="link-btn" type="button" data-sample>Use our sample photo</button></span>
+    </div>
+    <div class="alert err" data-error hidden role="alert"></div>
+    <div class="alert ok" data-ok hidden role="status"></div>
+    <label class="check"><input type="checkbox" id="rights" data-rights><span>I took this photo or have permission to use it, and the people in it are okay with being on a sticker. <a href="./#faq">What we can&rsquo;t print</a></span></label>
+    <div class="actions-row"><a class="btn accent" href="cutout.html" data-next aria-disabled="true">Continue</a></div>
+  </div>
+  <div class="stage" data-thumb><p class="muted">Your photo will show up here.</p></div>
+</div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <p><span data-brand>Peelings</span> &middot; photo stickers, printed and mailed in the US.</p>
+  <nav aria-label="Footer"><a href="./#faq">Shipping &amp; returns</a><a href="./#faq">What we can&rsquo;t print</a><a href="./#faq">Your photos &amp; privacy</a></nav>
+</div></footer>
+</body>
+</html>
