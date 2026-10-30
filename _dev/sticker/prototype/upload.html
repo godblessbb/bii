@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload a photo — Peelings</title>
+<meta name="description" content="Turn a photo of the people and pets you love into real die-cut stickers. Printed and mailed in the US.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/app.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body data-page="upload">
+<header class="site-head" data-head></header>
+<main class="flow"><div class="wrap">
+<ol class="stepper" data-stepper aria-label="Progress"></ol>
+<div class="flow-grid">
+  <div>
+    <h1>Start with a photo</h1>
+    <p class="sub">A clear photo where faces are in focus works best. Group photos are fine, up to about four people or pets.</p>
+    <label class="dropzone" for="file" tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+      <b>Choose a photo</b>
+      <span class="muted small">or drop it here · JPG, PNG, WebP or HEIC · up to 20 MB</span>
+      <input class="sr-only" type="file" id="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif">
+    </label>
+    <p class="small" style="margin-top:12px">No photo handy? <button class="link-btn" type="button" data-sample>Use our sample photo</button></p>
+    <div class="alert err" data-error hidden role="alert"></div>
+    <div class="alert ok" data-ok hidden role="status"></div>
+    <label class="check"><input type="checkbox" id="rights"><span>I took this photo or have permission to use it, and the people in it are okay with being on a sticker. <a href="index.html#faq">What we can&rsquo;t print</a></span></label>
+    <div class="actions-row"><a class="btn accent" href="cutout.html" data-next aria-disabled="true">Continue</a></div>
+  </div>
+  <div class="stage" data-thumb><p class="muted">Your photo will show up here.</p></div>
+</div>
+</div></main>
+<footer class="site-foot" data-foot></footer>
+</body>
+</html>
