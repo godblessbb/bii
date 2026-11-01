@@ -1,5 +1,5 @@
 // 诸葛神数页面交互。起数逻辑全部在 zhuge.js，这里只管界面与仪式动画。
-import { strokes, toTrad, isHan, digitOf, rawNumber, numberFromStrokes } from './zhuge.js';
+import { strokes, toTrad, isHan, rawNumber, numberFromStrokes, cuts, TOTAL } from './zhuge.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const slots = Array.from(document.querySelectorAll('.slot'));
@@ -139,13 +139,11 @@ function compute() {
   const [a, b, c] = state.map((s) => s.n);
   const raw = rawNumber(a, b, c);
   const n = numberFromStrokes(a, b, c);
-  const steps = [];
-  let x = raw;
-  while (x > 384) { steps.push(x + ' − 384 = ' + (x - 384)); x -= 384; }
-  let eq = steps.join('，');
-  if (raw === 0) eq = '000 → 取第 384 签';
-  else if (!steps.length) eq = String(raw).padStart(3, '0') + ' 不过 384，照数取签';
-  return { raw, n, eq, digits: [digitOf(a), digitOf(b), digitOf(c)] };
+  const k = cuts(raw);
+  let eq = '= ' + raw;
+  if (!k) eq += '，不过 ' + TOTAL + '，照数取签';
+  else eq += '，减 ' + TOTAL + ' 共 ' + k + ' 次 → ' + n + (n === TOTAL ? '（整除取第 ' + TOTAL + ' 签）' : '');
+  return { raw, n, eq, parts: [a * 100, b * 10, c] };
 }
 
 async function ceremony() {
@@ -161,19 +159,17 @@ async function ceremony() {
     stage.hidden = false;
     stage.classList.remove('shake', 'up');
     $('#stickN').textContent = '';
-    calc.innerHTML = '<span class="digits"><span>·</span><span>·</span><span>·</span></span><span class="eq"></span>';
+    calc.innerHTML = '<span class="digits"><span>·</span><i>+</i><span>·</span><i>+</i><span>·</span></span><span class="eq"></span>';
     stage.scrollIntoView({ block: 'center', behavior: 'smooth' });
     const ds = calc.querySelectorAll('.digits span');
-    // 一：十画以上的刻度熄掉，只留个位
+    // 一：上字笔画作百、中字作十、下字作一
     for (let i = 0; i < 3; i++) {
-      const tens = state[i].n - r.digits[i];
-      slots[i].querySelectorAll('.ticks i').forEach((t, k) => { if (k < tens) t.classList.add('ten'); });
-      ds[i].textContent = r.digits[i];
+      ds[i].textContent = r.parts[i];
       ds[i].classList.add('on');
       await sleep(230);
     }
     await sleep(250);
-    // 二：合成三位数并换算
+    // 二：相加，过 215 则反复减 215
     calc.querySelector('.eq').textContent = r.eq;
     await sleep(650);
     // 三：摇签筒
@@ -190,10 +186,6 @@ async function ceremony() {
 function showResult(r, animate) {
   stage.hidden = true;
   stage.classList.remove('shake', 'up');
-  for (let i = 0; i < 3; i++) {
-    const tens = state[i].n - r.digits[i];
-    slots[i].querySelectorAll('.ticks i').forEach((t, k) => { t.classList.toggle('ten', k < tens); });
-  }
   $('#qn').textContent = cnNum(r.n);
   result.dataset.n = String(r.n);
   const poem = $('#poem');
@@ -205,8 +197,8 @@ function showResult(r, animate) {
     poem.appendChild(s);
   }
   poem.dataset.text = last.text;
-  const from = state.map((s) => '<b lang="zh-Hant"></b> ' + s.n + '→' + digitOf(s.n)).join(' · ');
-  $('#from').innerHTML = from + ' · ' + String(r.raw).padStart(3, '0') + (r.raw !== r.n ? ' → ' + r.n : '');
+  const from = state.map((s) => '<b lang="zh-Hant"></b> ' + s.n + ' 画').join(' · ');
+  $('#from').innerHTML = from + ' · ' + r.raw + (r.raw !== r.n ? ' → ' + r.n : '');
   $('#from').querySelectorAll('b').forEach((b, i) => { b.textContent = state[i].trad; });
   $('#copyMsg').textContent = '';
   $('#copyMsg').classList.remove('err');
@@ -249,7 +241,7 @@ function legacyCopy(text) {
 $('#copy').addEventListener('click', async () => {
   if (!last) return;
   const msg = $('#copyMsg');
-  const text = '诸葛神数 第' + last.n + '签（报字：' + last.chars + '）\n' + last.text;
+  const text = '诸葛神数（巧连神数）第' + last.n + '签（报字：' + last.chars + '）\n' + last.text;
   let ok = false;
   try {
     if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); ok = true; }
@@ -280,7 +272,7 @@ $('#again').addEventListener('click', () => {
 fetch('qian.json')
   .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
   .then((d) => {
-    if (!d || !Array.isArray(d.qian) || d.qian.length !== 384) throw new Error('bad data');
+    if (!d || !Array.isArray(d.qian) || d.qian.length !== TOTAL) throw new Error('bad data');
     QIAN = d.qian;
     document.body.dataset.state = 'idle';
     inputs.forEach((el, i) => { if (el.value) accept(i); });

@@ -14,7 +14,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#060807">
   <title>诸葛神数 · 报三字求一签</title>
-  <meta name="description" content="诸葛神数三百八十四签：报三个字，按繁体笔画起数，查签文原文。">
+  <meta name="description" content="诸葛武侯巧连神数二百一十五签：报三个字，按繁体笔画起数，查签文原文。">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/wenkai-gb.css?v=20261022-gb">
   <style>
@@ -91,7 +91,6 @@
     .ticks { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px 2px; max-width: 128px; min-height: 16px; margin: 6px auto 0; }
     .ticks i { width: 3px; height: 13px; border-radius: 1px; background: var(--acc); transform-origin: 50% 100%; animation: tick .22s var(--ease) both; }
     .ticks i:nth-child(5n) { margin-right: 4px; }
-    .ticks i.ten { background: var(--ink-3); opacity: .5; transition: background .3s, opacity .3s; }
     @keyframes tick { from { transform: scaleY(0); opacity: 0; } }
 
     .msg { min-height: 20px; margin: 6px 0 0; font-size: 12px; line-height: 1.5; color: var(--acc-2); }
@@ -109,7 +108,8 @@
     .stage { margin-top: 30px; text-align: center; cursor: pointer; }
     .stage[hidden], .result[hidden] { display: none; }
     .calc { font: 500 15px/1.6 var(--mono); color: var(--ink-2); min-height: 52px; }
-    .calc .digits { display: inline-flex; gap: 6px; font: 400 40px/1 var(--kai); color: var(--ink); }
+    .calc .digits { display: inline-flex; align-items: baseline; gap: 6px; font: 400 clamp(28px, 8vw, 40px)/1 var(--kai); color: var(--ink); }
+    .calc .digits i { font: 400 .6em/1 var(--mono); font-style: normal; color: var(--ink-3); }
     .calc .digits span { display: inline-block; min-width: .9em; transition: color .3s; }
     .calc .digits span.on { color: var(--acc); }
     .calc .eq { display: block; margin-top: 8px; font-size: 13px; color: var(--ink-3); min-height: 21px; }
@@ -179,7 +179,7 @@
     <form id="form" autocomplete="off" novalidate>
       <ol class="slots">
         <li class="slot" data-i="0">
-          <label class="slot-l" for="c0">第一字 · <b>百位</b></label>
+          <label class="slot-l" for="c0">第一字 · <b>笔画 ×100</b></label>
           <div class="cell"><input id="c0" type="text" inputmode="text" enterkeyhint="next" aria-describedby="m0" placeholder="一" spellcheck="false" autocapitalize="off"></div>
           <div class="trad" aria-live="polite"></div>
           <span class="trad-sub"></span>
@@ -187,7 +187,7 @@
           <p class="msg" id="m0" role="alert"></p>
         </li>
         <li class="slot" data-i="1">
-          <label class="slot-l" for="c1">第二字 · <b>十位</b></label>
+          <label class="slot-l" for="c1">第二字 · <b>笔画 ×10</b></label>
           <div class="cell"><input id="c1" type="text" inputmode="text" enterkeyhint="next" aria-describedby="m1" placeholder="二" spellcheck="false" autocapitalize="off"></div>
           <div class="trad" aria-live="polite"></div>
           <span class="trad-sub"></span>
@@ -195,7 +195,7 @@
           <p class="msg" id="m1" role="alert"></p>
         </li>
         <li class="slot" data-i="2">
-          <label class="slot-l" for="c2">第三字 · <b>个位</b></label>
+          <label class="slot-l" for="c2">第三字 · <b>笔画 ×1</b></label>
           <div class="cell"><input id="c2" type="text" inputmode="text" enterkeyhint="go" aria-describedby="m2" placeholder="三" spellcheck="false" autocapitalize="off"></div>
           <div class="trad" aria-live="polite"></div>
           <span class="trad-sub"></span>
@@ -245,21 +245,21 @@
         <summary>玩法说明</summary>
         <div>
           <ol>
-            <li>心里默念要问的事，写下浮现的三个字（不拘何字，必以三字为度）。</li>
-            <li>每个字都按<b>繁体字</b>数笔画：简体先转成繁体（一简多繁取最常用的写法），部首按繁体实际写法计，如「氵」三画、「扌」三画、「艹」四画，不按康熙原部首折算。</li>
-            <li>第一字作百位、第二字作十位、第三字作个位。九画以内照算；十画以上减去十（二十、三十画同）；恰好十画、二十画作零。</li>
-            <li>得到的三位数超过 384 就减去 384，仍多再减，直到不超过 384；三字皆为零（000）时取第 384 签。</li>
-            <li>按签号查签文。签文只作参考，书中劝人向善，行事仍凭自己。</li>
+            <li>心里默念要问的事，随意写下三个字；也可以请别人代写三字。</li>
+            <li>每个字都数<b>完整笔画</b>，按<b>繁体字</b>计：简体先转成繁体（一简多繁取最常用的写法），部首按繁体实际写法计，如「氵」三画、「扌」三画、「艹」四画，不按康熙原部首折算。笔画不取个位，十画以上照实数计。</li>
+            <li>上字笔画乘一百，中字笔画乘十，下字笔画乘一，三数相加。</li>
+            <li>和数超过 215 就减去 215，仍多再减，直到不超过 215，剩下的数就是签号；恰好减尽（整除）的取第 215 签。例：「父」4 画、「子」3 画、「一」1 画，得 400 + 30 + 1 = 431，减两次 215 剩 1，是第 1 签。</li>
+            <li>按签号查签文。签文只作参考，行事仍凭自己。</li>
           </ol>
-          <blockquote>凡字笔画。在九笔以内者照算。在十笔以外者。减十笔算。(二十笔同)若恰在十笔或二十笔。俱照零笔计算。……过于三百八十四。则须减去三百八十四计算。减后仍多。再减之。——《秘本诸葛神数》占法</blockquote>
+          <blockquote>凡占疑者……或人代书，每字计其字划：上字划作百，中字划作十，下字划作一……若多则除去二百一十五数，看剩若干；如多，再除去二百一十五数，早晚除至不过二百一十五数为度。——《诸葛武侯巧连神数》序（据手抄本）</blockquote>
         </div>
       </details>
       <details id="sources">
         <summary>签文与数据出处</summary>
         <div>
           <ul>
-            <li>签文底本：<a href="https://www.lamjinlab.com/blog/zgss-full-text" target="_blank" rel="noopener">Lam Jin Lab《诸葛神数》第 1 至 384 签全文</a>；对勘：<a href="https://www.diancang.xyz/xuanxuewushu/zhugeshenshu/37729.html" target="_blank" rel="noopener">中华典藏《诸葛神数384签文》</a>、殆知阁《秘本诸葛神数》（第 1–230 签）。个别字词按对勘本取舍，详见 <a href="qian.json" target="_blank" rel="noopener">qian.json</a> 的 variants 字段。签文照录原文，不作白话改写。</li>
-            <li>起数规则：<a href="https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E7%A7%98%E6%9C%AC%E8%AF%B8%E8%91%9B%E7%A5%9E%E6%95%B0.txt" target="_blank" rel="noopener">殆知阁《秘本诸葛神数》占法</a>。</li>
+            <li>签文：《诸葛武侯巧连神数》二百一十五签，据用户所藏手抄本逐格校定。照片拍到的格一律照手抄本；没拍到的格，两个网上底本一致的照底本，两本不同的按出处与字义取舍：<a href="https://blog.sina.com.cn/s/blog_4cb45ebf0100xxwv.html" target="_blank" rel="noopener">新浪博客「诸葛武侯巧连神数」</a>、<a href="https://github.com/saipanno/qlss/blob/3a294a4d87816989d4f0cacd5216cd9b0fe4031d/README.md" target="_blank" rel="noopener">GitHub saipanno/qlss</a>。逐处取舍见 <a href="qian.json" target="_blank" rel="noopener">qian.json</a>。签文只录签句，不作白话解签。</li>
+            <li>起数规则：《诸葛武侯巧连神数》序（手抄本）。</li>
             <li>笔画：Unicode Unihan 18.0 <code>kTotalStrokes</code>（Unicode License v3）；简→繁：<a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">OpenCC</a> STCharacters（Apache-2.0）。收录 GB2312 全部简体字与 Big5 全部繁体字。</li>
           </ul>
         </div>

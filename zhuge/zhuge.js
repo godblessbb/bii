@@ -1,6 +1,8 @@
-// 诸葛神数：报三字 → 繁体笔画 → 百十个位 → 1–384 签号。页面与测试共用这一份实现。
+// 诸葛武侯巧连神数：报三字 → 繁体完整笔画 → 上字×100 + 中字×10 + 下字×1 → 1–215 签号。页面与测试共用这一份实现。
 // 规则原文与出处见 qian.json 的 rule / strokes 字段。
 import { S2T, STROKES } from './strokes-data.js';
+
+export const TOTAL = 215;
 
 let s2t = null;
 let table = null;
@@ -18,7 +20,7 @@ function load() {
 
 // 是否一个汉字（含扩展 A 与兼容区）
 export function isHan(ch) {
-  return typeof ch === 'string' && /^[㐀-䶿一-鿿豈-﫿]$/u.test(ch);
+  return typeof ch === 'string' && /^[㐀-䶿一-鿿豈-﫿]$/u.test(ch);
 }
 
 // 简体 → 繁体（一简多繁取 OpenCC 首个候选；本身是繁体或简繁同形则原样）
@@ -35,21 +37,20 @@ export function strokes(ch) {
   return n == null ? null : n;
 }
 
-// 原文：九笔以内照算；十笔以外减十笔（二十笔同）；恰十 / 二十笔作零笔
-export function digitOf(n) {
-  return n % 10;
-}
-
-// 三位数（未换算前）
+// 序：「上字划作百，中字划作十，下字划作一」——笔画取完整数，不取个位
 export function rawNumber(a, b, c) {
-  return digitOf(a) * 100 + digitOf(b) * 10 + digitOf(c);
+  return a * 100 + b * 10 + c;
 }
 
-// 原文：过于三百八十四则减去三百八十四，减后仍多再减；000 按「余 0 取 384」
+// 减 215 的次数（页面演示用）
+export function cuts(raw) {
+  return raw > TOTAL ? Math.ceil(raw / TOTAL) - 1 : 0;
+}
+
+// 序：「若多则除去二百一十五数……早晚除至不过二百一十五数为度」——反复减 215 到不超过 215，整除得第 215 签
 export function numberFromStrokes(a, b, c) {
-  let n = rawNumber(a, b, c);
-  while (n > 384) n -= 384;
-  return n === 0 ? 384 : n;
+  const raw = rawNumber(a, b, c);
+  return raw - cuts(raw) * TOTAL;
 }
 
 // 三字直接得签号；有字查不到笔画时返回 null

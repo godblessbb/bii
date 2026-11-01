@@ -99,7 +99,7 @@
     { slug: 'clip', href: 'https://clip.gpubuy.com', external: true, x: 76, y: 72, d: 1.2, zh: '共享剪贴板', en: 'Shared clipboard',
       dzh: '共享剪贴板与文件中转，手机电脑之间传东西。', den: 'A shared clipboard and file relay between your phone and computer.' },
     { slug: 'zhuge', href: 'zhuge/', x: 87, y: 10, d: 0.85, zh: '诸葛神数', en: 'Zhuge oracle',
-      dzh: '报三个字，按繁体笔画求一支签。', den: 'Name three characters, draw one of 384 verses.' }
+      dzh: '报三个字，按繁体笔画求一支签。', den: 'Name three characters, draw one of 215 verses.' }
   ];
 
   var RAPSTAR = {

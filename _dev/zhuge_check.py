@@ -1,4 +1,4 @@
-"""datode.com/zhuge/（诸葛神数）离线端到端探针。
+"""datode.com/zhuge/（诸葛神数 · 诸葛武侯巧连神数 215 签）离线端到端探针。
 
 用法：/opt/Alphie/.venv/bin/python _dev/zhuge_check.py [仓库根，默认本文件上一级] [--evidence <截图目录>]
 
@@ -8,7 +8,8 @@
   A  三字求签：在浏览器里逐格输入（键盘 type），点「求签」，等结果；页面显示的签号（result[data-n] 与中文签号）
      必须等于 zhuge.js 的 qianNumber，且等于本探针按 qian.json rule 独立重算的号（笔画取自 zhuge.js 的 strokes）；
      页面显示的签文必须逐字等于 qian.json 该号的 text；每格显示的繁体字形 / 笔画数 / 刻度根数与 zhuge.js 一致。
-     另核对原书例题「佑咱统」得第 24 签，三字皆零笔（書書書）得第 384 签。
+     另核对序言例题「父子一」得第 1 签（签文以「混沌初开」起），「二一田」（215 整除）得第 215 签；
+     qian.json 恰 215 签；页面（玩法说明等）不再出现 384，玩法说明写明完整笔画、减 215、整除取第 215 签与出处。
   B  动画：不跳过时从点击到出签 ≤ 4 秒；动画中点签筒区域可跳过，0.5 秒内出签。
   C  prefers-reduced-motion: reduce：点击后不出现签筒、0.3 秒内直接出结果。
   D  输入校验：非汉字（a、1）、查不到笔画的汉字（㐀）各有提示且「求签」不可点；一格粘贴多字会分到后面的格子。
@@ -52,11 +53,11 @@ def check(cond: bool, msg: str) -> bool:
 
 
 def rule_number(a: int, b: int, c: int) -> int:
-    """按 qian.json rule 独立重算：每字笔画取个位，三位数过 384 反复减 384，000 取 384。"""
-    n = (a % 10) * 100 + (b % 10) * 10 + (c % 10)
-    while n > 384:
-        n -= 384
-    return n or 384
+    """按 qian.json rule（《巧连神数》序）独立重算：完整笔画，上×100 + 中×10 + 下×1，过 215 反复减 215。"""
+    n = a * 100 + b * 10 + c
+    while n > 215:
+        n -= 215
+    return n
 
 
 CN = '零一二三四五六七八九'
@@ -88,9 +89,14 @@ def main() -> int:
 
     qian = json.loads((root / 'zhuge/qian.json').read_text(encoding='utf-8'))['qian']
     text_of = {q['n']: q['text'] for q in qian}
+    check([q['n'] for q in qian] == list(range(1, 216)), f'A  qian.json 恰 215 签（{len(qian)}）')
 
     html = (root / 'zhuge/index.html').read_text(encoding='utf-8')
     head = html.split('</head>')[0]
+    page_js = (root / 'zhuge/app.js').read_text(encoding='utf-8')
+    check('384' not in html + page_js and '三百八十四' not in html + page_js, 'A  页面与脚本不再出现 384')
+    howto = html.split('id="howto"')[1].split('</details>')[0]
+    check(all(w in howto for w in ('完整笔画', '215', '整除', '第 215 签', '巧连神数》序', '代写')), 'A  玩法说明：完整笔画、减 215、整除取第 215 签、出处、可请人代写')
     check('googletagmanager.com/gtag/js?id=G-Y5CXD1W4K6' in head and "gtag('config', 'G-Y5CXD1W4K6')" in head, 'H  head 带 GA 标签 G-Y5CXD1W4K6')
 
     class Quiet(http.server.SimpleHTTPRequestHandler):
@@ -195,11 +201,13 @@ def main() -> int:
         # ---------- A/B/E 桌面 ----------
         ctx = new_ctx(1280, 800)
         pg = open_tool(ctx)
-        cases = [('龙国爱', None), ('佑咱统', 24), ('書書書', 384), ('天地人', None), ('诸葛亮', None), ('心诚灵', None)]
+        cases = [('龙国爱', 3), ('父子一', 1), ('二一田', 215), ('天地人', None), ('诸葛亮', None), ('心诚灵', None)]
         for chars, fixed in cases:
             r = draw(pg, chars, f'A  桌面「{chars}」')
             if r and fixed:
                 check(r['n'] == fixed, f'A  「{chars}」按原书规则应得第 {fixed} 签，页面 {r["n"]}')
+            if chars == '父子一':
+                check(text_of[1].startswith('混沌初开'), f'A  第 1 签以「混沌初开」起：{text_of[1]}')
             if chars == '龙国爱':
                 pg.screenshot(path=str(shots / 'zhuge-desktop.png'), full_page=True)
             again(pg)
@@ -285,7 +293,8 @@ def main() -> int:
                 pg.screenshot(path=str(shots / 'zhuge-mobile.png'), full_page=True)
             again(pg)
         # 直接把最长（列最多）的签放进结果区，看排版是否溢出
-        for n in (96, 240, 10):
+        longest = sorted(text_of, key=lambda k: -len(text_of[k]))[:3]
+        for n in longest:
             pg.evaluate("""(t) => { const p = document.getElementById('poem'); p.innerHTML = '';
               (t.match(/[^，。；：、！？]+[，。；：、！？]*/g) || [t]).forEach(x => { const s = document.createElement('span'); s.textContent = x; p.appendChild(s); });
               document.getElementById('result').hidden = false; }""", text_of[n])
