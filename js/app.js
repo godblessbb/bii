@@ -74,7 +74,8 @@
     fish: '<path d="M8 24c8-10 20-10 28 0-8 10-20 10-28 0z"/><path d="M36 24l7-7v14z"/><circle cx="16" cy="22" r="1.4"/>',
     clock: '<circle cx="24" cy="24" r="16"/><path d="M24 14v10l7 5"/>',
     hourglass: '<path d="M15 8h18l-9 16 9 16H15l9-16z"/><path d="M19 36h10"/>',
-    clip: '<path d="M10 18h26l-6-6M38 30H12l6 6"/>'
+    clip: '<path d="M10 18h26l-6-6M38 30H12l6 6"/>',
+    zhuge: '<path d="M14 22h20l-3 18H17z"/><path d="M19 22l-2-12M24 22V7M29 22l2-11"/>'
   };
 
   // x / y：在空间画廊平面上的位置（%），d：景深（越大越近、越大、漂得越快）
@@ -96,7 +97,9 @@
     { slug: 'hourglass', href: 'hourglass.html', x: 44, y: 82, d: 1.05, zh: '沙漏计时器', en: 'Hourglass timer',
       dzh: '会翻转的沙漏，专注一段时间。', den: 'A flipping hourglass for one focused stretch of time.' },
     { slug: 'clip', href: 'https://clip.gpubuy.com', external: true, x: 76, y: 72, d: 1.2, zh: '共享剪贴板', en: 'Shared clipboard',
-      dzh: '共享剪贴板与文件中转，手机电脑之间传东西。', den: 'A shared clipboard and file relay between your phone and computer.' }
+      dzh: '共享剪贴板与文件中转，手机电脑之间传东西。', den: 'A shared clipboard and file relay between your phone and computer.' },
+    { slug: 'zhuge', href: 'zhuge/', x: 87, y: 10, d: 0.85, zh: '诸葛神数', en: 'Zhuge oracle',
+      dzh: '报三个字，按繁体笔画求一支签。', den: 'Name three characters, draw one of 384 verses.' }
   ];
 
   var RAPSTAR = {
