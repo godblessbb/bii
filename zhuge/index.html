@@ -145,6 +145,17 @@
     .slip-src { margin: 18px 0 0; text-align: center; font-size: 12px; color: var(--ink-3); }
     .from { margin: 14px 0 0; text-align: center; font-size: 13px; color: var(--ink-3); }
     .from b { font-family: var(--kai); font-weight: 400; color: var(--ink-2); font-size: 15px; letter-spacing: .05em; }
+    /* 出处与大意（整理者所加） */
+    .gloss { margin: 18px auto 0; max-width: 34em; text-align: center; }
+    .gloss[hidden], .gist[hidden] { display: none; }
+    .src { margin: 0 0 12px; font-size: 13px; color: var(--ink-3); }
+    .src-k { color: var(--acc); margin-right: .35em; }
+    .src-w { font-family: var(--kai); color: var(--ink-2); font-size: 15px; letter-spacing: .05em; }
+    .src-q { display: block; margin-top: 4px; font: 400 17px/1.6 var(--kai); color: var(--ink); letter-spacing: .06em; }
+    .src-q mark { background: none; color: var(--acc); }
+    .src-n { display: block; margin-top: 2px; font-size: 12px; color: var(--ink-3); }
+    .gist { margin: 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }
+    .gist-l { display: block; margin-bottom: 2px; font-size: 12px; color: var(--ink-3); }
     .copy-msg { min-height: 20px; text-align: center; margin: 8px 0 0; font-size: 13px; color: var(--ink-2); }
     .copy-msg.err { color: var(--acc-2); }
     .motto { text-align: center; margin: 22px 0 0; font: 15px/1.6 var(--kai); color: var(--ink-3); letter-spacing: .1em; }
@@ -231,6 +242,10 @@
         <p class="slip-no">第<b id="qn"></b>签</p>
         <p class="poem" id="poem"></p>
       </article>
+      <div class="gloss" id="gloss" hidden>
+        <div id="srcs"></div>
+        <p class="gist" id="gist" hidden><span class="gist-l">大意（整理者注，非原书）</span><span id="gistT"></span></p>
+      </div>
       <p class="from" id="from"></p>
       <div class="act">
         <button class="btn" id="copy" type="button">复制签文</button>
@@ -250,6 +265,7 @@
             <li>上字笔画乘一百，中字笔画乘十，下字笔画乘一，三数相加。</li>
             <li>和数超过 215 就减去 215，仍多再减，直到不超过 215，剩下的数就是签号；恰好减尽（整除）的取第 215 签。例：「父」4 画、「子」3 画、「一」1 画，得 400 + 30 + 1 = 431，减两次 215 剩 1，是第 1 签。</li>
             <li>按签号查签文。签文只作参考，行事仍凭自己。</li>
+            <li>签文下方的出处和大意是整理者所加，原书只有签文：「出自」是签中有整句与古书原句相同，「典出」是化用古书典故，没考出可靠出处的签不写出处；大意只解字面与典故。</li>
           </ol>
           <blockquote>凡占疑者……或人代书，每字计其字划：上字划作百，中字划作十，下字划作一……若多则除去二百一十五数，看剩若干；如多，再除去二百一十五数，早晚除至不过二百一十五数为度。——《诸葛武侯巧连神数》序（据手抄本）</blockquote>
         </div>
@@ -258,7 +274,8 @@
         <summary>签文与数据出处</summary>
         <div>
           <ul>
-            <li>签文：《诸葛武侯巧连神数》二百一十五签，据用户所藏手抄本逐格校定。照片拍到的格一律照手抄本；没拍到的格，两个网上底本一致的照底本，两本不同的按出处与字义取舍：<a href="https://blog.sina.com.cn/s/blog_4cb45ebf0100xxwv.html" target="_blank" rel="noopener">新浪博客「诸葛武侯巧连神数」</a>、<a href="https://github.com/saipanno/qlss/blob/3a294a4d87816989d4f0cacd5216cd9b0fe4031d/README.md" target="_blank" rel="noopener">GitHub saipanno/qlss</a>。逐处取舍见 <a href="qian.json" target="_blank" rel="noopener">qian.json</a>。签文只录签句，不作白话解签。</li>
+            <li>签文：《诸葛武侯巧连神数》二百一十五签，据用户所藏手抄本逐格校定。照片拍到的格一律照手抄本；没拍到的格，两个网上底本一致的照底本，两本不同的按出处与字义取舍：<a href="https://blog.sina.com.cn/s/blog_4cb45ebf0100xxwv.html" target="_blank" rel="noopener">新浪博客「诸葛武侯巧连神数」</a>、<a href="https://github.com/saipanno/qlss/blob/3a294a4d87816989d4f0cacd5216cd9b0fe4031d/README.md" target="_blank" rel="noopener">GitHub saipanno/qlss</a>。逐处取舍见 <a href="qian.json" target="_blank" rel="noopener">qian.json</a>。签文只录签句，不作分项解签。</li>
+            <li>签文出处与大意：整理者所加，非原书内容。出处逐条对照维基文库公版原典，原句照录原页文字（显示时转为简体），见 <a href="sources.json" target="_blank" rel="noopener">sources.json</a>；找不到可靠出处的签不硬凑。</li>
             <li>起数规则：《诸葛武侯巧连神数》序（手抄本）。</li>
             <li>笔画：Unicode Unihan 18.0 <code>kTotalStrokes</code>（Unicode License v3）；简→繁：<a href="https://github.com/BYVoid/OpenCC" target="_blank" rel="noopener">OpenCC</a> STCharacters（Apache-2.0）。收录 GB2312 全部简体字与 Big5 全部繁体字。</li>
           </ul>

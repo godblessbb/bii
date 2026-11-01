@@ -1,0 +1,2419 @@
+{
+ "note": "签文出处与大意是整理者所加，原书《诸葛武侯巧连神数》只有签文。grade：A=签文中至少有一整句与原典逐字相同（简繁、异体不计）；B=没有整句逐字对上，但用了明确典故（化用）；C=未考出可靠出处。quote 逐字照录所列 url 页面的原文，摘录存于 excerpt；gist 只解字面与典故，不是原书内容，也不作吉凶判断。",
+ "entries": [
+  {
+   "n": 1,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《汉书·律历志》",
+     "quote": "日月如合璧，五星如連珠",
+     "quote_s": "日月如合璧，五星如连珠",
+     "url": "https://zh.wikisource.org/wiki/%E6%BC%A2%E6%9B%B8/%E5%8D%B7021",
+     "excerpt": "_dev/zhuge_sources/001_1.txt",
+     "note": "「日月合璧」是天象：日月同升，像两半玉璧合在一起，古人视为祥瑞。"
+    }
+   ],
+   "gist": "混沌初开，天地定位，日月同升如两半玉璧相合，鸾凤相和而鸣，一派开天辟地的祥和景象。"
+  },
+  {
+   "n": 2,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《东观汉记》光武帝与隗嚣书（《太平御览》卷九百四十四引）",
+     "quote": "蒼蠅之飛，不過三數步",
+     "quote_s": "苍蝇之飞，不过三数步",
+     "url": "https://zh.wikisource.org/wiki/%E5%A4%AA%E5%B9%B3%E5%BE%A1%E8%A6%BD/0944",
+     "excerpt": "_dev/zhuge_sources/002_1.txt",
+     "match": "苍蝇之飞",
+     "match_raw": "蒼蠅之飛",
+     "note": "下文接「托……之尾，得以绝群」：苍蝇附在骏马尾上便能远超同类，比喻依附贤者而成名。"
+    }
+   ],
+   "gist": "苍蝇自己飞不出几步，附在骏马尾上就能远行千里，说的是依附贤能而得以成就。"
+  },
+  {
+   "n": 3,
+   "grade": "C",
+   "refs": [],
+   "gist": "劝人少说少做：再怎么聪明伶俐，也不如推让一下、慢慢琢磨。"
+  },
+  {
+   "n": 4,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "陶渊明《归去来兮辞》",
+     "quote": "雲無心以出岫，鳥倦飛而知還",
+     "quote_s": "云无心以出岫，鸟倦飞而知还",
+     "url": "https://zh.wikisource.org/wiki/%E6%98%AD%E6%98%8E%E6%96%87%E9%81%B8/%E5%8D%B745",
+     "excerpt": "_dev/zhuge_sources/004_1.txt",
+     "match": "云无心以出岫",
+     "match_raw": "雲無心以出岫"
+    }
+   ],
+   "gist": "赞叹妙极：像云自在出山、鸟倦了归巢，花艳鱼跃，好景多得梦里都想不到。"
+  },
+  {
+   "n": 5,
+   "grade": "C",
+   "refs": [],
+   "gist": "绿水因风起皱，青山因雪白头，都是天然造化，世上谁能强求。"
+  },
+  {
+   "n": 6,
+   "grade": "C",
+   "refs": [],
+   "gist": "不让盘算偏要盘算，算得肚肠空了大半，惹得小孩拍手笑、老人白眼看。"
+  },
+  {
+   "n": 7,
+   "grade": "C",
+   "refs": [],
+   "gist": "船到江心才补漏，马到崖边才收缰；鸟在笼中、鱼在网里还自得其乐，说的是醒悟太迟。"
+  },
+  {
+   "n": 8,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《世说新语·任诞》",
+     "quote": "吾本乘興而行，興盡而返",
+     "quote_s": "吾本乘兴而行，兴尽而返",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%96%E8%AA%AA%E6%96%B0%E8%AA%9E/%E4%BB%BB%E8%AA%95",
+     "excerpt": "_dev/zhuge_sources/008_1.txt",
+     "note": "王子猷雪夜乘兴访戴安道，到门不入而返。"
+    }
+   ],
+   "gist": "并非赏心美景，何必踏雪寻梅；兴冲冲而来，却垂头丧气而回。"
+  },
+  {
+   "n": 9,
+   "grade": "C",
+   "refs": [],
+   "gist": "签句不易断读，字面大意：精明收起、糊涂渐少，买卖做成之后，从此不再夸口。"
+  },
+  {
+   "n": 10,
+   "grade": "C",
+   "refs": [],
+   "gist": "别高兴太早，成了又破；任你尽心竭力，一寸土也堵不住黄河。"
+  },
+  {
+   "n": 11,
+   "grade": "C",
+   "refs": [],
+   "gist": "风吹影动别乱扑，到头来白费功夫；做事要慎始慎终，祸福从不单来。"
+  },
+  {
+   "n": 12,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "郑文宝《南唐近事》",
+     "quote": "汝雖打草，吾已蛇驚",
+     "quote_s": "汝虽打草，吾已蛇惊",
+     "url": "https://zh.wikisource.org/wiki/%E5%8D%97%E5%94%90%E8%BF%91%E4%BA%8B",
+     "excerpt": "_dev/zhuge_sources/012_1.txt"
+    }
+   ],
+   "gist": "打草惊了蛇、敲山震了虎，等到蛇窜虎扑时，只怕手足无措。"
+  },
+  {
+   "n": 13,
+   "grade": "C",
+   "refs": [],
+   "gist": "东西各有主人，暂且等待；就像雪里埋的尸首，日子久了自然显露。"
+  },
+  {
+   "n": 14,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《战国策·楚策一》",
+     "quote": "虎以為然，故遂與之行。獸見之皆走。虎不知獸畏己而走也，以為畏狐也",
+     "quote_s": "虎以为然，故遂与之行。兽见之皆走。虎不知兽畏己而走也，以为畏狐也",
+     "url": "https://zh.wikisource.org/wiki/%E6%88%B0%E5%9C%8B%E7%AD%96_(%E5%A3%AB%E7%A6%AE%E5%B1%85%E5%8F%A2%E6%9B%B8%E6%9C%AC)/%E6%A5%9A/%E4%B8%80",
+     "excerpt": "_dev/zhuge_sources/014_1.txt",
+     "note": "狐狸借老虎的威风吓走百兽。"
+    }
+   ],
+   "gist": "狐狸借老虎的威风，狗仗主人的势力，闹到最后全无益处。"
+  },
+  {
+   "n": 15,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "东方朔《答客难》",
+     "quote": "以筦窺天，以蠡測海，以筳撞鍾",
+     "quote_s": "以筦窥天，以蠡测海，以筳撞钟",
+     "url": "https://zh.wikisource.org/wiki/%E7%AD%94%E5%AE%A2%E9%9B%A3",
+     "excerpt": "_dev/zhuge_sources/015_1.txt",
+     "match": "以蠡测海",
+     "match_raw": "以蠡測海",
+     "note": "用瓢舀海水来量海，比喻见识浅陋。"
+    },
+    {
+     "kind": "B",
+     "work": "韩愈《原道》",
+     "quote": "坐井而觀天",
+     "quote_s": "坐井而观天",
+     "url": "https://zh.wikisource.org/wiki/%E5%8E%9F%E9%81%93",
+     "excerpt": "_dev/zhuge_sources/015_2.txt"
+    }
+   ],
+   "gist": "用瓢量海、坐在井里看天，就算有些见识，也是白费。"
+  },
+  {
+   "n": 16,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《后汉书·张纲传》",
+     "quote": "若魚游釜中，喘息須臾閒耳",
+     "quote_s": "若鱼游釜中，喘息须臾闲耳",
+     "url": "https://zh.wikisource.org/wiki/%E5%BE%8C%E6%BC%A2%E6%9B%B8/%E5%8D%B756",
+     "excerpt": "_dev/zhuge_sources/016_1.txt",
+     "match": "鱼游釜中",
+     "match_raw": "魚游釜中",
+     "note": "鱼在锅里游，比喻处境危险而不自知。"
+    },
+    {
+     "kind": "B",
+     "work": "《左传·襄公二十九年》",
+     "quote": "猶燕之巢於幕上",
+     "quote_s": "犹燕之巢于幕上",
+     "url": "https://zh.wikisource.org/wiki/%E6%98%A5%E7%A7%8B%E5%B7%A6%E6%B0%8F%E5%82%B3/%E8%A5%84%E5%85%AC",
+     "excerpt": "_dev/zhuge_sources/016_2.txt",
+     "note": "燕子把窝筑在帐幕上，比喻处境不安稳。"
+    }
+   ],
+   "gist": "燕子在帐幕上筑巢、鱼在锅里游，眼前看似得了安身处，背后其实危险。"
+  },
+  {
+   "n": 17,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《后汉书·岑彭传》",
+     "quote": "人若不知足，既平隴，復望蜀",
+     "quote_s": "人若不知足，既平陇，复望蜀",
+     "url": "https://zh.wikisource.org/wiki/%E5%BE%8C%E6%BC%A2%E6%9B%B8/%E5%8D%B717",
+     "excerpt": "_dev/zhuge_sources/017_1.txt",
+     "note": "光武帝给岑彭的信：平定陇右，又想取蜀地。"
+    },
+    {
+     "kind": "B",
+     "work": "《庄子·外物》",
+     "quote": "得魚而忘荃",
+     "quote_s": "得鱼而忘荃",
+     "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E5%A4%96%E7%89%A9",
+     "excerpt": "_dev/zhuge_sources/017_2.txt"
+    }
+   ],
+   "gist": "得了陇右又想蜀地，捕到鱼就丢掉鱼筌；时间一长，人嫌狗厌。"
+  },
+  {
+   "n": 18,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《荀子·劝学》",
+     "quote": "梧鼠五技而窮",
+     "quote_s": "梧鼠五技而穷",
+     "url": "https://zh.wikisource.org/wiki/%E8%8D%80%E5%AD%90/%E5%8B%B8%E5%AD%B8%E7%AF%87",
+     "excerpt": "_dev/zhuge_sources/018_1.txt",
+     "note": "鼯鼠会五种本事却样样不精。"
+    },
+    {
+     "kind": "B",
+     "work": "柳宗元《黔之驴》",
+     "quote": "虎因喜，計之曰：「技止此耳",
+     "quote_s": "虎因喜，计之曰：「技止此耳",
+     "url": "https://zh.wikisource.org/wiki/%E9%BB%94%E4%B9%8B%E9%A9%A2",
+     "excerpt": "_dev/zhuge_sources/018_2.txt",
+     "note": "黔驴技穷。"
+    }
+   ],
+   "gist": "鼯鼠有五种本事却样样不精，黔驴只会叫和踢；细看实际，本事用完就没了。"
+  },
+  {
+   "n": 19,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《史记·天官书》",
+     "quote": "海旁蜄氣象樓臺",
+     "quote_s": "海旁蜄气象楼台",
+     "url": "https://zh.wikisource.org/wiki/%E5%8F%B2%E8%A8%98/%E5%8D%B7027",
+     "excerpt": "_dev/zhuge_sources/019_1.txt",
+     "note": "海边的蜃气幻成楼台，即「海市蜃楼」。"
+    }
+   ],
+   "gist": "海市蜃楼奇妙美丽，可惜这片好景只在浪头上，转眼即逝。"
+  },
+  {
+   "n": 20,
+   "grade": "C",
+   "refs": [],
+   "gist": "乌云遮住太阳，黑猪渡河，郊外雾气蒙蒙，田里蛙声阁阁。"
+  },
+  {
+   "n": 21,
+   "grade": "C",
+   "refs": [],
+   "gist": "用雪水煮茶、桂花酿酒，清香可口，只怕难以喝到嘴里。"
+  },
+  {
+   "n": 22,
+   "grade": "C",
+   "refs": [],
+   "gist": "虚的变实、实的又变虚，就像木头长出木耳、洞里生出鱼来。"
+  },
+  {
+   "n": 23,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《礼记·大学》",
+     "quote": "心不在焉，視而不見，聽而不聞",
+     "quote_s": "心不在焉，视而不见，听而不闻",
+     "url": "https://zh.wikisource.org/wiki/%E7%A6%AE%E8%A8%98/%E5%A4%A7%E5%AD%B8",
+     "excerpt": "_dev/zhuge_sources/023_1.txt",
+     "match": "视而不见",
+     "match_raw": "視而不見"
+    }
+   ],
+   "gist": "可叹可怜，东西本就有限；听了像没听见，看了像没看见。"
+  },
+  {
+   "n": 24,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《庄子·天下》",
+     "quote": "沐甚雨，櫛疾風",
+     "quote_s": "沐甚雨，栉疾风",
+     "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E5%A4%A9%E4%B8%8B",
+     "excerpt": "_dev/zhuge_sources/024_1.txt",
+     "note": "风梳头、雨洗发，形容奔波劳苦。"
+    }
+   ],
+   "gist": "风梳头、雨洗发，披星戴月地奔波，什么时候能歇？要到三更半夜。"
+  },
+  {
+   "n": 25,
+   "grade": "C",
+   "refs": [],
+   "gist": "蛙声如鼓惊醒好梦，彩虹斜挂东边，蜻蜓飞舞，蝴蝶穿花。"
+  },
+  {
+   "n": 26,
+   "grade": "C",
+   "refs": [],
+   "gist": "红日满天、绿波遍地，渔夫安稳坐在船上，自己握着长长的钓线。"
+  },
+  {
+   "n": 27,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《诗经·豳风·伐柯》",
+     "quote": "伐柯伐柯，其則不遠",
+     "quote_s": "伐柯伐柯，其则不远",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E4%BC%90%E6%9F%AF",
+     "excerpt": "_dev/zhuge_sources/027_1.txt",
+     "match": "伐柯伐柯",
+     "match_raw": "伐柯伐柯",
+     "note": "砍斧柄的样子就在手中的斧柄上；古人也以「伐柯」指说媒。"
+    }
+   ],
+   "gist": "砍斧柄啊砍斧柄，顺的少、逆的多；纵然有神相助，也无可奈何。"
+  },
+  {
+   "n": 28,
+   "grade": "C",
+   "refs": [],
+   "gist": "灯油耗尽，更漏滴完，一听鸡叫，就自在歇息了。"
+  },
+  {
+   "n": 29,
+   "grade": "C",
+   "refs": [],
+   "gist": "难啊！感叹事情太难。"
+  },
+  {
+   "n": 30,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "刘禹锡《陋室铭》",
+     "quote": "山不在高，有仙則名。水不在深，有龍則靈",
+     "quote_s": "山不在高，有仙则名。水不在深，有龙则灵",
+     "url": "https://zh.wikisource.org/wiki/%E9%99%8B%E5%AE%A4%E9%8A%98",
+     "excerpt": "_dev/zhuge_sources/030_1.txt",
+     "match": "山不在高",
+     "match_raw": "山不在高"
+    }
+   ],
+   "gist": "山不在高，有仙人就出名；水不在深，有龙就灵验。"
+  },
+  {
+   "n": 31,
+   "grade": "C",
+   "refs": [],
+   "gist": "万朵红云连着旧宅，一轮明月照着门前的河川。"
+  },
+  {
+   "n": 32,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "李白《与史郎中钦听黄鹤楼上吹笛》",
+     "quote": "黃鶴樓中吹玉笛，江城五月落梅花",
+     "quote_s": "黄鹤楼中吹玉笛，江城五月落梅花",
+     "url": "https://zh.wikisource.org/wiki/%E8%88%87%E5%8F%B2%E9%83%8E%E4%B8%AD%E6%AC%BD%E8%81%BD%E9%BB%83%E9%B6%B4%E6%A8%93%E4%B8%8A%E5%90%B9%E7%AC%9B",
+     "excerpt": "_dev/zhuge_sources/032_1.txt",
+     "note": "《落梅花》是笛曲名。"
+    }
+   ],
+   "gist": "白玉楼中吹奏玉笛，红梅阁上飘落梅花（《落梅花》也是笛曲名）。"
+  },
+  {
+   "n": 33,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《世说新语·言语》",
+     "quote": "譬如芝蘭玉樹，欲使其生於階庭耳",
+     "quote_s": "譬如芝兰玉树，欲使其生于阶庭耳",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%96%E8%AA%AA%E6%96%B0%E8%AA%9E/%E8%A8%80%E8%AA%9E",
+     "excerpt": "_dev/zhuge_sources/033_1.txt",
+     "note": "「兰玉」即芝兰玉树，喻优秀子弟；「椿萱」指父母。"
+    }
+   ],
+   "gist": "父母（椿萱）都健在，子弟（兰玉）个个出众，是称颂家门兴旺的话。"
+  },
+  {
+   "n": 34,
+   "grade": "C",
+   "refs": [],
+   "gist": "雪落后树木洁净，月落后楼台空寂。"
+  },
+  {
+   "n": 35,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "王通《中说·事君》",
+     "quote": "大廈將顛，非一木所支也",
+     "quote_s": "大厦将颠，非一木所支也",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%AD%E8%AA%AA/%E5%8D%B7%E4%B8%89",
+     "excerpt": "_dev/zhuge_sources/035_1.txt"
+    }
+   ],
+   "gist": "一根木头怎能撑住将倒的大厦。"
+  },
+  {
+   "n": 36,
+   "grade": "C",
+   "refs": [],
+   "gist": "玉燕飞入怀中，旧时用来比喻怀孕得子的梦。"
+  },
+  {
+   "n": 37,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "翁森《四时读书乐》",
+     "quote": "好鳥枝頭亦朋友，落花水面皆文章",
+     "quote_s": "好鸟枝头亦朋友，落花水面皆文章",
+     "url": "https://zh.wikisource.org/wiki/%E5%9B%9B%E6%99%82%E8%AE%80%E6%9B%B8%E6%A8%82",
+     "excerpt": "_dev/zhuge_sources/037_1.txt"
+    }
+   ],
+   "gist": "别轻狂，细细端详：枝头好鸟都是朋友，水上落花也成文章，处处可以学习。"
+  },
+  {
+   "n": 38,
+   "grade": "C",
+   "refs": [],
+   "gist": "字面是荆棘丛中喧闹，难以穿过。"
+  },
+  {
+   "n": 39,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《韩非子·功名》",
+     "quote": "一手獨拍，雖疾無聲",
+     "quote_s": "一手独拍，虽疾无声",
+     "url": "https://zh.wikisource.org/wiki/%E9%9F%93%E9%9D%9E%E5%AD%90/%E5%8A%9F%E5%90%8D",
+     "excerpt": "_dev/zhuge_sources/039_1.txt",
+     "note": "即「孤掌难鸣」。"
+    }
+   ],
+   "gist": "要谨慎说话做事，只怕一个巴掌拍不响，孤立无援。"
+  },
+  {
+   "n": 40,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《庄子·外物》",
+     "quote": "我且南遊吳、越之王，激西江之水而迎子",
+     "quote_s": "我且南游吴、越之王，激西江之水而迎子",
+     "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E5%A4%96%E7%89%A9",
+     "excerpt": "_dev/zhuge_sources/040_1.txt",
+     "note": "涸辙之鲋：车辙里的鲫鱼只求一点水活命。"
+    }
+   ],
+   "gist": "干车辙里的鲫鱼只盼一点西江水；霹雳一声，直上九天。"
+  },
+  {
+   "n": 41,
+   "grade": "C",
+   "refs": [],
+   "gist": "两只手劈开求名求利的路，一副肩膀挑尽洛阳的春色。"
+  },
+  {
+   "n": 42,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《左传·宣公十五年》",
+     "quote": "雖鞭之長，不及馬腹",
+     "quote_s": "虽鞭之长，不及马腹",
+     "url": "https://zh.wikisource.org/wiki/%E6%98%A5%E7%A7%8B%E5%B7%A6%E6%B0%8F%E5%82%B3/%E5%AE%A3%E5%85%AC",
+     "excerpt": "_dev/zhuge_sources/042_1.txt",
+     "match": "不及马腹",
+     "match_raw": "不及馬腹"
+    }
+   ],
+   "gist": "别赌气，别赌气；鞭子再长，也打不到马肚子，总有够不着的地方。"
+  },
+  {
+   "n": 43,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《世说新语·排调》",
+     "quote": "盲人騎瞎馬，夜半臨深池",
+     "quote_s": "盲人骑瞎马，夜半临深池",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%96%E8%AA%AA%E6%96%B0%E8%AA%9E/%E6%8E%92%E8%AA%BF",
+     "excerpt": "_dev/zhuge_sources/043_1.txt",
+     "match": "盲人骑瞎马",
+     "match_raw": "盲人騎瞎馬",
+     "note": "桓玄等人作「危语」比赛，形容极其危险。"
+    }
+   ],
+   "gist": "瞎子骑着瞎马，半夜走到深水池边，形容极其危险。"
+  },
+  {
+   "n": 44,
+   "grade": "C",
+   "refs": [],
+   "gist": "真好，很好。"
+  },
+  {
+   "n": 45,
+   "grade": "C",
+   "refs": [],
+   "gist": "老天不加害。"
+  },
+  {
+   "n": 46,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《礼记·中庸》",
+     "quote": "天之所覆，地之所載",
+     "quote_s": "天之所覆，地之所载",
+     "url": "https://zh.wikisource.org/wiki/%E7%A6%AE%E8%A8%98/%E4%B8%AD%E5%BA%B8",
+     "excerpt": "_dev/zhuge_sources/046_1.txt"
+    },
+    {
+     "kind": "B",
+     "work": "《诗经·小雅·鹤鸣》",
+     "quote": "鶴鳴于九皐，聲聞于天",
+     "quote_s": "鹤鸣于九皐，声闻于天",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E9%B6%B4%E9%B3%B4",
+     "excerpt": "_dev/zhuge_sources/046_2.txt"
+    }
+   ],
+   "gist": "天覆盖、地承载，万物都依赖它；仙鹤在深泽中鸣叫，声音远传云外。"
+  },
+  {
+   "n": 47,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《论语·先进》",
+     "quote": "夫人不言，言必有中",
+     "quote_s": "夫人不言，言必有中",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%AA%9E/%E5%85%88%E9%80%B2%E7%AC%AC%E5%8D%81%E4%B8%80",
+     "excerpt": "_dev/zhuge_sources/047_1.txt",
+     "match": "夫人不言",
+     "match_raw": "夫人不言",
+     "note": "孔子称赞闵子骞：这个人不轻易开口，一开口就说中要害。"
+    }
+   ],
+   "gist": "前后左右有人簇拥；这个人平时不说话，一开口就说中要害。"
+  },
+  {
+   "n": 48,
+   "grade": "C",
+   "refs": [],
+   "gist": "水中的月、镜里的花，看着是好景，却不知落在谁家，可望不可即。"
+  },
+  {
+   "n": 49,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "王充《论衡·是应》",
+     "quote": "風不鳴條，雨不破塊",
+     "quote_s": "风不鸣条，雨不破块",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%A1%A1/52",
+     "excerpt": "_dev/zhuge_sources/049_1.txt",
+     "match": "风不鸣条",
+     "match_raw": "風不鳴條",
+     "note": "风不吹响树枝、雨不打碎土块，古人说的太平景象。"
+    },
+    {
+     "kind": "B",
+     "work": "《韩诗外传》（《太平御览》卷十二引）",
+     "quote": "凡草木花多五出，雪花獨六出",
+     "quote_s": "凡草木花多五出，雪花独六出",
+     "url": "https://zh.wikisource.org/wiki/%E5%A4%AA%E5%B9%B3%E5%BE%A1%E8%A6%BD/0012",
+     "excerpt": "_dev/zhuge_sources/049_2.txt",
+     "note": "「六出」指雪花六角。"
+    }
+   ],
+   "gist": "海上无浪，风不吹响树枝，六角雪花纷飞，飘在半空。"
+  },
+  {
+   "n": 50,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "王建《十五夜望月寄杜郎中》",
+     "quote": "冷露無聲濕桂花",
+     "quote_s": "冷露无声湿桂花",
+     "url": "https://zh.wikisource.org/wiki/%E5%8D%81%E4%BA%94%E5%A4%9C%E6%9C%9B%E6%9C%88%E5%AF%84%E6%9D%9C%E9%83%8E%E4%B8%AD",
+     "excerpt": "_dev/zhuge_sources/050_1.txt"
+    }
+   ],
+   "gist": "秋风有意摧残杨柳，冷露无声催老桂花。"
+  },
+  {
+   "n": 51,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "苏轼《赠刘景文》",
+     "quote": "荷盡已無擎雨蓋，菊殘猶有傲霜枝",
+     "quote_s": "荷尽已无擎雨盖，菊残犹有傲霜枝",
+     "url": "https://zh.wikisource.org/wiki/%E8%B4%88%E5%8A%89%E6%99%AF%E6%96%87",
+     "excerpt": "_dev/zhuge_sources/051_1.txt"
+    }
+   ],
+   "gist": "梅花老了仍耐得雪寒，菊花残了还有傲霜的枝。"
+  },
+  {
+   "n": 52,
+   "grade": "C",
+   "refs": [],
+   "gist": "签文只有一字：能。"
+  },
+  {
+   "n": 53,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "宋玉《对楚王问》",
+     "quote": "其為陽春白雪",
+     "quote_s": "其为阳春白雪",
+     "url": "https://zh.wikisource.org/wiki/%E6%98%AD%E6%98%8E%E6%96%87%E9%81%B8/%E5%8D%B745",
+     "excerpt": "_dev/zhuge_sources/053_1.txt",
+     "note": "「阳春白雪」是高雅的曲子。"
+    }
+   ],
+   "gist": "一心如《阳春白雪》般高雅，两袖只有清风明月，形容清高廉洁。"
+  },
+  {
+   "n": 54,
+   "grade": "C",
+   "refs": [],
+   "gist": "签文只有一字：难。"
+  },
+  {
+   "n": 55,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "杜甫《绝句》",
+     "quote": "兩個黃鸝鳴翠柳，一行白鷺上青天",
+     "quote_s": "两个黄鹂鸣翠柳，一行白鹭上青天",
+     "url": "https://zh.wikisource.org/wiki/%E7%B5%95%E5%8F%A5_(%E5%85%A9%E5%80%8B%E9%BB%83%E9%B8%9D%E9%B3%B4%E7%BF%A0%E6%9F%B3)",
+     "excerpt": "_dev/zhuge_sources/055_1.txt",
+     "match": "两个黄鹂鸣翠柳",
+     "match_raw": "兩個黃鸝鳴翠柳"
+    }
+   ],
+   "gist": "两只黄鹂在翠柳间鸣叫，一行白鹭飞上青天。"
+  },
+  {
+   "n": 56,
+   "grade": "C",
+   "refs": [],
+   "gist": "春雨催生千里绿野，秋风刮走满天花香。"
+  },
+  {
+   "n": 57,
+   "grade": "C",
+   "refs": [],
+   "gist": "昨夜花残还没落，今早被露水打湿又重新开放。"
+  },
+  {
+   "n": 58,
+   "grade": "C",
+   "refs": [],
+   "gist": "签文只有一字：好。"
+  },
+  {
+   "n": 59,
+   "grade": "C",
+   "refs": [],
+   "gist": "一朵乌云惊飞鸟雀，半天残月映着残花。"
+  },
+  {
+   "n": 60,
+   "grade": "C",
+   "refs": [],
+   "gist": "日月高悬开启昌盛气运，万里风云兴起宏伟蓝图。"
+  },
+  {
+   "n": 61,
+   "grade": "C",
+   "refs": [],
+   "gist": "刚离开发福生财之地，又进了堆金积玉之门。"
+  },
+  {
+   "n": 62,
+   "grade": "C",
+   "refs": [],
+   "gist": "要放宽心吃饭，站稳脚跟做人。"
+  },
+  {
+   "n": 63,
+   "grade": "C",
+   "refs": [],
+   "gist": "再进一步到门庭，便添十分春色。"
+  },
+  {
+   "n": 64,
+   "grade": "C",
+   "refs": [],
+   "gist": "春风轻拂柔柳，细雨滋润新苗。"
+  },
+  {
+   "n": 65,
+   "grade": "C",
+   "refs": [],
+   "gist": "心里没有亏心事，就不怕鬼来敲门。"
+  },
+  {
+   "n": 66,
+   "grade": "C",
+   "refs": [],
+   "gist": "可以，行得通。"
+  },
+  {
+   "n": 67,
+   "grade": "C",
+   "refs": [],
+   "gist": "不能，办不到。"
+  },
+  {
+   "n": 68,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《论语·阳货》",
+     "quote": "割雞焉用牛刀",
+     "quote_s": "割鸡焉用牛刀",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%AA%9E/%E9%99%BD%E8%B2%A8%E7%AC%AC%E5%8D%81%E4%B8%83",
+     "excerpt": "_dev/zhuge_sources/068_1.txt",
+     "match": "焉用牛刀",
+     "match_raw": "焉用牛刀"
+    }
+   ],
+   "gist": "杀鸡何必用宰牛的刀，小事不必大动干戈。"
+  },
+  {
+   "n": 69,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《诗经·召南·鹊巢》（四部丛刊本《毛诗》）",
+     "quote": "維鵲有巢維鳩居之",
+     "quote_s": "维鹊有巢维鸠居之",
+     "url": "https://zh.wikisource.org/wiki/%E6%AF%9B%E8%A9%A9_(%E5%9B%9B%E9%83%A8%E5%8F%A2%E5%88%8A%E6%9C%AC)/%E5%8D%B7%E7%AC%AC%E4%B8%80",
+     "excerpt": "_dev/zhuge_sources/069_1.txt",
+     "match": "维鹊有巢",
+     "match_raw": "維鵲有巢",
+     "note": "喜鹊筑的巢，斑鸠来住。"
+    }
+   ],
+   "gist": "喜鹊筑好的巢，斑鸠住了进去。"
+  },
+  {
+   "n": 70,
+   "grade": "C",
+   "refs": [],
+   "gist": "美酒润口，甘露沁心。"
+  },
+  {
+   "n": 71,
+   "grade": "C",
+   "refs": [],
+   "gist": "星斗移转，旧的去了，新的换来。"
+  },
+  {
+   "n": 72,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《后汉书·班超传》",
+     "quote": "不入虎穴，不得虎子",
+     "quote_s": "不入虎穴，不得虎子",
+     "url": "https://zh.wikisource.org/wiki/%E5%BE%8C%E6%BC%A2%E6%9B%B8/%E5%8D%B747",
+     "excerpt": "_dev/zhuge_sources/072_1.txt",
+     "match": "不入虎穴",
+     "match_raw": "不入虎穴"
+    }
+   ],
+   "gist": "不进老虎洞，怎能捉到小老虎。"
+  },
+  {
+   "n": 73,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《战国策·燕策二》",
+     "quote": "兩者不肯相舍，漁者得而并禽之",
+     "quote_s": "两者不肯相舍，渔者得而并禽之",
+     "url": "https://zh.wikisource.org/wiki/%E6%88%B0%E5%9C%8B%E7%AD%96_(%E5%A3%AB%E7%A6%AE%E5%B1%85%E5%8F%A2%E6%9B%B8%E6%9C%AC)/%E7%87%95/%E4%BA%8C",
+     "excerpt": "_dev/zhuge_sources/073_1.txt"
+    }
+   ],
+   "gist": "鹬和蚌相持不下，渔夫一并捉走，坐收其利。"
+  },
+  {
+   "n": 74,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《诗经·周南·麟之趾》",
+     "quote": "麟之趾，振振公子",
+     "quote_s": "麟之趾，振振公子",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E9%BA%9F%E4%B9%8B%E8%B6%BE",
+     "excerpt": "_dev/zhuge_sources/074_1.txt",
+     "note": "「麟趾」喻子孙仁厚贤良；「凤毛」喻子孙有父祖的才华。"
+    }
+   ],
+   "gist": "子孙有父祖的文采（凤毛）、仁厚贤良（麟趾），呈现祥瑞。"
+  },
+  {
+   "n": 75,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《世说新语·言语》",
+     "quote": "譬如芝蘭玉樹，欲使其生於階庭耳",
+     "quote_s": "譬如芝兰玉树，欲使其生于阶庭耳",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%96%E8%AA%AA%E6%96%B0%E8%AA%9E/%E8%A8%80%E8%AA%9E",
+     "excerpt": "_dev/zhuge_sources/075_1.txt",
+     "note": "「芝兰」「玉树」喻优秀子弟。"
+    }
+   ],
+   "gist": "芝兰争相秀发，玉树散发清香，称美子弟优秀。"
+  },
+  {
+   "n": 76,
+   "grade": "C",
+   "refs": [],
+   "gist": "不危险，去了又回来。"
+  },
+  {
+   "n": 77,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《汉书·梅福传》",
+     "quote": "倒持泰阿，授楚其柄",
+     "quote_s": "倒持泰阿，授楚其柄",
+     "url": "https://zh.wikisource.org/wiki/%E6%BC%A2%E6%9B%B8/%E5%8D%B7067",
+     "excerpt": "_dev/zhuge_sources/077_1.txt",
+     "note": "倒拿宝剑，把剑柄交给别人，比喻授人以权、反受其害。"
+    }
+   ],
+   "gist": "倒拿泰阿宝剑，把剑柄交给别人，对谁有好处？"
+  },
+  {
+   "n": 78,
+   "grade": "C",
+   "refs": [],
+   "gist": "春天暖和鱼儿化龙，秋高气爽鹿儿鸣叫。"
+  },
+  {
+   "n": 79,
+   "grade": "C",
+   "refs": [],
+   "gist": "在老虎旁边抢食，只有损害没有好处。"
+  },
+  {
+   "n": 80,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《韩诗外传》卷九",
+     "quote": "樹欲靜而風不止",
+     "quote_s": "树欲静而风不止",
+     "url": "https://zh.wikisource.org/wiki/%E9%9F%93%E8%A9%A9%E5%A4%96%E5%82%B3/%E5%8D%B7%E7%AC%AC9",
+     "excerpt": "_dev/zhuge_sources/080_1.txt"
+    }
+   ],
+   "gist": "树想静下来，风却不停。"
+  },
+  {
+   "n": 81,
+   "grade": "C",
+   "refs": [],
+   "gist": "蜻蜓在池塘上飞舞。"
+  },
+  {
+   "n": 82,
+   "grade": "C",
+   "refs": [],
+   "gist": "砍倒大树就有柴烧。"
+  },
+  {
+   "n": 83,
+   "grade": "C",
+   "refs": [],
+   "gist": "清晨看明月落到人家屋后。"
+  },
+  {
+   "n": 84,
+   "grade": "C",
+   "refs": [],
+   "gist": "正赶上牛郎织女两星渡鹊桥相会。"
+  },
+  {
+   "n": 85,
+   "grade": "C",
+   "refs": [],
+   "gist": "有想头，有指望。"
+  },
+  {
+   "n": 86,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《礼记·中庸》",
+     "quote": "半塗而廢",
+     "quote_s": "半涂而废",
+     "url": "https://zh.wikisource.org/wiki/%E7%A6%AE%E8%A8%98/%E4%B8%AD%E5%BA%B8",
+     "excerpt": "_dev/zhuge_sources/086_1.txt"
+    }
+   ],
+   "gist": "一条明路直通青天，却半途而废，可叹可怜。"
+  },
+  {
+   "n": 87,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《诗经·豳风·伐柯》",
+     "quote": "伐柯伐柯，其則不遠",
+     "quote_s": "伐柯伐柯，其则不远",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E4%BC%90%E6%9F%AF",
+     "excerpt": "_dev/zhuge_sources/087_1.txt",
+     "note": "手里拿着斧柄去砍斧柄，样子就在眼前；古人也以「伐柯」「执柯」指说媒。"
+    },
+    {
+     "kind": "B",
+     "work": "《礼记·中庸》",
+     "quote": "執柯以伐柯，睨而視之，猶以爲遠",
+     "quote_s": "执柯以伐柯，睨而视之，犹以为远",
+     "url": "https://zh.wikisource.org/wiki/%E7%A6%AE%E8%A8%98/%E4%B8%AD%E5%BA%B8",
+     "excerpt": "_dev/zhuge_sources/087_2.txt"
+    }
+   ],
+   "gist": "拿着斧柄去砍斧柄，样子就在手边；运数不多，不费手脚，也没有风波。"
+  },
+  {
+   "n": 88,
+   "grade": "C",
+   "refs": [],
+   "gist": "闲时赏月，忙时奔走，到头来里外都空。"
+  },
+  {
+   "n": 89,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《孟子·梁惠王上》",
+     "quote": "王！何必曰利？亦有仁義而已矣",
+     "quote_s": "王！何必曰利？亦有仁义而已矣",
+     "url": "https://zh.wikisource.org/wiki/%E5%AD%9F%E5%AD%90/%E6%A2%81%E6%83%A0%E7%8E%8B%E4%B8%8A",
+     "excerpt": "_dev/zhuge_sources/089_1.txt",
+     "match": "何必曰利",
+     "match_raw": "何必曰利"
+    }
+   ],
+   "gist": "依靠天地，何必开口说利；只要勤俭，胜过做买卖。"
+  },
+  {
+   "n": 90,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "李白《春夜宴从弟桃花园序》",
+     "quote": "而浮生若夢，為歡幾何",
+     "quote_s": "而浮生若梦，为欢几何",
+     "url": "https://zh.wikisource.org/wiki/%E6%98%A5%E5%A4%9C%E5%AE%B4%E6%A1%83%E6%9D%8E%E5%9C%92%E5%BA%8F",
+     "excerpt": "_dev/zhuge_sources/090_1.txt",
+     "match": "浮生若梦",
+     "match_raw": "浮生若夢"
+    }
+   ],
+   "gist": "人生像一场梦，不要妄贪；知足常乐，能忍自安。"
+  },
+  {
+   "n": 91,
+   "grade": "C",
+   "refs": [],
+   "gist": "江水洗心，江月照肝，走南闯北，不难不难。"
+  },
+  {
+   "n": 92,
+   "grade": "C",
+   "refs": [],
+   "gist": "好好好，一了百了，像雷惊、像风扫一样干脆。"
+  },
+  {
+   "n": 93,
+   "grade": "C",
+   "refs": [],
+   "gist": "离了又合，成了又破，再费口舌也无可奈何。"
+  },
+  {
+   "n": 94,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "程登吉《幼学琼林·鸟兽》",
+     "quote": "禍去禍又至，曰前門拒虎，後門進狼",
+     "quote_s": "祸去祸又至，曰前门拒虎，后门进狼",
+     "url": "https://zh.wikisource.org/wiki/%E5%B9%BC%E5%AD%B8%E7%93%8A%E6%9E%97/%E5%8D%B7%E5%9B%9B",
+     "excerpt": "_dev/zhuge_sources/094_1.txt",
+     "match": "前门拒虎",
+     "match_raw": "前門拒虎",
+     "note": "明末蒙学书《幼学琼林》对这句俗语的解释：祸去祸又至。"
+    }
+   ],
+   "gist": "前门挡住老虎，后门又进来狼；要谨慎，切勿逞强。"
+  },
+  {
+   "n": 95,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "邵雍（《伊川击壤集》卷八）",
+     "quote": "不作風波於世上，自無冰炭到胸中",
+     "quote_s": "不作风波于世上，自无冰炭到胸中",
+     "url": "https://zh.wikisource.org/wiki/%E4%BC%8A%E5%B7%9D%E6%93%8A%E5%A3%A4%E9%9B%86/8",
+     "excerpt": "_dev/zhuge_sources/095_1.txt",
+     "match": "不作风波於世上",
+     "match_raw": "不作風波於世上"
+    }
+   ],
+   "gist": "不在世上兴风作浪，心中自然没有冰炭般的煎熬冲突。"
+  },
+  {
+   "n": 96,
+   "grade": "C",
+   "refs": [],
+   "gist": "别惆怅，命里只有八尺，难求一丈。"
+  },
+  {
+   "n": 97,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《世说新语·容止》",
+     "quote": "其醉也，傀俄若玉山之將崩",
+     "quote_s": "其醉也，傀俄若玉山之将崩",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%96%E8%AA%AA%E6%96%B0%E8%AA%9E/%E5%AE%B9%E6%AD%A2",
+     "excerpt": "_dev/zhuge_sources/097_1.txt",
+     "note": "「玉山颓」形容醉倒。"
+    }
+   ],
+   "gist": "闲时只夸金屋好，梦里不觉自己已醉倒（玉山颓）。"
+  },
+  {
+   "n": 98,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "苏轼《后赤壁赋》",
+     "quote": "山高月小，水落石出",
+     "quote_s": "山高月小，水落石出",
+     "url": "https://zh.wikisource.org/wiki/%E5%BE%8C%E8%B5%A4%E5%A3%81%E8%B3%A6",
+     "excerpt": "_dev/zhuge_sources/098_1.txt",
+     "match": "水落石出",
+     "match_raw": "水落石出"
+    }
+   ],
+   "gist": "猛虎相斗，飞龙相争，等到水落石出，草木都沾上腥气。"
+  },
+  {
+   "n": 99,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "李白《山中问答》",
+     "quote": "桃花流水窅然去",
+     "quote_s": "桃花流水窅然去",
+     "url": "https://zh.wikisource.org/wiki/%E5%B1%B1%E4%B8%AD%E5%95%8F%E8%8D%85",
+     "excerpt": "_dev/zhuge_sources/099_1.txt"
+    },
+    {
+     "kind": "B",
+     "work": "李白《春夜宴从弟桃花园序》",
+     "quote": "大塊假我以文章",
+     "quote_s": "大块假我以文章",
+     "url": "https://zh.wikisource.org/wiki/%E6%98%A5%E5%A4%9C%E5%AE%B4%E6%A1%83%E6%9D%8E%E5%9C%92%E5%BA%8F",
+     "excerpt": "_dev/zhuge_sources/099_2.txt",
+     "note": "「大块」指大自然，「文章」指自然景色的文采。"
+    }
+   ],
+   "gist": "落花随流水远去，大自然的锦绣文章终归是虚。"
+  },
+  {
+   "n": 100,
+   "grade": "C",
+   "refs": [],
+   "gist": "一杯美酒洒向荒野，两袖春风扫去旧尘。"
+  },
+  {
+   "n": 101,
+   "grade": "C",
+   "refs": [],
+   "gist": "知足才能快乐，吃得亏才是发财之源。"
+  },
+  {
+   "n": 102,
+   "grade": "C",
+   "refs": [],
+   "gist": "苦雨摧残桃李颜色，凄风吹折杨柳枝条。"
+  },
+  {
+   "n": 103,
+   "grade": "C",
+   "refs": [],
+   "gist": "发财到了顶点该先退一步，得意到了极处就该罢休。"
+  },
+  {
+   "n": 104,
+   "grade": "C",
+   "refs": [],
+   "gist": "灯花爆、喜鹊叫，燕子成双回到旧巢。"
+  },
+  {
+   "n": 105,
+   "grade": "C",
+   "refs": [],
+   "gist": "风中的蜡烛、草上的霜，虽然闪亮，不能长久。"
+  },
+  {
+   "n": 106,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "王维《田园乐》",
+     "quote": "桃紅復含宿雨，柳綠更帶朝煙",
+     "quote_s": "桃红复含宿雨，柳绿更带朝烟",
+     "url": "https://zh.wikisource.org/wiki/%E7%94%B0%E5%9C%92%E6%A8%82_(%E6%A1%83%E7%B4%85%E5%BE%A9%E5%90%AB%E5%AE%BF%E9%9B%A8)",
+     "excerpt": "_dev/zhuge_sources/106_1.txt",
+     "match": "桃红复含宿雨",
+     "match_raw": "桃紅復含宿雨"
+    }
+   ],
+   "gist": "桃花还含着昨夜的雨，柳色更带着早晨的烟。"
+  },
+  {
+   "n": 107,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《周易·鼎》九四",
+     "quote": "鼎折足，覆公餗",
+     "quote_s": "鼎折足，覆公餗",
+     "url": "https://zh.wikisource.org/wiki/%E5%91%A8%E6%98%93/%E9%BC%8E",
+     "excerpt": "_dev/zhuge_sources/107_1.txt",
+     "note": "鼎断了腿，打翻了里面的食物。签文「鼎折足」三字与原文相同，不足一整句四字，按规则记化用。"
+    }
+   ],
+   "gist": "鼎断了腿，车脱了辐，日已过午，风吹烛火。"
+  },
+  {
+   "n": 108,
+   "grade": "C",
+   "refs": [],
+   "gist": "要小心，别往外乱跑，一步走错百步都歪。"
+  },
+  {
+   "n": 109,
+   "grade": "C",
+   "refs": [],
+   "gist": "桃李争春色，春天一过，桃李都被撇下。"
+  },
+  {
+   "n": 110,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《尚书·旅獒》",
+     "quote": "為山九仞，功虧一簣",
+     "quote_s": "为山九仞，功亏一篑",
+     "url": "https://zh.wikisource.org/wiki/%E5%B0%9A%E6%9B%B8/%E6%97%85%E7%8D%92",
+     "excerpt": "_dev/zhuge_sources/110_1.txt",
+     "match": "为山九仞",
+     "match_raw": "為山九仞",
+     "note": "堆九仞高的山，只差一筐土没完成。"
+    }
+   ],
+   "gist": "堆九仞高的山，只差最后一筐土而没有完成。"
+  },
+  {
+   "n": 111,
+   "grade": "C",
+   "refs": [],
+   "gist": "先像山倒一样猛，后像抽丝一样慢。"
+  },
+  {
+   "n": 112,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《后汉书·冯异传》",
+     "quote": "可謂失之東隅，收之桑榆",
+     "quote_s": "可谓失之东隅，收之桑榆",
+     "url": "https://zh.wikisource.org/wiki/%E5%BE%8C%E6%BC%A2%E6%9B%B8/%E5%8D%B717",
+     "excerpt": "_dev/zhuge_sources/112_1.txt",
+     "match": "失之东隅",
+     "match_raw": "失之東隅",
+     "note": "东隅指早晨，桑榆指傍晚：早上失去的，傍晚又得回来。"
+    }
+   ],
+   "gist": "早上失去的，傍晚又得回来（东隅指日出处，桑榆指日落处）。"
+  },
+  {
+   "n": 113,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《后汉书·马援传》",
+     "quote": "所謂刻鵠不成尚類鶩者也",
+     "quote_s": "所谓刻鹄不成尚类鹜者也",
+     "url": "https://zh.wikisource.org/wiki/%E5%BE%8C%E6%BC%A2%E6%9B%B8/%E5%8D%B724",
+     "excerpt": "_dev/zhuge_sources/113_1.txt"
+    }
+   ],
+   "gist": "刻天鹅不成像只鸭子，画老虎不成反像狗。"
+  },
+  {
+   "n": 114,
+   "grade": "C",
+   "refs": [],
+   "gist": "红梅结了果子，绿竹生出新笋。"
+  },
+  {
+   "n": 115,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "贾谊《治安策》",
+     "quote": "前車覆，後車誡",
+     "quote_s": "前车覆，后车诫",
+     "url": "https://zh.wikisource.org/wiki/%E6%B2%BB%E5%AE%89%E7%AD%96",
+     "excerpt": "_dev/zhuge_sources/115_1.txt"
+    }
+   ],
+   "gist": "前面的车翻了，后面的车引以为戒。"
+  },
+  {
+   "n": 116,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《论语·八佾》",
+     "quote": "獲罪於天，無所禱也",
+     "quote_s": "获罪于天，无所祷也",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%AA%9E/%E5%85%AB%E4%BD%BE%E7%AC%AC%E4%B8%89",
+     "excerpt": "_dev/zhuge_sources/116_1.txt",
+     "match": "获罪於天",
+     "match_raw": "獲罪於天"
+    }
+   ],
+   "gist": "得罪了上天，祷告也没用。"
+  },
+  {
+   "n": 117,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《礼记·中庸》",
+     "quote": "半塗而廢",
+     "quote_s": "半涂而废",
+     "url": "https://zh.wikisource.org/wiki/%E7%A6%AE%E8%A8%98/%E4%B8%AD%E5%BA%B8",
+     "excerpt": "_dev/zhuge_sources/117_1.txt"
+    }
+   ],
+   "gist": "半途而废，叫人落泪。"
+  },
+  {
+   "n": 118,
+   "grade": "C",
+   "refs": [],
+   "gist": "早晚琢磨，又能把命运怎样。"
+  },
+  {
+   "n": 119,
+   "grade": "C",
+   "refs": [],
+   "gist": "命该如此，不可妄想。"
+  },
+  {
+   "n": 120,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《山海经·北山经》",
+     "quote": "常銜西山之木石，以堙于東海",
+     "quote_s": "常衔西山之木石，以堙于东海",
+     "url": "https://zh.wikisource.org/wiki/%E5%B1%B1%E6%B5%B7%E7%B6%93/%E5%8C%97%E5%B1%B1%E7%B6%93",
+     "excerpt": "_dev/zhuge_sources/120_1.txt"
+    }
+   ],
+   "gist": "精卫鸟衔石填海，白费心机。"
+  },
+  {
+   "n": 121,
+   "grade": "C",
+   "refs": [],
+   "gist": "心里难忍，心里难安。"
+  },
+  {
+   "n": 122,
+   "grade": "C",
+   "refs": [],
+   "gist": "事不关己，何必着急。"
+  },
+  {
+   "n": 123,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《孟子·告子上》",
+     "quote": "求則得之，舍則失之",
+     "quote_s": "求则得之，舍则失之",
+     "url": "https://zh.wikisource.org/wiki/%E5%AD%9F%E5%AD%90/%E5%91%8A%E5%AD%90%E4%B8%8A",
+     "excerpt": "_dev/zhuge_sources/123_1.txt",
+     "match": "求则得之",
+     "match_raw": "求則得之"
+    }
+   ],
+   "gist": "去追求就得到，放弃就失去。"
+  },
+  {
+   "n": 124,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《世说新语·方正》",
+     "quote": "此郎亦管中窺豹，時見一斑",
+     "quote_s": "此郎亦管中窥豹，时见一斑",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%96%E8%AA%AA%E6%96%B0%E8%AA%9E/%E6%96%B9%E6%AD%A3",
+     "excerpt": "_dev/zhuge_sources/124_1.txt",
+     "match": "管中窥豹",
+     "match_raw": "管中窺豹"
+    }
+   ],
+   "gist": "从竹管里看豹，只看到一块斑；像井底看天，所见狭小。"
+  },
+  {
+   "n": 125,
+   "grade": "C",
+   "refs": [],
+   "gist": "既然知道如此，何必还要如此。"
+  },
+  {
+   "n": 126,
+   "grade": "C",
+   "refs": [],
+   "gist": "明知没有影子，却来问谁。"
+  },
+  {
+   "n": 127,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《诗经·鄘风·蝃蝀》",
+     "quote": "蝃蝀在東，莫之敢指",
+     "quote_s": "蝃蝀在东，莫之敢指",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E8%9D%83%E8%9D%80",
+     "excerpt": "_dev/zhuge_sources/127_1.txt",
+     "match": "蝃蝀在东",
+     "match_raw": "蝃蝀在東",
+     "note": "蝃蝀即彩虹，古人以为不可用手指它。"
+    }
+   ],
+   "gist": "彩虹出在东方，没人敢用手指它。"
+  },
+  {
+   "n": 128,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《晋书·乐广传》",
+     "quote": "若披雲霧而睹青天",
+     "quote_s": "若披云雾而睹青天",
+     "url": "https://zh.wikisource.org/wiki/%E6%99%89%E6%9B%B8/%E5%8D%B7043",
+     "excerpt": "_dev/zhuge_sources/128_1.txt"
+    }
+   ],
+   "gist": "拨开黑雾，看见青天。"
+  },
+  {
+   "n": 129,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《后汉书·隗嚣传》",
+     "quote": "元請以一丸泥為大王東封函谷關",
+     "quote_s": "元请以一丸泥为大王东封函谷关",
+     "url": "https://zh.wikisource.org/wiki/%E5%BE%8C%E6%BC%A2%E6%9B%B8/%E5%8D%B713",
+     "excerpt": "_dev/zhuge_sources/129_1.txt",
+     "note": "王元夸口用一小团泥就能封住函谷关，形容地势险要、守关容易。"
+    }
+   ],
+   "gist": "一丸泥就能封住函谷关，形容地势险要、容易守住。"
+  },
+  {
+   "n": 130,
+   "grade": "C",
+   "refs": [],
+   "gist": "花开能红几时。"
+  },
+  {
+   "n": 131,
+   "grade": "C",
+   "refs": [],
+   "gist": "同心协力，一起登上云梯。"
+  },
+  {
+   "n": 132,
+   "grade": "C",
+   "refs": [],
+   "gist": "一竿明月，钓着秋风。"
+  },
+  {
+   "n": 133,
+   "grade": "C",
+   "refs": [],
+   "gist": "掌上明珠被埋进粪土。"
+  },
+  {
+   "n": 134,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "杜甫《奉和贾至舍人早朝大明宫》（《全唐诗》卷二百二十五）",
+     "quote": "欲知世掌絲綸美，池上於今有鳳毛",
+     "quote_s": "欲知世掌丝纶美，池上于今有凤毛",
+     "url": "https://zh.wikisource.org/wiki/%E5%85%A8%E5%94%90%E8%A9%A9/%E5%8D%B7225",
+     "excerpt": "_dev/zhuge_sources/134_1.txt",
+     "match": "池上於今有凤毛",
+     "match_raw": "池上於今有鳳毛",
+     "note": "贾至父子两代都替皇帝起草诏书，「凤毛」称赞儿子有父亲的文采。"
+    }
+   ],
+   "gist": "池上如今又有凤毛：称赞儿子继承了父辈的文采。"
+  },
+  {
+   "n": 135,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《诗经·周南·麟之趾》",
+     "quote": "麟之趾，振振公子",
+     "quote_s": "麟之趾，振振公子",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E9%BA%9F%E4%B9%8B%E8%B6%BE",
+     "excerpt": "_dev/zhuge_sources/135_1.txt",
+     "note": "「麟趾」喻贤良子孙；「玉堂」指翰林院。"
+    }
+   ],
+   "gist": "子孙贤良（麟趾），春意正深时步入玉堂（翰林院）。"
+  },
+  {
+   "n": 136,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《庄子·庚桑楚》",
+     "quote": "越雞不能伏鵠卵",
+     "quote_s": "越鸡不能伏鹄卵",
+     "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E5%BA%9A%E6%A1%91%E6%A5%9A",
+     "excerpt": "_dev/zhuge_sources/136_1.txt"
+    }
+   ],
+   "gist": "越地的小鸡怎能孵天鹅蛋。"
+  },
+  {
+   "n": 137,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《庄子·逍遥游》",
+     "quote": "蜩與學鳩笑之",
+     "quote_s": "蜩与学鸠笑之",
+     "url": "https://zh.wikisource.org/wiki/%E5%8D%97%E8%8F%AF%E7%9C%9F%E7%B6%93%E5%89%AF%E5%A2%A8/%E9%80%8D%E9%81%99%E9%81%8A%E7%AC%AC%E4%B8%80",
+     "excerpt": "_dev/zhuge_sources/137_1.txt",
+     "note": "小蝉和小斑鸠嘲笑飞九万里的大鹏。"
+    }
+   ],
+   "gist": "小鸟竟敢嘲笑大鹏，比喻见识小的人讥笑志向远大的人。"
+  },
+  {
+   "n": 138,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "赵师秀《约客》",
+     "quote": "黃梅時節家家雨，青草池塘處處蛙",
+     "quote_s": "黄梅时节家家雨，青草池塘处处蛙",
+     "url": "https://zh.wikisource.org/wiki/%E7%B4%84%E5%AE%A2",
+     "excerpt": "_dev/zhuge_sources/138_1.txt",
+     "match": "青草池塘处处蛙",
+     "match_raw": "青草池塘處處蛙"
+    }
+   ],
+   "gist": "长满青草的池塘边，到处是蛙声。"
+  },
+  {
+   "n": 139,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《论语·微子》",
+     "quote": "鳥獸不可與同群",
+     "quote_s": "鸟兽不可与同群",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%AA%9E/%E5%BE%AE%E5%AD%90%E7%AC%AC%E5%8D%81%E5%85%AB",
+     "excerpt": "_dev/zhuge_sources/139_1.txt",
+     "match": "鸟兽不可与同群",
+     "match_raw": "鳥獸不可與同群"
+    }
+   ],
+   "gist": "人不能与鸟兽同群。"
+  },
+  {
+   "n": 140,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《搜神记》（《太平御览》卷九百五十引）",
+     "quote": "用錢去貨，旋則自還",
+     "quote_s": "用钱去货，旋则自还",
+     "url": "https://zh.wikisource.org/wiki/%E5%A4%AA%E5%B9%B3%E5%BE%A1%E8%A6%BD/0950",
+     "excerpt": "_dev/zhuge_sources/140_1.txt",
+     "note": "青蚨是传说中的虫，用它的血涂钱，花出去的钱会自己飞回来。"
+    }
+   ],
+   "gist": "青蚨钱飞去又飞回来（传说用青蚨血涂钱，花出去会自己回来）。"
+  },
+  {
+   "n": 141,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "陆游《游山西村》",
+     "quote": "山重水複疑無路，柳暗花明又一村",
+     "quote_s": "山重水复疑无路，柳暗花明又一村",
+     "url": "https://zh.wikisource.org/wiki/%E9%81%8A%E5%B1%B1%E8%A5%BF%E6%9D%91",
+     "excerpt": "_dev/zhuge_sources/141_1.txt"
+    }
+   ],
+   "gist": "柳色浓暗、花色明艳，别有一番天地。"
+  },
+  {
+   "n": 142,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《元史·阿沙不花传》",
+     "quote": "是猶兩斧伐孤樹，未有不顛仆者也",
+     "quote_s": "是犹两斧伐孤树，未有不颠仆者也",
+     "url": "https://zh.wikisource.org/wiki/%E5%85%83%E5%8F%B2/%E5%8D%B7136",
+     "excerpt": "_dev/zhuge_sources/142_1.txt"
+    }
+   ],
+   "gist": "两把斧头砍一棵孤树（原典用来比喻酒色伤身）。"
+  },
+  {
+   "n": 143,
+   "grade": "C",
+   "refs": [],
+   "gist": "千般辛苦刺痛肚腹。"
+  },
+  {
+   "n": 144,
+   "grade": "C",
+   "refs": [],
+   "gist": "百种酸楚搅动肝肠。"
+  },
+  {
+   "n": 145,
+   "grade": "C",
+   "refs": [],
+   "gist": "一寸一步都难走。"
+  },
+  {
+   "n": 146,
+   "grade": "C",
+   "refs": [],
+   "gist": "痴心妄想。"
+  },
+  {
+   "n": 147,
+   "grade": "C",
+   "refs": [],
+   "gist": "船翻在洋沟里。"
+  },
+  {
+   "n": 148,
+   "grade": "C",
+   "refs": [],
+   "gist": "在青云路上得了一步。"
+  },
+  {
+   "n": 149,
+   "grade": "C",
+   "refs": [],
+   "gist": "签文只有一字：难。"
+  },
+  {
+   "n": 150,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "翁森《四时读书乐》",
+     "quote": "好鳥枝頭亦朋友，落花水面皆文章",
+     "quote_s": "好鸟枝头亦朋友，落花水面皆文章",
+     "url": "https://zh.wikisource.org/wiki/%E5%9B%9B%E6%99%82%E8%AE%80%E6%9B%B8%E6%A8%82",
+     "excerpt": "_dev/zhuge_sources/150_1.txt"
+    }
+   ],
+   "gist": "别轻狂，要放开度量：枝头好鸟都是朋友，水上落花也成文章。"
+  },
+  {
+   "n": 151,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《尚书·泰誓上》",
+     "quote": "惟人，萬物之靈",
+     "quote_s": "惟人，万物之灵",
+     "url": "https://zh.wikisource.org/wiki/%E5%B0%9A%E6%9B%B8/%E6%B3%B0%E8%AA%93%E4%B8%8A",
+     "excerpt": "_dev/zhuge_sources/151_1.txt"
+    }
+   ],
+   "gist": "人是万物之灵，鬼是万物之精，灵的捉弄精的，精的捉弄灵的。"
+  },
+  {
+   "n": 152,
+   "grade": "C",
+   "refs": [],
+   "gist": "又愁又忧，用大被蒙头；睡了又醒，醒了又像云一样四处游荡。"
+  },
+  {
+   "n": 153,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《论语·颜渊》",
+     "quote": "死生有命，富貴在天",
+     "quote_s": "死生有命，富贵在天",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%AA%9E/%E9%A1%8F%E6%B7%B5%E7%AC%AC%E5%8D%81%E4%BA%8C",
+     "excerpt": "_dev/zhuge_sources/153_1.txt",
+     "match": "富贵在天",
+     "match_raw": "富貴在天"
+    }
+   ],
+   "gist": "穷困显达由命，富贵在天，南奔北走都是白费。"
+  },
+  {
+   "n": 154,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《诗经·小雅·大田》",
+     "quote": "去其螟螣，及其蟊賊",
+     "quote_s": "去其螟螣，及其蟊贼",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E5%A4%A7%E7%94%B0",
+     "excerpt": "_dev/zhuge_sources/154_1.txt",
+     "note": "螟、螣、蟊、贼都是吃庄稼的害虫。"
+    }
+   ],
+   "gist": "螟、蝽、蟊、贼这些害虫突然遍布四野，厌恶也除不尽，想去也去不掉。"
+  },
+  {
+   "n": 155,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "杜甫《赠卫八处士》",
+     "quote": "人生不相見，動如參與商",
+     "quote_s": "人生不相见，动如参与商",
+     "url": "https://zh.wikisource.org/wiki/%E8%B4%88%E8%A1%9B%E5%85%AB%E8%99%95%E5%A3%AB",
+     "excerpt": "_dev/zhuge_sources/155_1.txt",
+     "note": "参星在西、商星在东，此出彼没，永不同时出现。"
+    }
+   ],
+   "gist": "参星在西、商星在东，虽然各有方位，永远不能相见。"
+  },
+  {
+   "n": 156,
+   "grade": "C",
+   "refs": [],
+   "gist": "竹子本无心却多生枝叶；藕虽有孔，却不染污泥。"
+  },
+  {
+   "n": 157,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "张籍《行路难》",
+     "quote": "君不見床頭黃金盡，壯士無顏色",
+     "quote_s": "君不见床头黄金尽，壮士无颜色",
+     "url": "https://zh.wikisource.org/wiki/%E8%A1%8C%E8%B7%AF%E9%9B%A3_(%E5%BC%B5%E7%B1%8D)",
+     "excerpt": "_dev/zhuge_sources/157_1.txt"
+    }
+   ],
+   "gist": "袋里钱空，床头金尽，虽住在闹市，谁肯亲近。"
+  },
+  {
+   "n": 158,
+   "grade": "C",
+   "refs": [],
+   "gist": "鸟急了投树，狗急了跳墙；遇到此事，切勿转向。"
+  },
+  {
+   "n": 159,
+   "grade": "C",
+   "refs": [],
+   "gist": "签文只有一字：能。"
+  },
+  {
+   "n": 160,
+   "grade": "C",
+   "refs": [],
+   "gist": "山崩水落，草焦花燃，人人吐火，树树冒烟，形容酷热焦躁。"
+  },
+  {
+   "n": 161,
+   "grade": "C",
+   "refs": [],
+   "gist": "风里点蜡烛，旱地抓鱼；一片赤诚虽有，名利却无。"
+  },
+  {
+   "n": 162,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《礼记·中庸》",
+     "quote": "故天之生物，必因其材而篤焉",
+     "quote_s": "故天之生物，必因其材而笃焉",
+     "url": "https://zh.wikisource.org/wiki/%E7%A6%AE%E8%A8%98/%E4%B8%AD%E5%BA%B8",
+     "excerpt": "_dev/zhuge_sources/162_1.txt",
+     "match": "天之生物",
+     "match_raw": "天之生物"
+    }
+   ],
+   "gist": "天生万物，会依其资质加以厚待；痴心妄想，天也难以照顾。"
+  },
+  {
+   "n": 163,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《礼记·经解》",
+     "quote": "差若豪氂，繆以千里",
+     "quote_s": "差若豪氂，缪以千里",
+     "url": "https://zh.wikisource.org/wiki/%E7%A6%AE%E8%A8%98/%E7%B6%93%E8%A7%A3",
+     "excerpt": "_dev/zhuge_sources/163_1.txt"
+    }
+   ],
+   "gist": "别高兴，始终没底；开头差一丝一毫，结果错到千里。"
+  },
+  {
+   "n": 164,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《孟子·告子下》",
+     "quote": "不揣其本，而齊其末",
+     "quote_s": "不揣其本，而齐其末",
+     "url": "https://zh.wikisource.org/wiki/%E5%AD%9F%E5%AD%90/%E5%91%8A%E5%AD%90%E4%B8%8B",
+     "excerpt": "_dev/zhuge_sources/164_1.txt",
+     "match": "不揣其本",
+     "match_raw": "不揣其本",
+     "note": "不量底部而只比顶端，一寸长的木头也能比高楼高。"
+    }
+   ],
+   "gist": "不量基础，只比末梢；虽解燃眉之急，恐怕留下后患。"
+  },
+  {
+   "n": 165,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《山海经·海外北经》",
+     "quote": "夸父與日逐走",
+     "quote_s": "夸父与日逐走",
+     "url": "https://zh.wikisource.org/wiki/%E5%B1%B1%E6%B5%B7%E7%B6%93/%E6%B5%B7%E5%A4%96%E5%8C%97%E7%B6%93",
+     "excerpt": "_dev/zhuge_sources/165_1.txt"
+    },
+    {
+     "kind": "B",
+     "work": "《列子·天瑞》",
+     "quote": "杞國有人憂天地崩墜",
+     "quote_s": "杞国有人忧天地崩坠",
+     "url": "https://zh.wikisource.org/wiki/%E5%88%97%E5%AD%90/%E5%A4%A9%E7%91%9E%E7%AF%87",
+     "excerpt": "_dev/zhuge_sources/165_2.txt"
+    }
+   ],
+   "gist": "夸父追太阳，杞人担心天塌；心小气大，名利茫然。"
+  },
+  {
+   "n": 166,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《吕氏春秋·察今》",
+     "quote": "楚人有涉江者，其劍自舟中墜於水，遽契其舟",
+     "quote_s": "楚人有涉江者，其剑自舟中坠于水，遽契其舟",
+     "url": "https://zh.wikisource.org/wiki/%E5%91%82%E6%B0%8F%E6%98%A5%E7%A7%8B/%E5%8D%B7%E5%8D%81%E4%BA%94",
+     "excerpt": "_dev/zhuge_sources/166_1.txt",
+     "note": "刻舟求剑。"
+    },
+    {
+     "kind": "B",
+     "work": "《资治通鉴·唐纪》",
+     "quote": "吾聞西域賈胡得美珠，剖身以藏之",
+     "quote_s": "吾闻西域贾胡得美珠，剖身以藏之",
+     "url": "https://zh.wikisource.org/wiki/%E8%B3%87%E6%B2%BB%E9%80%9A%E9%91%91/%E5%8D%B7192",
+     "excerpt": "_dev/zhuge_sources/166_2.txt",
+     "note": "唐太宗说：听说西域商人得到宝珠，剖开身体藏起来，爱珠而不爱身。"
+    }
+   ],
+   "gist": "刻舟求剑，剖腹藏珠；一片赤心，名利却虚空。"
+  },
+  {
+   "n": 167,
+   "grade": "C",
+   "refs": [],
+   "gist": "替人谋划，图的是什么？成了累坏筋骨，败了落得匹夫。"
+  },
+  {
+   "n": 168,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《大戴礼记·劝学》（《荀子·劝学》同）",
+     "quote": "青取之於藍而青於藍，水則爲冰而寒於水",
+     "quote_s": "青取之于蓝而青于蓝，水则为冰而寒于水",
+     "url": "https://zh.wikisource.org/wiki/%E5%A4%A7%E6%88%B4%E7%A6%AE%E8%A8%98/%E5%8B%B8%E5%AD%B8",
+     "excerpt": "_dev/zhuge_sources/168_1.txt"
+    }
+   ],
+   "gist": "冰由水结成却比水更冷，青色从蓝草提取却比蓝更深，比喻后来居上。"
+  },
+  {
+   "n": 169,
+   "grade": "C",
+   "refs": [],
+   "gist": "无可奈何；河流中间见到砥柱，平地上掀起风波。"
+  },
+  {
+   "n": 170,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《列子·说符》",
+     "quote": "淄澠之合，易牙嘗而知之",
+     "quote_s": "淄渑之合，易牙尝而知之",
+     "url": "https://zh.wikisource.org/wiki/%E5%88%97%E5%AD%90/%E8%AA%AA%E7%AC%A6%E7%AF%87",
+     "excerpt": "_dev/zhuge_sources/170_1.txt",
+     "note": "淄水、渑水两条河味道不同，易牙一尝就分得出。"
+    }
+   ],
+   "gist": "淄水渑水的滋味、泾水渭水的清浊都要分辨，只怕分辨不均，乱成一团。"
+  },
+  {
+   "n": 171,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《左传·僖公四年》",
+     "quote": "一薰一蕕，十年尚猶有臭",
+     "quote_s": "一薰一莸，十年尚犹有臭",
+     "url": "https://zh.wikisource.org/wiki/%E6%98%A5%E7%A7%8B%E5%B7%A6%E6%B0%8F%E5%82%B3/%E5%83%96%E5%85%AC",
+     "excerpt": "_dev/zhuge_sources/171_1.txt",
+     "match": "一薰一莸",
+     "match_raw": "一薰一蕕",
+     "note": "香草与臭草放在一起，十年后还有臭味，比喻恶易染、善难存。"
+    }
+   ],
+   "gist": "别强求；香草和臭草放在一起，十年后还有臭味。"
+  },
+  {
+   "n": 172,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《晋书·谢鲲传》",
+     "quote": "隗誠始禍，然城狐社鼠也",
+     "quote_s": "隗诚始祸，然城狐社鼠也",
+     "url": "https://zh.wikisource.org/wiki/%E6%99%89%E6%9B%B8/%E5%8D%B7049",
+     "excerpt": "_dev/zhuge_sources/172_1.txt",
+     "note": "城墙里的狐狸、土地庙里的老鼠，比喻有靠山的小人。"
+    },
+    {
+     "kind": "B",
+     "work": "萧绎《金楼子·立言》",
+     "quote": "陶犬無守夜之警，瓦雞無司晨之益",
+     "quote_s": "陶犬无守夜之警，瓦鸡无司晨之益",
+     "url": "https://zh.wikisource.org/wiki/%E9%87%91%E6%A8%93%E5%AD%90/%E5%8D%B7%E5%9B%9B",
+     "excerpt": "_dev/zhuge_sources/172_2.txt"
+    }
+   ],
+   "gist": "与其效法城狐社鼠，宁可做陶犬瓦鸡（虽无用却无害）。"
+  },
+  {
+   "n": 173,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《史记·范雎蔡泽列传》",
+     "quote": "譬若施韓盧而搏蹇兔也",
+     "quote_s": "譬若施韩卢而搏蹇兔也",
+     "url": "https://zh.wikisource.org/wiki/%E5%8F%B2%E8%A8%98/%E5%8D%B7079",
+     "excerpt": "_dev/zhuge_sources/173_1.txt",
+     "note": "韩卢是韩国的名犬，蹇兔是跛脚的兔子。"
+    }
+   ],
+   "gist": "驱使韩卢名犬去扑跛脚的兔子，形容以强对弱、轻而易举。"
+  },
+  {
+   "n": 174,
+   "grade": "C",
+   "refs": [],
+   "gist": "蜉蝣今夜落在残花上，形容生命短暂。"
+  },
+  {
+   "n": 175,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《晋书·刘伶传》",
+     "quote": "伶徐曰：「鷄肋不足以安尊拳",
+     "quote_s": "伶徐曰：「鸡肋不足以安尊拳",
+     "url": "https://zh.wikisource.org/wiki/%E6%99%89%E6%9B%B8/%E5%8D%B7049",
+     "excerpt": "_dev/zhuge_sources/175_1.txt",
+     "note": "刘伶醉后被人挥拳，他说：我这鸡肋般的身子，不配承受您的拳头。"
+    }
+   ],
+   "gist": "我这鸡肋般的身子，承受不起您的尊拳。"
+  },
+  {
+   "n": 176,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《晋书·赵王伦传》",
+     "quote": "貂不足，狗尾續",
+     "quote_s": "貂不足，狗尾续",
+     "url": "https://zh.wikisource.org/wiki/%E6%99%89%E6%9B%B8/%E5%8D%B7059",
+     "excerpt": "_dev/zhuge_sources/176_1.txt"
+    }
+   ],
+   "gist": "用狗尾巴续在貂尾后，比喻以次续好、前后不相称。"
+  },
+  {
+   "n": 177,
+   "grade": "C",
+   "refs": [],
+   "gist": "砍竹子来遮竹笋。"
+  },
+  {
+   "n": 178,
+   "grade": "C",
+   "refs": [],
+   "gist": "罢了罢了，算了吧。"
+  },
+  {
+   "n": 179,
+   "grade": "C",
+   "refs": [],
+   "gist": "有想头，有指望。"
+  },
+  {
+   "n": 180,
+   "grade": "C",
+   "refs": [],
+   "gist": "别指望。"
+  },
+  {
+   "n": 181,
+   "grade": "C",
+   "refs": [],
+   "gist": "既然知道轻重，何必叮咛；该停就停，该走就走。"
+  },
+  {
+   "n": 182,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《荀子·议兵》",
+     "quote": "以桀詐堯，譬之：若以卵投石",
+     "quote_s": "以桀诈尧，譬之：若以卵投石",
+     "url": "https://zh.wikisource.org/wiki/%E8%8D%80%E5%AD%90/%E8%AD%B0%E5%85%B5%E7%AF%87",
+     "excerpt": "_dev/zhuge_sources/182_1.txt"
+    }
+   ],
+   "gist": "拿鸡蛋撞石头。"
+  },
+  {
+   "n": 183,
+   "grade": "C",
+   "refs": [],
+   "gist": "到海底捞月亮。"
+  },
+  {
+   "n": 184,
+   "grade": "C",
+   "refs": [],
+   "gist": "景星照入门户（景星是古人说的祥瑞之星）。"
+  },
+  {
+   "n": 185,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《庄子·徐无鬼》",
+     "quote": "羊肉不慕蟻，蟻慕羊肉，羊肉羶也",
+     "quote_s": "羊肉不慕蚁，蚁慕羊肉，羊肉膻也",
+     "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E5%BE%90%E7%84%A1%E9%AC%BC",
+     "excerpt": "_dev/zhuge_sources/185_1.txt"
+    }
+   ],
+   "gist": "一群蚂蚁附着在羊肉的腥膻上，比喻众人趋利。"
+  },
+  {
+   "n": 186,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《世说新语·雅量》",
+     "quote": "樹在道邊而多子，此必苦李",
+     "quote_s": "树在道边而多子，此必苦李",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%96%E8%AA%AA%E6%96%B0%E8%AA%9E/%E9%9B%85%E9%87%8F",
+     "excerpt": "_dev/zhuge_sources/186_1.txt",
+     "note": "王戎小时见路边李树果实累累无人摘，断定是苦李。"
+    }
+   ],
+   "gist": "道旁的李树果实累累却没人摘，必是苦李。"
+  },
+  {
+   "n": 187,
+   "grade": "C",
+   "refs": [],
+   "gist": "上林苑里花开。"
+  },
+  {
+   "n": 188,
+   "grade": "C",
+   "refs": [],
+   "gist": "不敢说好。"
+  },
+  {
+   "n": 189,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "郑锡《日中有王字赋》",
+     "quote": "河清海晏，時和嵗豐",
+     "quote_s": "河清海晏，时和岁丰",
+     "url": "https://zh.wikisource.org/wiki/%E6%97%A5%E4%B8%AD%E6%9C%89%E7%8E%8B%E5%AD%97%E8%B3%A6_(%E9%84%AD%E9%8C%AB)",
+     "excerpt": "_dev/zhuge_sources/189_1.txt",
+     "match": "河清海晏",
+     "match_raw": "河清海晏",
+     "note": "黄河水清、大海无浪，古人称颂太平。"
+    }
+   ],
+   "gist": "黄河水清、大海无波，形容天下太平。"
+  },
+  {
+   "n": 190,
+   "grade": "C",
+   "refs": [],
+   "gist": "天下太平。"
+  },
+  {
+   "n": 191,
+   "grade": "C",
+   "refs": [],
+   "gist": "绝没有好的。"
+  },
+  {
+   "n": 192,
+   "grade": "C",
+   "refs": [],
+   "gist": "器物蒙上灰尘。"
+  },
+  {
+   "n": 193,
+   "grade": "C",
+   "refs": [],
+   "gist": "摇动树枝，打落叶子。"
+  },
+  {
+   "n": 194,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "王通《中说·事君》",
+     "quote": "大廈將顛，非一木所支也",
+     "quote_s": "大厦将颠，非一木所支也",
+     "url": "https://zh.wikisource.org/wiki/%E4%B8%AD%E8%AA%AA/%E5%8D%B7%E4%B8%89",
+     "excerpt": "_dev/zhuge_sources/194_1.txt"
+    }
+   ],
+   "gist": "一根木头撑天。"
+  },
+  {
+   "n": 195,
+   "grade": "C",
+   "refs": [],
+   "gist": "剖开麦子，切开梨子。"
+  },
+  {
+   "n": 196,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《汉书·异姓诸侯王表》",
+     "quote": "摧枯朽者易為力",
+     "quote_s": "摧枯朽者易为力",
+     "url": "https://zh.wikisource.org/wiki/%E6%BC%A2%E6%9B%B8/%E5%8D%B7013",
+     "excerpt": "_dev/zhuge_sources/196_1.txt"
+    }
+   ],
+   "gist": "势头像摧折枯草，轻而易举。"
+  },
+  {
+   "n": 197,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《晋书·甘卓传》",
+     "quote": "將軍之舉武昌，若摧枯拉朽",
+     "quote_s": "将军之举武昌，若摧枯拉朽",
+     "url": "https://zh.wikisource.org/wiki/%E6%99%89%E6%9B%B8/%E5%8D%B7070",
+     "excerpt": "_dev/zhuge_sources/197_1.txt"
+    }
+   ],
+   "gist": "摧折枯草、拉倒朽木，形容毫不费力。"
+  },
+  {
+   "n": 198,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《老子》第四十一章",
+     "quote": "大器晚成",
+     "quote_s": "大器晚成",
+     "url": "https://zh.wikisource.org/wiki/%E9%81%93%E5%BE%B7%E7%B6%93_(%E7%8E%8B%E5%BC%BC%E6%9C%AC)",
+     "excerpt": "_dev/zhuge_sources/198_1.txt",
+     "match": "大器晚成",
+     "match_raw": "大器晚成"
+    }
+   ],
+   "gist": "大器物要很久才能做成，比喻大才晚成。"
+  },
+  {
+   "n": 199,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《荀子·宥坐》",
+     "quote": "虛則欹，中則正，滿則覆",
+     "quote_s": "虚则欹，中则正，满则覆",
+     "url": "https://zh.wikisource.org/wiki/%E8%8D%80%E5%AD%90/%E5%AE%A5%E5%9D%90%E7%AF%87",
+     "excerpt": "_dev/zhuge_sources/199_1.txt",
+     "note": "欹器空了就歪，装一半就正，装满就翻倒。"
+    }
+   ],
+   "gist": "器物装满必定倾倒。"
+  },
+  {
+   "n": 200,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《诗经·小雅·巷伯》",
+     "quote": "萋兮斐兮，成是貝錦",
+     "quote_s": "萋兮斐兮，成是贝锦",
+     "url": "https://zh.wikisource.org/wiki/%E8%A9%A9%E7%B6%93/%E5%B7%B7%E4%BC%AF",
+     "excerpt": "_dev/zhuge_sources/200_1.txt",
+     "note": "花纹交错织成贝锦，比喻谗人罗织罪名。"
+    }
+   ],
+   "gist": "零碎花纹织成贝锦，比喻谗人罗织罪名。"
+  },
+  {
+   "n": 201,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "杜弼《为东魏檄梁文》",
+     "quote": "楚國亡猿，禍延林木，城門失火，殃及池魚",
+     "quote_s": "楚国亡猿，祸延林木，城门失火，殃及池鱼",
+     "url": "https://zh.wikisource.org/wiki/%E7%82%BA%E6%9D%B1%E9%AD%8F%E6%AA%84%E6%A2%81%E6%96%87",
+     "excerpt": "_dev/zhuge_sources/201_1.txt"
+    }
+   ],
+   "gist": "城门失火，殃及池中的鱼，比喻无辜受连累。"
+  },
+  {
+   "n": 202,
+   "grade": "C",
+   "refs": [],
+   "gist": "可厌可怜，花落在庭院中。"
+  },
+  {
+   "n": 203,
+   "grade": "C",
+   "refs": [],
+   "gist": "有甜酒难以斟饮，有饭菜难以享用，有气难以堵住，有话难以说出。"
+  },
+  {
+   "n": 204,
+   "grade": "C",
+   "refs": [],
+   "gist": "人就是鬼，鬼就是人；人会捉弄鬼，鬼会捉弄人。"
+  },
+  {
+   "n": 205,
+   "grade": "C",
+   "refs": [],
+   "gist": "明知不要想，却来问我。"
+  },
+  {
+   "n": 206,
+   "grade": "C",
+   "refs": [],
+   "gist": "既然知道是好的，何必来占问。"
+  },
+  {
+   "n": 207,
+   "grade": "C",
+   "refs": [],
+   "gist": "得意之处不可再去。"
+  },
+  {
+   "n": 208,
+   "grade": "C",
+   "refs": [],
+   "gist": "好事不如没事。"
+  },
+  {
+   "n": 209,
+   "grade": "C",
+   "refs": [],
+   "gist": "事情由不得自己。"
+  },
+  {
+   "n": 210,
+   "grade": "C",
+   "refs": [],
+   "gist": "谁说能成。"
+  },
+  {
+   "n": 211,
+   "grade": "A",
+   "refs": [
+    {
+     "kind": "A",
+     "work": "《论语·微子》",
+     "quote": "無可無不可",
+     "quote_s": "无可无不可",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%AA%9E/%E5%BE%AE%E5%AD%90%E7%AC%AC%E5%8D%81%E5%85%AB",
+     "excerpt": "_dev/zhuge_sources/211_1.txt",
+     "match": "无可无不可",
+     "match_raw": "無可無不可"
+    }
+   ],
+   "gist": "可以也行，不可以也行，不执著。"
+  },
+  {
+   "n": 212,
+   "grade": "C",
+   "refs": [],
+   "gist": "自己招惹的祸。"
+  },
+  {
+   "n": 213,
+   "grade": "C",
+   "refs": [],
+   "gist": "不必，用不着。"
+  },
+  {
+   "n": 214,
+   "grade": "C",
+   "refs": [],
+   "gist": "签文只有一字：好。"
+  },
+  {
+   "n": 215,
+   "grade": "B",
+   "refs": [
+    {
+     "kind": "B",
+     "work": "《论语·颜渊》",
+     "quote": "死生有命，富貴在天",
+     "quote_s": "死生有命，富贵在天",
+     "url": "https://zh.wikisource.org/wiki/%E8%AB%96%E8%AA%9E/%E9%A1%8F%E6%B7%B5%E7%AC%AC%E5%8D%81%E4%BA%8C",
+     "excerpt": "_dev/zhuge_sources/215_1.txt"
+    }
+   ],
+   "gist": "虽说富贵在天、穷通有命，也要尽到人力，然后听凭天命。"
+  }
+ ]
+}

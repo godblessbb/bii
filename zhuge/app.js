@@ -14,6 +14,7 @@ const reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 const state = [null, null, null];
 let QIAN = null;
+let SRC = null; // sources.json：出处与大意（整理者所加），加载失败时只是不显示
 let run = null;
 let last = null;
 
@@ -148,7 +149,7 @@ function compute() {
 
 async function ceremony() {
   const r = compute();
-  last = { n: r.n, chars: state.map((s) => s.ch).join(''), text: QIAN[r.n - 1].text };
+  last = { n: r.n, chars: state.map((s) => s.ch).join(''), text: QIAN[r.n - 1].text, src: SRC ? SRC.get(r.n) : null };
   document.body.dataset.state = 'running';
   inputs.forEach((el) => { el.disabled = true; });
   go.disabled = true;
@@ -200,6 +201,7 @@ function showResult(r, animate) {
   const from = state.map((s) => '<b lang="zh-Hant"></b> ' + s.n + ' 画').join(' · ');
   $('#from').innerHTML = from + ' · ' + r.raw + (r.raw !== r.n ? ' → ' + r.n : '');
   $('#from').querySelectorAll('b').forEach((b, i) => { b.textContent = state[i].trad; });
+  renderGloss(last.src);
   $('#copyMsg').textContent = '';
   $('#copyMsg').classList.remove('err');
   result.classList.toggle('unfold', animate);
@@ -208,6 +210,70 @@ function showResult(r, animate) {
   else result.scrollIntoView({ block: 'start' });
   document.body.dataset.state = 'done';
   run = null;
+}
+
+/* ---------- 出处与大意 ---------- */
+// A：签中有整句与原典逐字相同 →「出自」；B：化用典故 →「典出 …（化用）」；C：没有 refs，不显示出处
+function sortedRefs(e) {
+  return e && Array.isArray(e.refs) ? e.refs.slice().sort((a, b) => (a.kind === 'A' ? 0 : 1) - (b.kind === 'A' ? 0 : 1)) : [];
+}
+
+function srcLabel(ref) {
+  return ref.kind === 'A' ? '出自' : '典出';
+}
+
+function srcWork(ref) {
+  return ref.work + (ref.kind === 'A' ? '' : '（化用）');
+}
+
+function renderGloss(e) {
+  const box = $('#gloss');
+  const list = $('#srcs');
+  list.innerHTML = '';
+  const refs = sortedRefs(e);
+  for (const ref of refs) {
+    const p = document.createElement('p');
+    p.className = 'src';
+    p.dataset.kind = ref.kind;
+    const k = document.createElement('span');
+    k.className = 'src-k';
+    k.textContent = srcLabel(ref);
+    const w = document.createElement('a');
+    w.className = 'src-w';
+    w.href = ref.url;
+    w.target = '_blank';
+    w.rel = 'noopener';
+    w.textContent = srcWork(ref);
+    const q = document.createElement('span');
+    q.className = 'src-q';
+    // 原句里与签文相同的那一整句标亮（quote_s 与 quote 逐字对应）
+    const at = ref.kind === 'A' && ref.match_raw && ref.quote_s.length === ref.quote.length ? ref.quote.indexOf(ref.match_raw) : -1;
+    if (at >= 0) {
+      const m = document.createElement('mark');
+      m.textContent = ref.quote_s.slice(at, at + ref.match_raw.length);
+      q.append('「' + ref.quote_s.slice(0, at), m, ref.quote_s.slice(at + ref.match_raw.length) + '」');
+    } else {
+      q.textContent = '「' + ref.quote_s + '」';
+    }
+    p.append(k, w, q);
+    if (ref.note) {
+      const n = document.createElement('span');
+      n.className = 'src-n';
+      n.textContent = ref.note;
+      p.appendChild(n);
+    }
+    list.appendChild(p);
+  }
+  const gist = e && e.gist ? e.gist.trim() : '';
+  $('#gistT').textContent = gist;
+  $('#gist').hidden = !gist;
+  box.hidden = !gist && !refs.length;
+}
+
+function srcLine(e) {
+  const refs = sortedRefs(e);
+  if (!refs.length) return '';
+  return '出处（整理者注）：' + refs.map((r) => srcLabel(r) + ' ' + srcWork(r) + '「' + r.quote_s + '」').join('；');
 }
 
 form.addEventListener('submit', (e) => {
@@ -241,7 +307,8 @@ function legacyCopy(text) {
 $('#copy').addEventListener('click', async () => {
   if (!last) return;
   const msg = $('#copyMsg');
-  const text = '诸葛神数（巧连神数）第' + last.n + '签（报字：' + last.chars + '）\n' + last.text;
+  const line = srcLine(last.src);
+  const text = '诸葛神数（巧连神数）第' + last.n + '签（报字：' + last.chars + '）\n' + last.text + (line ? '\n' + line : '');
   let ok = false;
   try {
     if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); ok = true; }
@@ -269,8 +336,14 @@ $('#again').addEventListener('click', () => {
 });
 
 /* ---------- 签文数据 ---------- */
+// 出处表与签文并行加载；出处表出错不影响求签
+const srcLoad = fetch('sources.json')
+  .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then((d) => { SRC = new Map(d.entries.map((e) => [e.n, e])); })
+  .catch(() => { SRC = null; });
 fetch('qian.json')
   .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then((d) => srcLoad.then(() => d))
   .then((d) => {
     if (!d || !Array.isArray(d.qian) || d.qian.length !== TOTAL) throw new Error('bad data');
     QIAN = d.qian;

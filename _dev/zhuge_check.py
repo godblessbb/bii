@@ -18,6 +18,13 @@
   G  主站 #/tools：出现 zhuge 入口，图标不与其他入口重叠；点开后在站内外框（iframe）里打开 zhuge/，
      在外框里完成一次求签（签号、签文同样核对），外框内无横向溢出；截图。
   H  页面 head 带与其他工具相同的 GA 标签（G-Y5CXD1W4K6）。
+  I  出处与大意（zhuge/sources.json，整理者所加）：桌面 1280 与手机 390 各求三签——
+     「天龙文」得第 134 签（A 档）：出处行有「出自」「杜甫」《奉和贾至舍人早朝大明宫》，原句含「池上于今有凤毛」且该句标亮；
+     「老塔塔」得第 87 签（B 档）：出处行有「典出」「化用」与《诗经》/《中庸》；
+     「龙国爱」得第 3 签（C 档）：没有出处行，但有大意；
+     三签的大意都与 sources.json 一致，且标明「整理者注，非原书」；复制签文时 A/B 签剪贴板多一行出处、C 签没有；
+     出处最长的一签在手机上也不横向溢出；玩法说明写明出处和大意是整理者所加、原书只有签文。截图六张。
+     （派单写的是「老塔塔」得第 134 签，但按 zhuge.js 定稿算法 6·12·12 画 → 732 − 3×215 = 87，故 134 改用「天龙文」：4·16·4 画 → 564 − 2×215 = 134。）
 """
 from __future__ import annotations
 
@@ -300,6 +307,93 @@ def main() -> int:
               document.getElementById('result').hidden = false; }""", text_of[n])
             no_hscroll(pg, f'E  手机第 {n} 签（长签）排版')
         ctx.close()
+
+        # ---------- I 出处与大意 ----------
+        src_doc = json.loads((root / 'zhuge/sources.json').read_text(encoding='utf-8'))
+        src_of = {e['n']: e for e in src_doc['entries']}
+        howto_i = html.split('id="howto"')[1].split('</details>')[0]
+        check('整理者' in howto_i and '原书只有签文' in howto_i, 'I  玩法说明写明出处和大意是整理者所加、原书只有签文')
+
+        def read_gloss(fr):
+            return fr.evaluate("""() => ({
+              shown: !document.getElementById('gloss').hidden && document.getElementById('gloss').getBoundingClientRect().height > 0,
+              srcs: Array.from(document.querySelectorAll('#srcs .src')).map(p => ({ kind: p.dataset.kind, text: p.textContent,
+                visible: p.getBoundingClientRect().height > 0, mark: (p.querySelector('mark') || {}).textContent || '' })),
+              gistShown: !document.getElementById('gist').hidden && document.getElementById('gist').getBoundingClientRect().height > 0,
+              gistLabel: (document.querySelector('#gist .gist-l') || {}).textContent || '',
+              gist: document.getElementById('gistT').textContent,
+            })""")
+
+        def copy_text(ctx, fr):
+            ctx.grant_permissions(['clipboard-read', 'clipboard-write'], origin=origin)
+            fr.evaluate("() => { document.getElementById('copyMsg').textContent = ''; }")
+            fr.click('#copy')
+            fr.wait_for_function("() => document.getElementById('copyMsg').textContent.length > 0")
+            return fr.evaluate('() => navigator.clipboard.readText()')
+
+        def gloss_case(ctx, fr, chars, want_n, tag, shot):
+            r = draw(fr, chars, f'I  {tag}「{chars}」')
+            if not r:
+                return
+            check(r['n'] == want_n, f'I  {tag}「{chars}」得第 {want_n} 签（页面 {r["n"]}）')
+            e = src_of[want_n]
+            g = read_gloss(fr)
+            check(g['gistShown'] and g['gist'] == e['gist'].strip(), f'I  {tag}第 {want_n} 签显示大意且与 sources.json 一致：{g["gist"]}')
+            check('整理者' in g['gistLabel'] and '非原书' in g['gistLabel'], f'I  {tag}大意标明整理者所加：「{g["gistLabel"]}」')
+            clip = copy_text(ctx, fr)
+            check(text_of[want_n] in clip, f'I  {tag}第 {want_n} 签复制内容含签文')
+            if e['grade'] == 'A':
+                a = [x for x in g['srcs'] if x['kind'] == 'A']
+                check(bool(a) and a[0]['visible'] and '出自' in a[0]['text'], f'I  {tag}第 {want_n} 签（A）出处行显示「出自」：{a[0]["text"] if a else g["srcs"]}')
+            if e['grade'] == 'B':
+                b = [x for x in g['srcs'] if x['kind'] == 'B']
+                check(bool(b) and all(x['visible'] and '典出' in x['text'] and '化用' in x['text'] for x in b) and not any('出自' in x['text'] for x in g['srcs']),
+                      f'I  {tag}第 {want_n} 签（B）出处行显示「典出」「化用」：{[x["text"][:40] for x in b]}')
+            if e['grade'] == 'C':
+                check(g['shown'] and not g['srcs'] and not any(w in fr.text_content('#result') for w in ('出自', '典出')), f'I  {tag}第 {want_n} 签（C）没有出处行，只有大意')
+                check('出处' not in clip and '出自' not in clip and '典出' not in clip, f'I  {tag}第 {want_n} 签（C）复制内容没有出处行')
+            else:
+                line = [ln for ln in clip.split('\n') if ln.startswith('出处')]
+                first = sorted(e['refs'], key=lambda x: x['kind'] != 'A')[0]
+                check(len(line) == 1 and first['work'] in line[0] and first['quote_s'] in line[0],
+                      f'I  {tag}第 {want_n} 签复制内容多一行出处：{line}')
+            fr.screenshot(path=str(shots / shot), full_page=True)
+            return g
+
+        for (w, h, mob, label) in ((1280, 800, False, 'desktop'), (390, 844, True, 'mobile')):
+            ctx = new_ctx(w, h, mobile=mob)
+            pg = open_tool(ctx)
+            tag = '桌面' if not mob else '手机'
+            g = gloss_case(ctx, pg, '天龙文', 134, tag, f'zhuge-src-134-{label}.png')
+            if g:
+                a = next((x for x in g['srcs'] if x['kind'] == 'A'), {'text': '', 'mark': ''})
+                check('杜甫' in a['text'] and '奉和贾至舍人早朝大明宫' in a['text'] and '池上于今有凤毛' in a['text'] and a['mark'] == '池上于今有凤毛',
+                      f'I  {tag}第 134 签：出自 杜甫《奉和贾至舍人早朝大明宫》，原句「池上于今有凤毛」标亮（{a["mark"]}）')
+            if mob:
+                no_hscroll(pg, 'I  手机第 134 签出处')
+            again(pg)
+            g = gloss_case(ctx, pg, '老塔塔', 87, tag, f'zhuge-src-87-{label}.png')
+            if g:
+                check(any(k in x['text'] for x in g['srcs'] for k in ('诗经', '中庸')), f'I  {tag}第 87 签典出《诗经》/《中庸》')
+            if mob:
+                no_hscroll(pg, 'I  手机第 87 签出处')
+            again(pg)
+            gloss_case(ctx, pg, '龙国爱', 3, tag, f'zhuge-src-c3-{label}.png')
+            if mob:
+                no_hscroll(pg, 'I  手机第 3 签（C）大意')
+                again(pg)
+                # 出处文字最多的一签：在页面里用 zhuge.js 反查一组能得到它的三字，真去求一次
+                longest = max(src_of.values(), key=lambda e: sum(len(r['quote_s']) + len(r.get('note', '')) + len(r['work']) for r in e['refs']) + len(e['gist']))
+                chars = pg.evaluate("""async (n) => {
+                  const m = await import('./zhuge.js');
+                  const cs = Array.from('一二三四五六七八九十天地人日月山水风云花春秋心中大小上下东西南北金木火土明光华美好福安平和龙凤玉石文武王李张刘陈');
+                  for (const a of cs) for (const b of cs) for (const c of cs) if (m.qianNumber(a, b, c) === n) return a + b + c;
+                  return null;
+                }""", longest['n'])
+                if check(bool(chars), f'I  找到能得第 {longest["n"]} 签（出处最长）的三字：{chars}'):
+                    gloss_case(ctx, pg, chars, longest['n'], tag, 'zhuge-src-longest-mobile.png')
+                    no_hscroll(pg, f'I  手机第 {longest["n"]} 签（出处最长）')
+            ctx.close()
 
         # ---------- G 主站 #/tools + 外框 ----------
         ctx = new_ctx(1280, 800)
